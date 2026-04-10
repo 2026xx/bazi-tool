@@ -105,14 +105,16 @@ class BaziHandler(BaseHTTPRequestHandler):
                 gender = params.get('gender', ['女'])[0]
 
                 lng = CITY_LONGITUDE.get(city, 120.0)
-                offset_minutes = (lng - 120) * 4
-                total_minutes = hour * 60 + minute + offset_minutes
-                real_hour = int(total_minutes // 60)
-                real_minute = int(total_minutes % 60)
-                if real_hour < 0:
-                    real_hour += 24
-                elif real_hour >= 24:
-                    real_hour -= 24
+                offset_seconds = (lng - 120) * 4 * 60  # 精确到秒
+                offset_minutes = offset_seconds / 60   # 分钟数（带小数）
+                total_seconds = hour * 3600 + minute * 60 + offset_seconds
+                if total_seconds < 0:
+                    total_seconds += 86400
+                elif total_seconds >= 86400:
+                    total_seconds -= 86400
+                real_hour = int(total_seconds // 3600)
+                real_minute = int((total_seconds % 3600) // 60)
+                real_second = int(total_seconds % 60)
 
                 # 子时换日：真太阳时23:00后，日柱归次日
                 calc_day = day
@@ -126,7 +128,7 @@ class BaziHandler(BaseHTTPRequestHandler):
                     calc_month = next_day.month
                     calc_day = next_day.day
 
-                solar = Solar.fromYmdHms(calc_year, calc_month, calc_day, real_hour, real_minute, 0)
+                solar = Solar.fromYmdHms(calc_year, calc_month, calc_day, real_hour, real_minute, real_second)
                 lunar = solar.getLunar()
                 bazi = lunar.getEightChar()
 
@@ -162,8 +164,8 @@ class BaziHandler(BaseHTTPRequestHandler):
                     "name": name,
                     "gender": gender,
                     "solar": f"{year}年{month}月{day}日 {hour:02d}:{minute:02d}",
-                    "real_time": f"{real_hour:02d}:{real_minute:02d}（真太阳时）",
-                    "offset": f"{offset_minutes:+.1f}分钟",
+                    "real_time": f"{real_hour:02d}:{real_minute:02d}:{real_second:02d}（真太阳时）",
+                    "offset": f"{offset_minutes:+.2f}分钟",
                     "city": city,
                     "longitude": lng,
                     "lunar_date": f"{lunar.getYearInChinese()}年{lunar.getMonthInChinese()}月{lunar.getDayInChinese()}",
