@@ -618,38 +618,28 @@ async function copyText() {
     return dy.gz + '(' + dy.start_age + '-' + dy.end_age + '岁,' + dy.start_year + '年)';
   }).join(' ');
 
-  var text = '姓名：' + d.name + '　性别：' + d.gender + '
-' +
-    '阳历：' + d.solar + '　农历：' + d.lunar_date + '
-' +
-    '出生地：' + city + '　真太阳时：' + d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）
-
-' +
-    '【四柱八字】
-' +
-    '　　年柱　月柱　日柱　时柱
-' +
-    '天干　' + d.year_gan + '　　' + d.month_gan + '　　' + d.day_gan + '　　' + d.hour_gan + '
-' +
-    '地支　' + d.year_zhi + '　　' + d.month_zhi + '　　' + d.day_zhi + '　　' + d.hour_zhi + '
-' +
-    '十神　' + d.year_gan_ss + '　' + d.month_gan_ss + '　日主　' + d.hour_gan_ss + '
-' +
-    '地十　' + toArr(d.year_zhi_ss) + '　' + toArr(d.month_zhi_ss) + '　' + toArr(d.day_zhi_ss) + '　' + toArr(d.hour_zhi_ss) + '
-' +
-    '藏干　' + d.year_hide.join('、') + '　' + d.month_hide.join('、') + '　' + d.day_hide.join('、') + '　' + d.hour_hide.join('、') + '
-
-' +
-    '【五行】' + wxStr + '
-
-' +
-    '【大运】起运：' + d.yun_start_year + '年
-' + dyStr + '
-
-' +
-    '请根据以上信息进行详细的八字命理分析。';
-
-  await navigator.clipboard.writeText(text);
+  var lines = [
+    '姓名：' + d.name + '  性别：' + d.gender,
+    '阳历：' + d.solar + '  农历：' + d.lunar_date,
+    '出生地：' + city + '  真太阳时：' + d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）',
+    '',
+    '【四柱八字】',
+    '      年柱    月柱    日柱    时柱',
+    '天干  ' + d.year_gan + '      ' + d.month_gan + '      ' + d.day_gan + '      ' + d.hour_gan,
+    '地支  ' + d.year_zhi + '      ' + d.month_zhi + '      ' + d.day_zhi + '      ' + d.hour_zhi,
+    '十神  ' + d.year_gan_ss + '    ' + d.month_gan_ss + '    日主    ' + d.hour_gan_ss,
+    '地十  ' + toArr(d.year_zhi_ss) + '  ' + toArr(d.month_zhi_ss) + '  ' + toArr(d.day_zhi_ss) + '  ' + toArr(d.hour_zhi_ss),
+    '藏干  ' + d.year_hide.join('、') + '  ' + d.month_hide.join('、') + '  ' + d.day_hide.join('、') + '  ' + d.hour_hide.join('、'),
+    '',
+    '【五行】' + wxStr,
+    '',
+    '【大运】起运：' + d.yun_start_year + '年',
+    dyStr,
+    '',
+    '请根据以上信息进行详细的八字命理分析。'
+  ];
+  var text = lines.join('\n');
+    await navigator.clipboard.writeText(text);
   var btn = document.getElementById('copy-btn');
   btn.textContent = '已复制！';
   setTimeout(function() { btn.textContent = '复制八字信息给AI分析'; }, 2000);
