@@ -132,6 +132,12 @@ class BaziHandler(BaseHTTPRequestHandler):
                 lunar = solar.getLunar()
                 bazi = lunar.getEightChar()
 
+                # 手动覆盖时柱（确保子时换日后时柱天干正确）
+                day_gan = bazi.getDay()[0]
+                correct_time_gan = get_time_gan(day_gan, real_hour)
+                correct_time_zhi = get_time_zhi(real_hour)
+                correct_time_gz = correct_time_gan + correct_time_zhi
+
                 # 性别：0=女，1=男
                 gender_int = 1 if gender == '男' else 0
 
@@ -174,19 +180,19 @@ class BaziHandler(BaseHTTPRequestHandler):
                     "year_gz": bazi.getYear(),
                     "month_gz": bazi.getMonth(),
                     "day_gz": bazi.getDay(),
-                    "hour_gz": bazi.getTime(),
+                    "hour_gz": correct_time_gz,
                     "year_gan": bazi.getYear()[0],
                     "year_zhi": bazi.getYear()[1],
                     "month_gan": bazi.getMonth()[0],
                     "month_zhi": bazi.getMonth()[1],
                     "day_gan": bazi.getDay()[0],
                     "day_zhi": bazi.getDay()[1],
-                    "hour_gan": bazi.getTime()[0],
-                    "hour_zhi": bazi.getTime()[1],
+                    "hour_gan": correct_time_gan,
+                    "hour_zhi": correct_time_zhi,
                     # 十神
                     "year_gan_ss": bazi.getYearShiShenGan(),
                     "month_gan_ss": bazi.getMonthShiShenGan(),
-                    "hour_gan_ss": bazi.getTimeShiShenGan(),
+                    "hour_gan_ss": bazi.getTimeShiShenGan(),  # 注：以日主为基准
                     "year_zhi_ss": bazi.getYearShiShenZhi(),
                     "month_zhi_ss": bazi.getMonthShiShenZhi(),
                     "day_zhi_ss": bazi.getDayShiShenZhi(),
@@ -213,6 +219,22 @@ def get_shichen(hour):
     shichen = ["子", "丑", "丑", "寅", "寅", "卯", "卯", "辰", "辰", "巳", "巳", "午",
                "午", "未", "未", "申", "申", "酉", "酉", "戌", "戌", "亥", "亥", "子"]
     return shichen[hour] + "时"
+
+def get_time_gan(day_gan, hour):
+    """五鼠遁日起时法，根据日干和时辰计算时柱天干"""
+    # 时支序号（子=0,丑=1,...,亥=11）
+    shichen_idx = [0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,0]
+    zhi_idx = shichen_idx[hour]
+    # 天干起始：甲己->甲(0), 乙庚->丙(2), 丙辛->戊(4), 丁壬->庚(6), 戊癸->壬(8)
+    gan_list = ["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"]
+    start_map = {"甲":0,"己":0,"乙":2,"庚":2,"丙":4,"辛":4,"丁":6,"壬":6,"戊":8,"癸":8}
+    start = start_map.get(day_gan, 0)
+    return gan_list[(start + zhi_idx) % 10]
+
+def get_time_zhi(hour):
+    zhi = ["子","丑","丑","寅","寅","卯","卯","辰","辰","巳","巳","午",
+           "午","未","未","申","申","酉","酉","戌","戌","亥","亥","子"]
+    return zhi[hour]
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8888))
