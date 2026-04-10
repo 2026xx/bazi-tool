@@ -144,7 +144,8 @@ async function loadCities() {
     allCities = await res.json();
     document.getElementById('city-search').placeholder = '输入城市名搜索...';
   } catch(e) {
-    console.log('城市列表加载失败');
+    allCities = ['北京','上海','天津','重庆','广州','深圳','成都','武汉','西安','南京','杭州','苏州','宁波','厦门','福州','济南','青岛','郑州','长沙','哈尔滨','沈阳','长春','大连','昆明','贵阳','南宁','海口','太原','石家庄','合肥','南昌','兰州','西宁','银川','乌鲁木齐','拉萨','台北','香港','澳门','三亚','丽江','桂林','苏州','无锡','常州','南通','扬州','镇江','温州','金华','绍兴','嘉兴'];
+    document.getElementById('city-search').placeholder = '输入城市名搜索...';
   }
 }
 
