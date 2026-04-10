@@ -500,9 +500,7 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
       <tr><th>序</th><th>年龄</th><th>干支</th><th>起运年份</th></tr>
     </table>
 
-    <div class="section-title">复制以下内容贴给AI分析</div>
-    <div class="copy-area" id="copy-text"></div>
-    <button class="copy-btn" id="copy-btn" onclick="copyText()">复制到剪贴板</button>
+    <button class="copy-btn" id="copy-btn" onclick="copyText()" style="margin-top:12px">复制八字信息给AI分析</button>
     <div class="tip">复制后切换到AI对话窗口，直接粘贴即可开始分析</div>
   </div>
 </div>
@@ -693,17 +691,45 @@ ${dyStr}
     document.getElementById('copy-text').textContent = copyText;
     document.getElementById('result').style.display = 'block';
     document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+    window._lastResult = d;
+    window._lastCity = city;
   } catch(e) {
     alert('连接失败，请确认排盘服务器已启动！');
   }
 }
 
 async function copyText() {
-  const text = document.getElementById('copy-text').textContent;
+  const d = window._lastResult;
+  if (!d) { alert('请先排盘！'); return; }
+  const city = window._lastCity || '';
+  const hideStr = (arr) => arr ? arr.join('、') : '';
+  const wxStr = Object.entries(d.wuxing).map(([k,v]) => k+':'+v).join(' ');
+  const dyStr = d.da_yun.filter(dy=>dy.gz).map(dy => dy.gz+'('+dy.start_age+'-'+dy.end_age+'岁,'+dy.start_year+'年)').join(' ');
+  const zssStr = (arr) => Array.isArray(arr) ? arr.join('、') : arr;
+
+  const text =
+`姓名：${d.name}　性别：${d.gender}
+阳历：${d.solar}　农历：${d.lunar_date}
+出生地：${city}　真太阳时：${d.real_time} ${d.shichen}（校正${d.offset}）
+
+【四柱八字】
+　　　年柱　　月柱　　日柱　　时柱
+天干　${d.year_gan}（${d.year_gan_ss}）　${d.month_gan}（${d.month_gan_ss}）　${d.day_gan}（日主）　${d.hour_gan}（${d.hour_gan_ss}）
+地支　${d.year_zhi}　　${d.month_zhi}　　${d.day_zhi}　　${d.hour_zhi}
+地十　${zssStr(d.year_zhi_ss)}　${zssStr(d.month_zhi_ss)}　${zssStr(d.day_zhi_ss)}　${zssStr(d.hour_zhi_ss)}
+藏干　${hideStr(d.year_hide)}　${hideStr(d.month_hide)}　${hideStr(d.day_hide)}　${hideStr(d.hour_hide)}
+
+【五行】${wxStr}
+
+【大运】起运：${d.yun_start_year}年
+${dyStr}
+
+请根据以上信息进行详细的八字命理分析。`;
+
   await navigator.clipboard.writeText(text);
   const btn = document.getElementById('copy-btn');
   btn.textContent = '已复制！';
-  setTimeout(() => { btn.textContent = '复制到剪贴板'; }, 2000);
+  setTimeout(() => { btn.textContent = '复制八字信息给AI分析'; }, 2000);
 }
 
 updateCity(document.getElementById('city-select').value);
