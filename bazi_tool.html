@@ -13,16 +13,11 @@ h1 { text-align: center; font-size: 24px; color: #3d2b1f; margin-bottom: 6px; }
 .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .card h2 { font-size: 16px; color: #3d2b1f; margin-bottom: 16px; border-bottom: 1px solid #e8dcc8; padding-bottom: 8px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.form-group { display: flex; flex-direction: column; gap: 4px; position: relative; }
-.form-group.full { grid-column: 1 / -1; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
 label { font-size: 13px; color: #666; }
-input, select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; color: #333; background: #fafafa; }
+input, select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; color: #333; background: #fafafa; width: 100%; }
 input:focus, select:focus { outline: none; border-color: #8b6914; background: white; }
-.city-input { position: relative; }
-.city-input input { width: 100%; }
-.city-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ddd; border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; }
-.city-option { padding: 8px 12px; font-size: 14px; cursor: pointer; color: #333; }
-.city-option:hover { background: #f5ede0; color: #8b6914; }
+.hint { font-size: 11px; color: #999; margin-top: 3px; }
 .btn { width: 100%; padding: 12px; background: #8b6914; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 8px; }
 .btn:hover { background: #6d5210; }
 .result-card { background: #fffdf7; border: 1px solid #e8dcc8; border-radius: 12px; padding: 20px; margin-bottom: 20px; display: none; }
@@ -38,7 +33,6 @@ input:focus, select:focus { outline: none; border-color: #8b6914; background: wh
 .copy-area { background: #f0ebe0; border-radius: 8px; padding: 12px; font-size: 13px; color: #444; line-height: 1.8; margin-bottom: 12px; white-space: pre-wrap; }
 .copy-btn { width: 100%; padding: 10px; background: #2d6a4f; color: white; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; }
 .copy-btn:hover { background: #1b4332; }
-.copy-btn.copied { background: #555; }
 .tip { font-size: 12px; color: #999; text-align: center; margin-top: 8px; }
 </style>
 </head>
@@ -78,317 +72,301 @@ input:focus, select:focus { outline: none; border-color: #8b6914; background: wh
         <input type="number" id="day" placeholder="1-31" min="1" max="31">
       </div>
       <div class="form-group">
-        <label>出生城市</label>
+        <label>出生城市（按拼音首字母）</label>
         <select id="city-select" onchange="updateCity(this.value)">
-<optgroup label="A">
-  <option value="安庆" data-lng="117.1">安庆</option>
-  <option value="安康" data-lng="109.0">安康</option>
-  <option value="安阳" data-lng="114.4">安阳</option>
-  <option value="安顺" data-lng="105.9">安顺</option>
-  <option value="澳门" data-lng="113.5">澳门</option>
-  <option value="阿勒泰" data-lng="88.1">阿勒泰</option>
-  <option value="鞍山" data-lng="123.0">鞍山</option>
+          <optgroup label="A">
+  <option value="安康">安康</option>
+  <option value="安庆">安庆</option>
+  <option value="安顺">安顺</option>
+  <option value="安阳">安阳</option>
+  <option value="鞍山">鞍山</option>
+  <option value="澳门">澳门</option>
 </optgroup>
 <optgroup label="B">
-  <option value="亳州" data-lng="115.8">亳州</option>
-  <option value="保定" data-lng="115.5">保定</option>
-  <option value="保山" data-lng="99.2">保山</option>
-  <option value="北京" data-lng="116.4">北京</option>
-  <option value="北海" data-lng="109.1">北海</option>
-  <option value="宝鸡" data-lng="107.1">宝鸡</option>
-  <option value="本溪" data-lng="123.8">本溪</option>
-  <option value="毕节" data-lng="105.3">毕节</option>
-  <option value="滨州" data-lng="118.0">滨州</option>
-  <option value="白城" data-lng="122.8">白城</option>
-  <option value="白山" data-lng="126.4">白山</option>
-  <option value="白银" data-lng="104.1">白银</option>
-  <option value="百色" data-lng="106.6">百色</option>
+  <option value="白城">白城</option>
+  <option value="白山">白山</option>
+  <option value="白银">白银</option>
+  <option value="百色">百色</option>
+  <option value="保定">保定</option>
+  <option value="保山">保山</option>
+  <option value="宝鸡">宝鸡</option>
+  <option value="北京">北京</option>
+  <option value="北海">北海</option>
+  <option value="本溪">本溪</option>
+  <option value="毕节">毕节</option>
+  <option value="滨州">滨州</option>
+  <option value="亳州">亳州</option>
 </optgroup>
 <optgroup label="C">
-  <option value="崇左" data-lng="107.4">崇左</option>
-  <option value="常州" data-lng="119.9">常州</option>
-  <option value="常德" data-lng="111.7">常德</option>
-  <option value="成都" data-lng="104.1">成都</option>
-  <option value="承德" data-lng="117.9">承德</option>
-  <option value="昌都" data-lng="97.2">昌都</option>
-  <option value="楚雄" data-lng="101.5">楚雄</option>
-  <option value="池州" data-lng="117.5">池州</option>
-  <option value="沧州" data-lng="116.8">沧州</option>
-  <option value="滁州" data-lng="118.3">滁州</option>
-  <option value="赤峰" data-lng="118.9">赤峰</option>
-  <option value="重庆" data-lng="106.5">重庆</option>
-  <option value="长春" data-lng="125.3">长春</option>
-  <option value="长沙" data-lng="113.0">长沙</option>
-  <option value="长治" data-lng="113.1">长治</option>
+  <option value="沧州">沧州</option>
+  <option value="长春">长春</option>
+  <option value="长沙">长沙</option>
+  <option value="长治">长治</option>
+  <option value="常德">常德</option>
+  <option value="常州">常州</option>
+  <option value="承德">承德</option>
+  <option value="成都">成都</option>
+  <option value="赤峰">赤峰</option>
+  <option value="重庆">重庆</option>
+  <option value="崇左">崇左</option>
+  <option value="池州">池州</option>
+  <option value="楚雄">楚雄</option>
+  <option value="滁州">滁州</option>
+  <option value="昌都">昌都</option>
 </optgroup>
 <optgroup label="D">
-  <option value="东莞" data-lng="113.7">东莞</option>
-  <option value="东营" data-lng="118.7">东营</option>
-  <option value="丹东" data-lng="124.4">丹东</option>
-  <option value="大同" data-lng="113.3">大同</option>
-  <option value="大庆" data-lng="125.0">大庆</option>
-  <option value="大理" data-lng="100.2">大理</option>
-  <option value="大连" data-lng="121.6">大连</option>
-  <option value="定西" data-lng="104.6">定西</option>
-  <option value="德宏" data-lng="98.6">德宏</option>
-  <option value="德州" data-lng="116.3">德州</option>
-  <option value="德阳" data-lng="104.4">德阳</option>
-  <option value="达州" data-lng="107.5">达州</option>
-  <option value="迪庆" data-lng="99.7">迪庆</option>
+  <option value="达州">达州</option>
+  <option value="大连">大连</option>
+  <option value="大庆">大庆</option>
+  <option value="大同">大同</option>
+  <option value="大理">大理</option>
+  <option value="丹东">丹东</option>
+  <option value="德宏">德宏</option>
+  <option value="德州">德州</option>
+  <option value="德阳">德阳</option>
+  <option value="定西">定西</option>
+  <option value="东莞">东莞</option>
+  <option value="东营">东营</option>
 </optgroup>
 <optgroup label="E">
-  <option value="恩施" data-lng="109.5">恩施</option>
-  <option value="鄂尔多斯" data-lng="109.8">鄂尔多斯</option>
-  <option value="鄂州" data-lng="114.9">鄂州</option>
+  <option value="鄂尔多斯">鄂尔多斯</option>
+  <option value="鄂州">鄂州</option>
+  <option value="恩施">恩施</option>
 </optgroup>
 <optgroup label="F">
-  <option value="佛山" data-lng="113.1">佛山</option>
-  <option value="抚州" data-lng="116.4">抚州</option>
-  <option value="抚顺" data-lng="123.9">抚顺</option>
-  <option value="福州" data-lng="119.3">福州</option>
-  <option value="阜新" data-lng="121.7">阜新</option>
-  <option value="阜阳" data-lng="115.8">阜阳</option>
-  <option value="防城港" data-lng="108.4">防城港</option>
+  <option value="防城港">防城港</option>
+  <option value="佛山">佛山</option>
+  <option value="福州">福州</option>
+  <option value="抚顺">抚顺</option>
+  <option value="抚州">抚州</option>
+  <option value="阜新">阜新</option>
+  <option value="阜阳">阜阳</option>
 </optgroup>
 <optgroup label="G">
-  <option value="固原" data-lng="106.3">固原</option>
-  <option value="广元" data-lng="105.8">广元</option>
-  <option value="广安" data-lng="106.6">广安</option>
-  <option value="广州" data-lng="113.3">广州</option>
-  <option value="果洛" data-lng="100.2">果洛</option>
-  <option value="桂林" data-lng="110.3">桂林</option>
-  <option value="甘南" data-lng="102.9">甘南</option>
-  <option value="甘孜" data-lng="101.9">甘孜</option>
-  <option value="贵港" data-lng="109.6">贵港</option>
-  <option value="贵阳" data-lng="106.7">贵阳</option>
-  <option value="赣州" data-lng="114.9">赣州</option>
-  <option value="高雄" data-lng="120.3">高雄</option>
+  <option value="赣州">赣州</option>
+  <option value="高雄">高雄</option>
+  <option value="固原">固原</option>
+  <option value="广安">广安</option>
+  <option value="广元">广元</option>
+  <option value="广州">广州</option>
+  <option value="贵港">贵港</option>
+  <option value="贵阳">贵阳</option>
+  <option value="桂林">桂林</option>
 </optgroup>
 <optgroup label="H">
-  <option value="合肥" data-lng="117.3">合肥</option>
-  <option value="呼伦贝尔" data-lng="119.7">呼伦贝尔</option>
-  <option value="呼和浩特" data-lng="111.7">呼和浩特</option>
-  <option value="和田" data-lng="79.9">和田</option>
-  <option value="哈密" data-lng="93.5">哈密</option>
-  <option value="哈尔滨" data-lng="126.5">哈尔滨</option>
-  <option value="怀化" data-lng="110.0">怀化</option>
-  <option value="惠州" data-lng="114.4">惠州</option>
-  <option value="杭州" data-lng="120.2">杭州</option>
-  <option value="汉中" data-lng="107.0">汉中</option>
-  <option value="河池" data-lng="108.1">河池</option>
-  <option value="河源" data-lng="114.7">河源</option>
-  <option value="海东" data-lng="102.4">海东</option>
-  <option value="海口" data-lng="110.3">海口</option>
-  <option value="海西" data-lng="97.4">海西</option>
-  <option value="湖州" data-lng="120.1">湖州</option>
-  <option value="红河" data-lng="103.4">红河</option>
-  <option value="葫芦岛" data-lng="120.8">葫芦岛</option>
-  <option value="衡水" data-lng="115.7">衡水</option>
-  <option value="衡阳" data-lng="112.6">衡阳</option>
-  <option value="贺州" data-lng="111.6">贺州</option>
-  <option value="邯郸" data-lng="114.5">邯郸</option>
-  <option value="香港" data-lng="114.2">香港</option>
-  <option value="黄冈" data-lng="114.9">黄冈</option>
-  <option value="黄南" data-lng="102.0">黄南</option>
-  <option value="黄山" data-lng="118.3">黄山</option>
-  <option value="黄石" data-lng="115.0">黄石</option>
-  <option value="黑河" data-lng="127.5">黑河</option>
+  <option value="哈密">哈密</option>
+  <option value="哈尔滨">哈尔滨</option>
+  <option value="海口">海口</option>
+  <option value="邯郸">邯郸</option>
+  <option value="汉中">汉中</option>
+  <option value="杭州">杭州</option>
+  <option value="合肥">合肥</option>
+  <option value="河池">河池</option>
+  <option value="河源">河源</option>
+  <option value="贺州">贺州</option>
+  <option value="黑河">黑河</option>
+  <option value="衡水">衡水</option>
+  <option value="衡阳">衡阳</option>
+  <option value="红河">红河</option>
+  <option value="葫芦岛">葫芦岛</option>
+  <option value="呼和浩特">呼和浩特</option>
+  <option value="呼伦贝尔">呼伦贝尔</option>
+  <option value="湖州">湖州</option>
+  <option value="怀化">怀化</option>
+  <option value="黄冈">黄冈</option>
+  <option value="黄山">黄山</option>
+  <option value="黄石">黄石</option>
+  <option value="惠州">惠州</option>
+  <option value="和田">和田</option>
+  <option value="香港">香港</option>
 </optgroup>
 <optgroup label="J">
-  <option value="九江" data-lng="116.0">九江</option>
-  <option value="吉安" data-lng="114.9">吉安</option>
-  <option value="吉林" data-lng="126.6">吉林</option>
-  <option value="嘉兴" data-lng="120.8">嘉兴</option>
-  <option value="嘉峪关" data-lng="98.3">嘉峪关</option>
-  <option value="晋中" data-lng="112.7">晋中</option>
-  <option value="晋城" data-lng="112.8">晋城</option>
-  <option value="景德镇" data-lng="117.2">景德镇</option>
-  <option value="江门" data-lng="113.1">江门</option>
-  <option value="济南" data-lng="117.0">济南</option>
-  <option value="济宁" data-lng="116.6">济宁</option>
-  <option value="焦作" data-lng="113.2">焦作</option>
-  <option value="荆州" data-lng="112.2">荆州</option>
-  <option value="荆门" data-lng="112.2">荆门</option>
-  <option value="酒泉" data-lng="98.5">酒泉</option>
-  <option value="金华" data-lng="119.6">金华</option>
-  <option value="金昌" data-lng="102.2">金昌</option>
-  <option value="锦州" data-lng="121.1">锦州</option>
+  <option value="吉安">吉安</option>
+  <option value="吉林">吉林</option>
+  <option value="济南">济南</option>
+  <option value="济宁">济宁</option>
+  <option value="嘉兴">嘉兴</option>
+  <option value="嘉峪关">嘉峪关</option>
+  <option value="江门">江门</option>
+  <option value="焦作">焦作</option>
+  <option value="金昌">金昌</option>
+  <option value="金华">金华</option>
+  <option value="锦州">锦州</option>
+  <option value="晋城">晋城</option>
+  <option value="晋中">晋中</option>
+  <option value="荆门">荆门</option>
+  <option value="荆州">荆州</option>
+  <option value="景德镇">景德镇</option>
+  <option value="九江">九江</option>
+  <option value="酒泉">酒泉</option>
 </optgroup>
 <optgroup label="K">
-  <option value="克拉玛依" data-lng="84.9">克拉玛依</option>
-  <option value="喀什" data-lng="75.9">喀什</option>
-  <option value="开封" data-lng="114.3">开封</option>
-  <option value="昆明" data-lng="102.7">昆明</option>
+  <option value="喀什">喀什</option>
+  <option value="开封">开封</option>
+  <option value="克拉玛依">克拉玛依</option>
+  <option value="昆明">昆明</option>
 </optgroup>
 <optgroup label="L">
-  <option value="临夏" data-lng="103.2">临夏</option>
-  <option value="临汾" data-lng="111.5">临汾</option>
-  <option value="临沂" data-lng="118.4">临沂</option>
-  <option value="临沧" data-lng="100.1">临沧</option>
-  <option value="丽水" data-lng="119.9">丽水</option>
-  <option value="丽江" data-lng="100.2">丽江</option>
-  <option value="乐山" data-lng="103.8">乐山</option>
-  <option value="六安" data-lng="116.5">六安</option>
-  <option value="六盘水" data-lng="104.8">六盘水</option>
-  <option value="兰州" data-lng="103.8">兰州</option>
-  <option value="凉山" data-lng="102.3">凉山</option>
-  <option value="吕梁" data-lng="111.1">吕梁</option>
-  <option value="娄底" data-lng="112.0">娄底</option>
-  <option value="廊坊" data-lng="116.7">廊坊</option>
-  <option value="拉萨" data-lng="91.1">拉萨</option>
-  <option value="来宾" data-lng="109.2">来宾</option>
-  <option value="林芝" data-lng="94.4">林芝</option>
-  <option value="柳州" data-lng="109.4">柳州</option>
-  <option value="泸州" data-lng="105.4">泸州</option>
-  <option value="辽源" data-lng="125.1">辽源</option>
-  <option value="辽阳" data-lng="123.2">辽阳</option>
-  <option value="连云港" data-lng="119.2">连云港</option>
-  <option value="龙岩" data-lng="117.0">龙岩</option>
+  <option value="来宾">来宾</option>
+  <option value="兰州">兰州</option>
+  <option value="廊坊">廊坊</option>
+  <option value="乐山">乐山</option>
+  <option value="丽江">丽江</option>
+  <option value="丽水">丽水</option>
+  <option value="连云港">连云港</option>
+  <option value="凉山">凉山</option>
+  <option value="辽阳">辽阳</option>
+  <option value="辽源">辽源</option>
+  <option value="临沧">临沧</option>
+  <option value="临汾">临汾</option>
+  <option value="临沂">临沂</option>
+  <option value="临夏">临夏</option>
+  <option value="柳州">柳州</option>
+  <option value="六安">六安</option>
+  <option value="六盘水">六盘水</option>
+  <option value="龙岩">龙岩</option>
+  <option value="娄底">娄底</option>
+  <option value="泸州">泸州</option>
+  <option value="吕梁">吕梁</option>
+  <option value="林芝">林芝</option>
+  <option value="拉萨">拉萨</option>
 </optgroup>
 <optgroup label="M">
-  <option value="梅州" data-lng="116.1">梅州</option>
-  <option value="牡丹江" data-lng="129.6">牡丹江</option>
-  <option value="绵阳" data-lng="104.7">绵阳</option>
-  <option value="茂名" data-lng="110.9">茂名</option>
-  <option value="莆田" data-lng="119.0">莆田</option>
-  <option value="马鞍山" data-lng="118.5">马鞍山</option>
+  <option value="马鞍山">马鞍山</option>
+  <option value="茂名">茂名</option>
+  <option value="梅州">梅州</option>
+  <option value="绵阳">绵阳</option>
+  <option value="牡丹江">牡丹江</option>
+  <option value="莆田">莆田</option>
 </optgroup>
 <optgroup label="N">
-  <option value="南京" data-lng="118.8">南京</option>
-  <option value="南充" data-lng="106.1">南充</option>
-  <option value="南宁" data-lng="108.4">南宁</option>
-  <option value="南平" data-lng="118.2">南平</option>
-  <option value="南昌" data-lng="115.9">南昌</option>
-  <option value="南通" data-lng="120.9">南通</option>
-  <option value="南阳" data-lng="112.5">南阳</option>
-  <option value="宁德" data-lng="119.5">宁德</option>
-  <option value="宁波" data-lng="121.6">宁波</option>
-  <option value="怒江" data-lng="98.9">怒江</option>
-  <option value="那曲" data-lng="92.1">那曲</option>
+  <option value="南昌">南昌</option>
+  <option value="南充">南充</option>
+  <option value="南京">南京</option>
+  <option value="南宁">南宁</option>
+  <option value="南平">南平</option>
+  <option value="南通">南通</option>
+  <option value="南阳">南阳</option>
+  <option value="那曲">那曲</option>
+  <option value="宁波">宁波</option>
+  <option value="宁德">宁德</option>
 </optgroup>
 <optgroup label="P">
-  <option value="普洱" data-lng="100.9">普洱</option>
-  <option value="濮阳" data-lng="115.0">濮阳</option>
-  <option value="盘锦" data-lng="122.1">盘锦</option>
-  <option value="萍乡" data-lng="113.9">萍乡</option>
+  <option value="盘锦">盘锦</option>
+  <option value="萍乡">萍乡</option>
+  <option value="普洱">普洱</option>
+  <option value="濮阳">濮阳</option>
 </optgroup>
 <optgroup label="Q">
-  <option value="庆阳" data-lng="107.6">庆阳</option>
-  <option value="曲靖" data-lng="103.8">曲靖</option>
-  <option value="泉州" data-lng="118.7">泉州</option>
-  <option value="秦皇岛" data-lng="119.6">秦皇岛</option>
-  <option value="衢州" data-lng="118.9">衢州</option>
-  <option value="钦州" data-lng="108.6">钦州</option>
-  <option value="青岛" data-lng="120.4">青岛</option>
-  <option value="黔东南" data-lng="107.9">黔东南</option>
-  <option value="黔南" data-lng="107.5">黔南</option>
-  <option value="黔西南" data-lng="104.9">黔西南</option>
+  <option value="钦州">钦州</option>
+  <option value="秦皇岛">秦皇岛</option>
+  <option value="青岛">青岛</option>
+  <option value="庆阳">庆阳</option>
+  <option value="曲靖">曲靖</option>
+  <option value="衢州">衢州</option>
+  <option value="泉州">泉州</option>
 </optgroup>
 <optgroup label="R">
-  <option value="日喀则" data-lng="88.9">日喀则</option>
-  <option value="日照" data-lng="119.5">日照</option>
+  <option value="日喀则">日喀则</option>
+  <option value="日照">日照</option>
 </optgroup>
 <optgroup label="S">
-  <option value="三亚" data-lng="109.5">三亚</option>
-  <option value="三明" data-lng="117.6">三明</option>
-  <option value="三门峡" data-lng="111.2">三门峡</option>
-  <option value="上海" data-lng="121.5">上海</option>
-  <option value="上饶" data-lng="117.9">上饶</option>
-  <option value="商丘" data-lng="115.7">商丘</option>
-  <option value="商洛" data-lng="109.9">商洛</option>
-  <option value="宿州" data-lng="116.9">宿州</option>
-  <option value="宿迁" data-lng="118.3">宿迁</option>
-  <option value="朔州" data-lng="112.4">朔州</option>
-  <option value="松原" data-lng="124.8">松原</option>
-  <option value="沈阳" data-lng="123.4">沈阳</option>
-  <option value="深圳" data-lng="114.1">深圳</option>
-  <option value="石嘴山" data-lng="106.4">石嘴山</option>
-  <option value="石家庄" data-lng="114.5">石家庄</option>
-  <option value="绍兴" data-lng="120.6">绍兴</option>
-  <option value="绥化" data-lng="126.9">绥化</option>
-  <option value="遂宁" data-lng="105.6">遂宁</option>
-  <option value="随州" data-lng="113.4">随州</option>
-  <option value="韶关" data-lng="113.6">韶关</option>
+  <option value="三亚">三亚</option>
+  <option value="三明">三明</option>
+  <option value="三门峡">三门峡</option>
+  <option value="商洛">商洛</option>
+  <option value="商丘">商丘</option>
+  <option value="上海">上海</option>
+  <option value="上饶">上饶</option>
+  <option value="绍兴">绍兴</option>
+  <option value="韶关">韶关</option>
+  <option value="深圳">深圳</option>
+  <option value="沈阳">沈阳</option>
+  <option value="石家庄">石家庄</option>
+  <option value="石嘴山">石嘴山</option>
+  <option value="朔州">朔州</option>
+  <option value="松原">松原</option>
+  <option value="遂宁">遂宁</option>
+  <option value="宿迁">宿迁</option>
+  <option value="宿州">宿州</option>
+  <option value="随州">随州</option>
+  <option value="绥化">绥化</option>
 </optgroup>
 <optgroup label="T">
-  <option value="台中" data-lng="120.7">台中</option>
-  <option value="台北" data-lng="121.5">台北</option>
-  <option value="台南" data-lng="120.2">台南</option>
-  <option value="台州" data-lng="121.4">台州</option>
-  <option value="吐鲁番" data-lng="89.2">吐鲁番</option>
-  <option value="唐山" data-lng="118.2">唐山</option>
-  <option value="天水" data-lng="105.7">天水</option>
-  <option value="天津" data-lng="117.2">天津</option>
-  <option value="太原" data-lng="112.5">太原</option>
-  <option value="泰安" data-lng="117.1">泰安</option>
-  <option value="泰州" data-lng="119.9">泰州</option>
-  <option value="通化" data-lng="125.9">通化</option>
-  <option value="通辽" data-lng="122.3">通辽</option>
-  <option value="铁岭" data-lng="123.8">铁岭</option>
-  <option value="铜仁" data-lng="109.2">铜仁</option>
-  <option value="铜川" data-lng="109.1">铜川</option>
-  <option value="铜陵" data-lng="117.8">铜陵</option>
+  <option value="台北">台北</option>
+  <option value="台中">台中</option>
+  <option value="台南">台南</option>
+  <option value="台州">台州</option>
+  <option value="太原">太原</option>
+  <option value="泰安">泰安</option>
+  <option value="泰州">泰州</option>
+  <option value="唐山">唐山</option>
+  <option value="天津">天津</option>
+  <option value="天水">天水</option>
+  <option value="铁岭">铁岭</option>
+  <option value="通辽">通辽</option>
+  <option value="通化">通化</option>
+  <option value="铜川">铜川</option>
+  <option value="铜仁">铜仁</option>
+  <option value="铜陵">铜陵</option>
+  <option value="吐鲁番">吐鲁番</option>
 </optgroup>
 <optgroup label="W">
-  <option value="乌鲁木齐" data-lng="87.6">乌鲁木齐</option>
-  <option value="吴忠" data-lng="106.2">吴忠</option>
-  <option value="梧州" data-lng="111.3">梧州</option>
-  <option value="武威" data-lng="102.6">武威</option>
-  <option value="武汉" data-lng="114.3">武汉</option>
-  <option value="温州" data-lng="120.7">温州</option>
+  <option value="温州">温州</option>
+  <option value="梧州">梧州</option>
+  <option value="武汉">武汉</option>
+  <option value="武威">武威</option>
+  <option value="吴忠">吴忠</option>
+  <option value="乌鲁木齐">乌鲁木齐</option>
 </optgroup>
 <optgroup label="X">
-  <option value="信阳" data-lng="114.1">信阳</option>
-  <option value="兴安盟" data-lng="122.1">兴安盟</option>
-  <option value="厦门" data-lng="118.1">厦门</option>
-  <option value="宣城" data-lng="118.8">宣城</option>
-  <option value="徐州" data-lng="117.2">徐州</option>
-  <option value="忻州" data-lng="112.7">忻州</option>
-  <option value="湘潭" data-lng="112.9">湘潭</option>
-  <option value="湘西" data-lng="109.7">湘西</option>
-  <option value="西双版纳" data-lng="100.8">西双版纳</option>
-  <option value="西宁" data-lng="101.8">西宁</option>
-  <option value="西安" data-lng="108.9">西安</option>
-  <option value="许昌" data-lng="113.8">许昌</option>
-  <option value="邢台" data-lng="114.5">邢台</option>
-  <option value="锡林郭勒盟" data-lng="116.1">锡林郭勒盟</option>
+  <option value="西安">西安</option>
+  <option value="西宁">西宁</option>
+  <option value="厦门">厦门</option>
+  <option value="湘潭">湘潭</option>
+  <option value="湘西">湘西</option>
+  <option value="忻州">忻州</option>
+  <option value="信阳">信阳</option>
+  <option value="邢台">邢台</option>
+  <option value="徐州">徐州</option>
+  <option value="许昌">许昌</option>
+  <option value="宣城">宣城</option>
 </optgroup>
 <optgroup label="Y">
-  <option value="伊犁" data-lng="81.3">伊犁</option>
-  <option value="延安" data-lng="109.5">延安</option>
-  <option value="延边" data-lng="129.5">延边</option>
-  <option value="扬州" data-lng="119.4">扬州</option>
-  <option value="烟台" data-lng="121.4">烟台</option>
-  <option value="玉林" data-lng="110.2">玉林</option>
-  <option value="玉树" data-lng="97.0">玉树</option>
-  <option value="玉溪" data-lng="102.5">玉溪</option>
-  <option value="盐城" data-lng="120.2">盐城</option>
-  <option value="营口" data-lng="122.2">营口</option>
-  <option value="运城" data-lng="111.0">运城</option>
-  <option value="阳江" data-lng="111.9">阳江</option>
-  <option value="阳泉" data-lng="113.6">阳泉</option>
-  <option value="鹰潭" data-lng="117.1">鹰潭</option>
+  <option value="烟台">烟台</option>
+  <option value="延安">延安</option>
+  <option value="延边">延边</option>
+  <option value="盐城">盐城</option>
+  <option value="扬州">扬州</option>
+  <option value="阳江">阳江</option>
+  <option value="阳泉">阳泉</option>
+  <option value="鹰潭">鹰潭</option>
+  <option value="营口">营口</option>
+  <option value="玉林">玉林</option>
+  <option value="玉溪">玉溪</option>
+  <option value="玉树">玉树</option>
+  <option value="运城">运城</option>
+  <option value="伊犁">伊犁</option>
 </optgroup>
 <optgroup label="Z">
-  <option value="中卫" data-lng="105.2">中卫</option>
-  <option value="中山" data-lng="113.4">中山</option>
-  <option value="张家口" data-lng="114.9">张家口</option>
-  <option value="张家界" data-lng="110.5">张家界</option>
-  <option value="张掖" data-lng="100.4">张掖</option>
-  <option value="旅顺" data-lng="121.2">旅顺</option>
-  <option value="枣庄" data-lng="117.6">枣庄</option>
-  <option value="株洲" data-lng="113.1">株洲</option>
-  <option value="漳州" data-lng="117.6">漳州</option>
-  <option value="珠海" data-lng="113.6">珠海</option>
-  <option value="肇庆" data-lng="112.5">肇庆</option>
-  <option value="舟山" data-lng="122.1">舟山</option>
-  <option value="遵义" data-lng="106.9">遵义</option>
-  <option value="郑州" data-lng="113.6">郑州</option>
-  <option value="镇江" data-lng="119.4">镇江</option>
+  <option value="枣庄">枣庄</option>
+  <option value="张家界">张家界</option>
+  <option value="张家口">张家口</option>
+  <option value="张掖">张掖</option>
+  <option value="漳州">漳州</option>
+  <option value="肇庆">肇庆</option>
+  <option value="镇江">镇江</option>
+  <option value="郑州">郑州</option>
+  <option value="中卫">中卫</option>
+  <option value="中山">中山</option>
+  <option value="舟山">舟山</option>
+  <option value="珠海">珠海</option>
+  <option value="株洲">株洲</option>
+  <option value="遵义">遵义</option>
 </optgroup>
-</select>
-        <div id="city-lng-display" style="font-size:11px;color:#999;margin-top:3px">经度：121.5°E</div>
-      </div>
+
+        </select>
+        <div class="hint" id="city-hint">经度：121.5°E（偏差北京时间+6分钟）</div>
       </div>
     </div>
     <div class="form-row">
@@ -425,12 +403,12 @@ input:focus, select:focus { outline: none; border-color: #8b6914; background: wh
       </div>
     </div>
     <table class="bazi-table">
+      <tr><th>年柱</th><th>月柱</th><th>日柱</th><th>时柱</th></tr>
       <tr>
-        <th>年柱</th><th>月柱</th><th>日柱</th><th>时柱</th>
-      </tr>
-      <tr>
-        <td id="r-year"></td><td id="r-month"></td>
-        <td id="r-day"></td><td id="r-hour"></td>
+        <td id="r-year"></td>
+        <td id="r-month"></td>
+        <td id="r-day"></td>
+        <td id="r-hour"></td>
       </tr>
     </table>
     <div style="font-size:13px;color:#666;margin-bottom:12px">复制以下内容，贴到AI对话框：</div>
@@ -441,13 +419,84 @@ input:focus, select:focus { outline: none; border-color: #8b6914; background: wh
 </div>
 
 <script>
+const CITIES = {"安康": 109.0, "安庆": 117.1, "安顺": 105.9, "安阳": 114.4, "鞍山": 123.0, "澳门": 113.5, "白城": 122.8, "白山": 126.4, "白银": 104.1, "百色": 106.6, "保定": 115.5, "保山": 99.2, "宝鸡": 107.1, "北京": 116.4, "北海": 109.1, "本溪": 123.8, "毕节": 105.3, "滨州": 118.0, "亳州": 115.8, "沧州": 116.8, "长春": 125.3, "长沙": 113.0, "长治": 113.1, "常德": 111.7, "常州": 119.9, "承德": 117.9, "成都": 104.1, "赤峰": 118.9, "重庆": 106.5, "崇左": 107.4, "池州": 117.5, "楚雄": 101.5, "滁州": 118.3, "昌都": 97.2, "达州": 107.5, "大连": 121.6, "大庆": 125.0, "大同": 113.3, "大理": 100.2, "丹东": 124.4, "德宏": 98.6, "德州": 116.3, "德阳": 104.4, "定西": 104.6, "东莞": 113.7, "东营": 118.7, "鄂尔多斯": 109.8, "鄂州": 114.9, "恩施": 109.5, "防城港": 108.4, "佛山": 113.1, "福州": 119.3, "抚顺": 123.9, "抚州": 116.4, "阜新": 121.7, "阜阳": 115.8, "赣州": 114.9, "高雄": 120.3, "固原": 106.3, "广安": 106.6, "广元": 105.8, "广州": 113.3, "贵港": 109.6, "贵阳": 106.7, "桂林": 110.3, "哈密": 93.5, "哈尔滨": 126.5, "海口": 110.3, "邯郸": 114.5, "汉中": 107.0, "杭州": 120.2, "合肥": 117.3, "河池": 108.1, "河源": 114.7, "贺州": 111.6, "黑河": 127.5, "衡水": 115.7, "衡阳": 112.6, "红河": 103.4, "葫芦岛": 120.8, "呼和浩特": 111.7, "呼伦贝尔": 119.7, "湖州": 120.1, "怀化": 110.0, "黄冈": 114.9, "黄山": 118.3, "黄石": 115.0, "惠州": 114.4, "和田": 79.9, "香港": 114.2, "吉安": 114.9, "吉林": 126.6, "济南": 117.0, "济宁": 116.6, "嘉兴": 120.8, "嘉峪关": 98.3, "江门": 113.1, "焦作": 113.2, "金昌": 102.2, "金华": 119.6, "锦州": 121.1, "晋城": 112.8, "晋中": 112.7, "荆门": 112.2, "荆州": 112.2, "景德镇": 117.2, "九江": 116.0, "酒泉": 98.5, "喀什": 75.9, "开封": 114.3, "克拉玛依": 84.9, "昆明": 102.7, "来宾": 109.2, "兰州": 103.8, "廊坊": 116.7, "乐山": 103.8, "丽江": 100.2, "丽水": 119.9, "连云港": 119.2, "凉山": 102.3, "辽阳": 123.2, "辽源": 125.1, "临沧": 100.1, "临汾": 111.5, "临沂": 118.4, "临夏": 103.2, "柳州": 109.4, "六安": 116.5, "六盘水": 104.8, "龙岩": 117.0, "娄底": 112.0, "泸州": 105.4, "吕梁": 111.1, "林芝": 94.4, "拉萨": 91.1, "马鞍山": 118.5, "茂名": 110.9, "梅州": 116.1, "绵阳": 104.7, "牡丹江": 129.6, "莆田": 119.0, "南昌": 115.9, "南充": 106.1, "南京": 118.8, "南宁": 108.4, "南平": 118.2, "南通": 120.9, "南阳": 112.5, "那曲": 92.1, "宁波": 121.6, "宁德": 119.5, "盘锦": 122.1, "萍乡": 113.9, "普洱": 100.9, "濮阳": 115.0, "钦州": 108.6, "秦皇岛": 119.6, "青岛": 120.4, "庆阳": 107.6, "曲靖": 103.8, "衢州": 118.9, "泉州": 118.7, "日喀则": 88.9, "日照": 119.5, "三亚": 109.5, "三明": 117.6, "三门峡": 111.2, "商洛": 109.9, "商丘": 115.7, "上海": 121.5, "上饶": 117.9, "绍兴": 120.6, "韶关": 113.6, "深圳": 114.1, "沈阳": 123.4, "石家庄": 114.5, "石嘴山": 106.4, "朔州": 112.4, "松原": 124.8, "遂宁": 105.6, "宿迁": 118.3, "宿州": 116.9, "随州": 113.4, "绥化": 126.9, "台北": 121.5, "台中": 120.7, "台南": 120.2, "台州": 121.4, "太原": 112.5, "泰安": 117.1, "泰州": 119.9, "唐山": 118.2, "天津": 117.2, "天水": 105.7, "铁岭": 123.8, "通辽": 122.3, "通化": 125.9, "铜川": 109.1, "铜仁": 109.2, "铜陵": 117.8, "吐鲁番": 89.2, "温州": 120.7, "梧州": 111.3, "武汉": 114.3, "武威": 102.6, "吴忠": 106.2, "乌鲁木齐": 87.6, "西安": 108.9, "西宁": 101.8, "厦门": 118.1, "湘潭": 112.9, "湘西": 109.7, "忻州": 112.7, "信阳": 114.1, "邢台": 114.5, "徐州": 117.2, "许昌": 113.8, "宣城": 118.8, "烟台": 121.4, "延安": 109.5, "延边": 129.5, "盐城": 120.2, "扬州": 119.4, "阳江": 111.9, "阳泉": 113.6, "鹰潭": 117.1, "营口": 122.2, "玉林": 110.2, "玉溪": 102.5, "玉树": 97.0, "运城": 111.0, "伊犁": 81.3, "枣庄": 117.6, "张家界": 110.5, "张家口": 114.9, "张掖": 100.4, "漳州": 117.6, "肇庆": 112.5, "镇江": 119.4, "郑州": 113.6, "中卫": 105.2, "中山": 113.4, "舟山": 122.1, "珠海": 113.6, "株洲": 113.1, "遵义": 106.9};
+
 function updateCity(city) {
-  const lng_map = {"北京": 116.4, "上海": 121.5, "天津": 117.2, "重庆": 106.5, "广州": 113.3, "深圳": 114.1, "成都": 104.1, "武汉": 114.3, "西安": 108.9, "南京": 118.8, "杭州": 120.2, "苏州": 120.6, "宁波": 121.6, "厦门": 118.1, "福州": 119.3, "济南": 117.0, "青岛": 120.4, "郑州": 113.6, "长沙": 113.0, "哈尔滨": 126.5, "沈阳": 123.4, "长春": 125.3, "大连": 121.6, "昆明": 102.7, "贵阳": 106.7, "南宁": 108.4, "海口": 110.3, "太原": 112.5, "石家庄": 114.5, "合肥": 117.3, "南昌": 115.9, "兰州": 103.8, "西宁": 101.8, "银川": 106.3, "乌鲁木齐": 87.6, "拉萨": 91.1, "台北": 121.5, "台中": 120.7, "台南": 120.2, "高雄": 120.3, "香港": 114.2, "澳门": 113.5, "三亚": 109.5, "丽江": 100.2, "桂林": 110.3, "无锡": 120.3, "常州": 119.9, "南通": 120.9, "徐州": 117.2, "扬州": 119.4, "镇江": 119.4, "连云港": 119.2, "温州": 120.7, "金华": 119.6, "绍兴": 120.6, "嘉兴": 120.8, "湖州": 120.1, "台州": 121.4, "衢州": 118.9, "舟山": 122.1, "丽水": 119.9, "芜湖": 118.4, "蚌埠": 117.4, "淮南": 117.0, "泉州": 118.7, "漳州": 117.6, "南平": 118.2, "龙岩": 117.0, "莆田": 119.0, "三明": 117.6, "宁德": 119.5, "九江": 116.0, "赣州": 114.9, "吉安": 114.9, "宜春": 114.4, "抚州": 116.4, "上饶": 117.9, "景德镇": 117.2, "萍乡": 113.9, "鹰潭": 117.1, "淄博": 118.1, "烟台": 121.4, "潍坊": 119.1, "济宁": 116.6, "泰安": 117.1, "威海": 122.1, "日照": 119.5, "临沂": 118.4, "德州": 116.3, "聊城": 115.9, "滨州": 118.0, "菏泽": 115.5, "东营": 118.7, "枣庄": 117.6, "洛阳": 112.4, "开封": 114.3, "许昌": 113.8, "南阳": 112.5, "商丘": 115.7, "信阳": 114.1, "周口": 114.7, "驻马店": 114.0, "安阳": 114.4, "新乡": 113.9, "焦作": 113.2, "三门峡": 111.2, "濮阳": 115.0, "漯河": 114.0, "黄石": 115.0, "宜昌": 111.3, "襄阳": 112.1, "荆州": 112.2, "黄冈": 114.9, "咸宁": 114.3, "随州": 113.4, "恩施": 109.5, "十堰": 110.8, "荆门": 112.2, "孝感": 113.9, "鄂州": 114.9, "株洲": 113.1, "湘潭": 112.9, "衡阳": 112.6, "岳阳": 113.1, "常德": 111.7, "张家界": 110.5, "益阳": 112.4, "郴州": 113.0, "永州": 111.6, "怀化": 110.0, "娄底": 112.0, "邵阳": 111.5, "珠海": 113.6, "汕头": 116.7, "佛山": 113.1, "惠州": 114.4, "东莞": 113.7, "中山": 113.4, "江门": 113.1, "湛江": 110.4, "茂名": 110.9, "肇庆": 112.5, "清远": 113.1, "潮州": 116.6, "韶关": 113.6, "河源": 114.7, "梅州": 116.1, "汕尾": 115.4, "阳江": 111.9, "云浮": 112.0, "柳州": 109.4, "梧州": 111.3, "北海": 109.1, "玉林": 110.2, "百色": 106.6, "贺州": 111.6, "河池": 108.1, "来宾": 109.2, "崇左": 107.4, "钦州": 108.6, "贵港": 109.6, "防城港": 108.4, "自贡": 104.8, "攀枝花": 101.7, "泸州": 105.4, "德阳": 104.4, "绵阳": 104.7, "广元": 105.8, "遂宁": 105.6, "内江": 105.1, "乐山": 103.8, "南充": 106.1, "眉山": 103.8, "宜宾": 104.6, "广安": 106.6, "达州": 107.5, "雅安": 103.0, "巴中": 106.8, "资阳": 104.6, "遵义": 106.9, "六盘水": 104.8, "安顺": 105.9, "毕节": 105.3, "铜仁": 109.2, "曲靖": 103.8, "玉溪": 102.5, "保山": 99.2, "昭通": 103.7, "普洱": 100.9, "临沧": 100.1, "楚雄": 101.5, "红河": 103.4, "文山": 104.2, "大理": 100.2, "德宏": 98.6, "日喀则": 88.9, "昌都": 97.2, "林芝": 94.4, "铜川": 109.1, "宝鸡": 107.1, "咸阳": 108.7, "渭南": 109.5, "延安": 109.5, "汉中": 107.0, "榆林": 109.7, "安康": 109.0, "商洛": 109.9, "天水": 105.7, "武威": 102.6, "张掖": 100.4, "酒泉": 98.5, "庆阳": 107.6, "定西": 104.6, "白银": 104.1, "石嘴山": 106.4, "吴忠": 106.2, "固原": 106.3, "中卫": 105.2, "克拉玛依": 84.9, "吐鲁番": 89.2, "哈密": 93.5, "喀什": 75.9, "和田": 79.9, "伊犁": 81.3, "唐山": 118.2, "秦皇岛": 119.6, "邯郸": 114.5, "邢台": 114.5, "保定": 115.5, "张家口": 114.9, "承德": 117.9, "沧州": 116.8, "廊坊": 116.7, "衡水": 115.7, "大同": 113.3, "阳泉": 113.6, "长治": 113.1, "晋城": 112.8, "朔州": 112.4, "晋中": 112.7, "运城": 111.0, "忻州": 112.7, "临汾": 111.5, "吕梁": 111.1, "包头": 110.0, "赤峰": 118.9, "通辽": 122.3, "鄂尔多斯": 109.8, "呼伦贝尔": 119.7, "丹东": 124.4, "锦州": 121.1, "营口": 122.2, "阜新": 121.7, "辽阳": 123.2, "盘锦": 122.1, "铁岭": 123.8, "朝阳": 120.5, "葫芦岛": 120.8, "吉林市": 126.6, "四平": 124.4, "通化": 125.9, "白山": 126.4, "松原": 124.8, "白城": 122.8, "延边": 129.5, "齐齐哈尔": 123.9, "大庆": 125.0, "伊春": 128.9, "佳木斯": 130.4, "牡丹江": 129.6, "黑河": 127.5, "绥化": 126.9, "淮安": 119.0, "盐城": 120.9, "泰州": 119.9, "宿迁": 118.3, "马鞍山": 118.5, "淮北": 116.8, "铜陵": 117.8, "安庆": 117.1, "黄山": 118.3, "滁州": 118.3, "阜阳": 115.8, "宿州": 116.9, "六安": 116.5, "亳州": 115.8, "池州": 117.5, "宣城": 118.8, "鞍山": 123.0, "抚顺": 123.9, "本溪": 123.8};
-  const lng = lng_map[city] || 120.0;
-  document.getElementById('city-lng-display').textContent = '经度：' + lng + '°E（偏差北京时间' + ((lng-120)*4).toFixed(0) + '分钟）';
+  const lng = CITIES[city] || 120.0;
+  const offset = ((lng - 120) * 4).toFixed(0);
+  const sign = offset >= 0 ? '+' : '';
+  document.getElementById('city-hint').textContent = '经度：' + lng + '°E（偏差北京时间' + sign + offset + '分钟）';
 }
-// 初始化显示
-updateCity('上海');
+
+async function calculate() {
+  const name = document.getElementById('name').value || '用户';
+  const gender = document.getElementById('gender').value;
+  const year = document.getElementById('year').value;
+  const month = document.getElementById('month').value;
+  const day = document.getElementById('day').value;
+  const hour = document.getElementById('hour').value;
+  const minute = document.getElementById('minute').value;
+  const city = document.getElementById('city-select').value;
+
+  if (!year || !month || !day || hour === '') {
+    alert('请填写完整的出生年月日和时间！');
+    return;
+  }
+
+  try {
+    const url = window.location.origin + '/calc?name=' + encodeURIComponent(name) +
+      '&gender=' + encodeURIComponent(gender) +
+      '&year=' + year + '&month=' + month + '&day=' + day +
+      '&hour=' + hour + '&minute=' + minute +
+      '&city=' + encodeURIComponent(city);
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.error) { alert('计算出错：' + data.error); return; }
+
+    document.getElementById('r-solar').textContent = data.solar;
+    document.getElementById('r-lunar').textContent = data.lunar_date;
+    document.getElementById('r-offset').textContent = city + '(' + data.longitude + '°E) ' + data.offset;
+    document.getElementById('r-realtime').textContent = data.real_time + ' ' + data.shichen;
+    document.getElementById('r-year').innerHTML = data.year_gz + '<br><span class="small">年柱</span>';
+    document.getElementById('r-month').innerHTML = data.month_gz + '<br><span class="small">月柱</span>';
+    document.getElementById('r-day').innerHTML = data.day_gz + '<br><span class="small">日柱</span>';
+    document.getElementById('r-hour').innerHTML = data.hour_gz + '<br><span class="small">时柱</span>';
+
+    const copyText = '我想算八字，以下是我的信息：\n\n' +
+      '姓名：' + name + '\n' +
+      '性别：' + gender + '\n' +
+      '阳历生日：' + data.solar + '\n' +
+      '农历生日：' + data.lunar_date + '\n' +
+      '出生地：' + city + '\n' +
+      '真太阳时校正：' + data.offset + '，校正后时间 ' + data.real_time + '，' + data.shichen + '\n\n' +
+      '四柱八字：\n' +
+      '年柱：' + data.year_gz + '\n' +
+      '月柱：' + data.month_gz + '\n' +
+      '日柱：' + data.day_gz + '\n' +
+      '时柱：' + data.hour_gz + '\n\n' +
+      '请帮我进行详细的八字分析。';
+
+    document.getElementById('copy-text').textContent = copyText;
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('copy-btn').textContent = '复制到剪贴板';
+  } catch(e) {
+    alert('连接失败，请确认排盘服务器已启动！');
+  }
+}
+
+async function copyText() {
+  const text = document.getElementById('copy-text').textContent;
+  await navigator.clipboard.writeText(text);
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = '已复制！';
+  setTimeout(() => { btn.textContent = '复制到剪贴板'; }, 2000);
+}
+
+// 初始化
+updateCity(document.getElementById('city-select').value);
 </script>
 </body>
 </html>
