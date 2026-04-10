@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>八字排盘工具</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Microsoft JhengHei", sans-serif; background: #f5f0e8; min-height: 100vh; padding: 30px 20px; }
+.container { max-width: 600px; margin: 0 auto; }
+h1 { text-align: center; font-size: 24px; color: #3d2b1f; margin-bottom: 6px; }
+.subtitle { text-align: center; color: #8b6914; font-size: 14px; margin-bottom: 30px; }
+.card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.card h2 { font-size: 16px; color: #3d2b1f; margin-bottom: 16px; border-bottom: 1px solid #e8dcc8; padding-bottom: 8px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 4px; position: relative; }
+.form-group.full { grid-column: 1 / -1; }
+label { font-size: 13px; color: #666; }
+input, select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; color: #333; background: #fafafa; }
+input:focus, select:focus { outline: none; border-color: #8b6914; background: white; }
+.city-input { position: relative; }
+.city-input input { width: 100%; }
+.city-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ddd; border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; }
+.city-option { padding: 8px 12px; font-size: 14px; cursor: pointer; color: #333; }
+.city-option:hover { background: #f5ede0; color: #8b6914; }
+.btn { width: 100%; padding: 12px; background: #8b6914; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 8px; }
+.btn:hover { background: #6d5210; }
+.result-card { background: #fffdf7; border: 1px solid #e8dcc8; border-radius: 12px; padding: 20px; margin-bottom: 20px; display: none; }
+.result-card h2 { font-size: 16px; color: #3d2b1f; margin-bottom: 16px; }
+.bazi-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+.bazi-table th { background: #f5ede0; color: #3d2b1f; padding: 8px; font-size: 13px; border: 1px solid #e0d0b8; }
+.bazi-table td { text-align: center; padding: 10px; border: 1px solid #e0d0b8; font-size: 22px; color: #3d2b1f; font-weight: bold; }
+.bazi-table .small { font-size: 12px; color: #888; font-weight: normal; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.info-item { background: #f9f4ec; border-radius: 6px; padding: 8px 12px; }
+.info-label { font-size: 11px; color: #999; }
+.info-value { font-size: 13px; color: #333; font-weight: 500; }
+.copy-area { background: #f0ebe0; border-radius: 8px; padding: 12px; font-size: 13px; color: #444; line-height: 1.8; margin-bottom: 12px; white-space: pre-wrap; }
+.copy-btn { width: 100%; padding: 10px; background: #2d6a4f; color: white; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; }
+.copy-btn:hover { background: #1b4332; }
+.copy-btn.copied { background: #555; }
+.tip { font-size: 12px; color: #999; text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>八字排盘工具</h1>
+  <div class="subtitle">自动真太阳时校正 · 精准四柱排盘</div>
+
+  <div class="card">
+    <h2>输入出生信息</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>姓名</label>
+        <input type="text" id="name" placeholder="请输入姓名">
+      </div>
+      <div class="form-group">
+        <label>性别</label>
+        <select id="gender">
+          <option value="女">女</option>
+          <option value="男">男</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>出生年份</label>
+        <input type="number" id="year" placeholder="如：1985" min="1900" max="2100">
+      </div>
+      <div class="form-group">
+        <label>出生月份</label>
+        <input type="number" id="month" placeholder="1-12" min="1" max="12">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>出生日期</label>
+        <input type="number" id="day" placeholder="1-31" min="1" max="31">
+      </div>
+      <div class="form-group">
+        <label>出生城市（可搜索）</label>
+        <div class="city-input">
+          <input type="text" id="city-search" placeholder="输入城市名..." autocomplete="off" oninput="searchCity(this.value)" onblur="hideDropdown()">
+          <input type="hidden" id="city-value" value="上海">
+          <div class="city-dropdown" id="city-dropdown"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>出生小时（24小时制）</label>
+        <input type="number" id="hour" placeholder="0-23" min="0" max="23">
+      </div>
+      <div class="form-group">
+        <label>出生分钟</label>
+        <input type="number" id="minute" placeholder="0-59" min="0" max="59" value="0">
+      </div>
+    </div>
+    <button class="btn" onclick="calculate()">排盘</button>
+  </div>
+
+  <div class="result-card" id="result">
+    <h2>排盘结果</h2>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label">阳历生日</div>
+        <div class="info-value" id="r-solar"></div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">农历生日</div>
+        <div class="info-value" id="r-lunar"></div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">真太阳时校正</div>
+        <div class="info-value" id="r-offset"></div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">真太阳时 / 时辰</div>
+        <div class="info-value" id="r-realtime"></div>
+      </div>
+    </div>
+    <table class="bazi-table">
+      <tr>
+        <th>年柱</th><th>月柱</th><th>日柱</th><th>时柱</th>
+      </tr>
+      <tr>
+        <td id="r-year"></td><td id="r-month"></td>
+        <td id="r-day"></td><td id="r-hour"></td>
+      </tr>
+    </table>
+    <div style="font-size:13px;color:#666;margin-bottom:12px">复制以下内容，贴到AI对话框：</div>
+    <div class="copy-area" id="copy-text"></div>
+    <button class="copy-btn" id="copy-btn" onclick="copyText()">复制到剪贴板</button>
+    <div class="tip">复制后切换到AI对话窗口，直接粘贴即可开始分析</div>
+  </div>
+</div>
+
+<script>
+let allCities = [];
+
+async function loadCities() {
+  try {
+    const res = await fetch('http://localhost:8888/cities');
+    allCities = await res.json();
+    document.getElementById('city-search').placeholder = '输入城市名搜索...';
+  } catch(e) {
+    console.log('城市列表加载失败');
+  }
+}
+
+function searchCity(val) {
+  const dropdown = document.getElementById('city-dropdown');
+  if (!val) { dropdown.style.display = 'none'; return; }
+  const matches = allCities.filter(c => c.includes(val)).slice(0, 10);
+  if (matches.length === 0) { dropdown.style.display = 'none'; return; }
+  dropdown.innerHTML = matches.map(c =>
+    `<div class="city-option" onmousedown="selectCity('${c}')">${c}</div>`
+  ).join('');
+  dropdown.style.display = 'block';
+}
+
+function selectCity(city) {
+  document.getElementById('city-search').value = city;
+  document.getElementById('city-value').value = city;
+  document.getElementById('city-dropdown').style.display = 'none';
+}
+
+function hideDropdown() {
+  setTimeout(() => {
+    document.getElementById('city-dropdown').style.display = 'none';
+    const val = document.getElementById('city-search').value;
+    if (val && allCities.includes(val)) {
+      document.getElementById('city-value').value = val;
+    }
+  }, 200);
+}
+
+async function calculate() {
+  const name = document.getElementById('name').value || '用户';
+  const gender = document.getElementById('gender').value;
+  const year = document.getElementById('year').value;
+  const month = document.getElementById('month').value;
+  const day = document.getElementById('day').value;
+  const hour = document.getElementById('hour').value;
+  const minute = document.getElementById('minute').value;
+  const city = document.getElementById('city-value').value || document.getElementById('city-search').value || '上海';
+
+  if (!year || !month || !day || hour === '') {
+    alert('请填写完整的出生年月日和时间！');
+    return;
+  }
+
+  try {
+    const url = `http://localhost:8888/calc?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}&year=${year}&month=${month}&day=${day}&hour=${hour}&minute=${minute}&city=${encodeURIComponent(city)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.error) { alert('计算出错：' + data.error); return; }
+
+    document.getElementById('r-solar').textContent = data.solar;
+    document.getElementById('r-lunar').textContent = data.lunar_date;
+    document.getElementById('r-offset').textContent = `${data.city}(${data.longitude}°E) ${data.offset}`;
+    document.getElementById('r-realtime').textContent = `${data.real_time} ${data.shichen}`;
+    document.getElementById('r-year').innerHTML = data.year_gz + '<br><span class="small">年柱</span>';
+    document.getElementById('r-month').innerHTML = data.month_gz + '<br><span class="small">月柱</span>';
+    document.getElementById('r-day').innerHTML = data.day_gz + '<br><span class="small">日柱</span>';
+    document.getElementById('r-hour').innerHTML = data.hour_gz + '<br><span class="small">时柱</span>';
+
+    const copyText = `我想算八字，以下是我的信息：
+
+姓名：${name}
+性别：${gender}
+阳历生日：${data.solar}
+农历生日：${data.lunar_date}
+出生地：${city}
+真太阳时校正：${data.offset}，校正后时间 ${data.real_time}，${data.shichen}
+
+四柱八字：
+年柱：${data.year_gz}
+月柱：${data.month_gz}
+日柱：${data.day_gz}
+时柱：${data.hour_gz}
+
+请帮我进行详细的八字分析。`;
+
+    document.getElementById('copy-text').textContent = copyText;
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('copy-btn').textContent = '复制到剪贴板';
+    document.getElementById('copy-btn').className = 'copy-btn';
+  } catch(e) {
+    alert('连接失败，请确认排盘服务器已启动！');
+  }
+}
+
+async function copyText() {
+  const text = document.getElementById('copy-text').textContent;
+  await navigator.clipboard.writeText(text);
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = '已复制！';
+  btn.className = 'copy-btn copied';
+  setTimeout(() => {
+    btn.textContent = '复制到剪贴板';
+    btn.className = 'copy-btn';
+  }, 2000);
+}
+
+loadCities();
+</script>
+</body>
+</html>
