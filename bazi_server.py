@@ -210,6 +210,8 @@ def get_shichen(hour):
     return shichen[hour] + "时"
 
 if __name__ == '__main__':
-    server = HTTPServer(('localhost', 8888), BaziHandler)
-    print("八字排盘工具已启动，请在浏览器打开 http://localhost:8888")
+    import os
+    port = int(os.environ.get('PORT', 8888))
+    server = HTTPServer(('0.0.0.0', port), BaziHandler)
+    print(f"八字排盘工具已启动，端口：{port}")
     server.serve_forever()
