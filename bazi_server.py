@@ -134,7 +134,7 @@ class BaziHandler(BaseHTTPRequestHandler):
                 gender_int = 1 if gender == '男' else 0
 
                 # 大运
-                yun = bazi.getYun(gender_int, solar.getYear(), solar.getMonth(), solar.getDay())
+                yun = bazi.getYun(gender_int, solar.getYear())
                 da_yun_list = []
                 for dy in yun.getDaYun()[:10]:
                     da_yun_list.append({
