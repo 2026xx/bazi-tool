@@ -140,7 +140,7 @@ let allCities = [];
 
 async function loadCities() {
   try {
-    const res = await fetch('http://localhost:8888/cities');
+    const res = await fetch(window.location.origin + '/cities');
     allCities = await res.json();
     document.getElementById('city-search').placeholder = '输入城市名搜索...';
   } catch(e) {
@@ -191,7 +191,7 @@ async function calculate() {
   }
 
   try {
-    const url = `http://localhost:8888/calc?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}&year=${year}&month=${month}&day=${day}&hour=${hour}&minute=${minute}&city=${encodeURIComponent(city)}`;
+    const url = `${window.location.origin}/calc?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}&year=${year}&month=${month}&day=${day}&hour=${hour}&minute=${minute}&city=${encodeURIComponent(city)}`;
     const res = await fetch(url);
     const data = await res.json();
 
