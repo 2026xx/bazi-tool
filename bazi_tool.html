@@ -157,18 +157,13 @@ function searchCity(val) {
 
 function selectCity(city) {
   document.getElementById('city-search').value = city;
-  document.getElementById('city-value').value = city;
   document.getElementById('city-dropdown').style.display = 'none';
 }
 
 function hideDropdown() {
   setTimeout(() => {
     document.getElementById('city-dropdown').style.display = 'none';
-    const val = document.getElementById('city-search').value;
-    if (val && allCities.includes(val)) {
-      document.getElementById('city-value').value = val;
-    }
-  }, 200);
+  }, 300);
 }
 
 async function calculate() {
@@ -179,7 +174,7 @@ async function calculate() {
   const day = document.getElementById('day').value;
   const hour = document.getElementById('hour').value;
   const minute = document.getElementById('minute').value;
-  const city = document.getElementById('city-value').value || document.getElementById('city-search').value || '上海';
+  const city = document.getElementById('city-search').value || '上海';
 
   if (!year || !month || !day || hour === '') {
     alert('请填写完整的出生年月日和时间！');
