@@ -80,298 +80,313 @@ input:focus, select:focus { outline: none; border-color: #8b6914; background: wh
       <div class="form-group">
         <label>出生城市</label>
         <select id="city-select" onchange="updateCity(this.value)">
-          <option value="三亚" data-lng="109.5">三亚</option>
-<option value="三明" data-lng="117.6">三明</option>
-<option value="三门峡" data-lng="111.2">三门峡</option>
-<option value="上海" data-lng="121.5">上海</option>
-<option value="上饶" data-lng="117.9">上饶</option>
-<option value="东莞" data-lng="113.7">东莞</option>
-<option value="东营" data-lng="118.7">东营</option>
-<option value="中卫" data-lng="105.2">中卫</option>
-<option value="中山" data-lng="113.4">中山</option>
-<option value="临汾" data-lng="111.5">临汾</option>
-<option value="临沂" data-lng="118.4">临沂</option>
-<option value="临沧" data-lng="100.1">临沧</option>
-<option value="丹东" data-lng="124.4">丹东</option>
-<option value="丽水" data-lng="119.9">丽水</option>
-<option value="丽江" data-lng="100.2">丽江</option>
-<option value="乌鲁木齐" data-lng="87.6">乌鲁木齐</option>
-<option value="乐山" data-lng="103.8">乐山</option>
-<option value="九江" data-lng="116.0">九江</option>
-<option value="云浮" data-lng="112.0">云浮</option>
-<option value="亳州" data-lng="115.8">亳州</option>
-<option value="伊春" data-lng="128.9">伊春</option>
-<option value="伊犁" data-lng="81.3">伊犁</option>
-<option value="佛山" data-lng="113.1">佛山</option>
-<option value="佳木斯" data-lng="130.4">佳木斯</option>
-<option value="保定" data-lng="115.5">保定</option>
-<option value="保山" data-lng="99.2">保山</option>
-<option value="信阳" data-lng="114.1">信阳</option>
-<option value="克拉玛依" data-lng="84.9">克拉玛依</option>
-<option value="六安" data-lng="116.5">六安</option>
-<option value="六盘水" data-lng="104.8">六盘水</option>
-<option value="兰州" data-lng="103.8">兰州</option>
-<option value="内江" data-lng="105.1">内江</option>
-<option value="包头" data-lng="110.0">包头</option>
-<option value="北京" data-lng="116.4">北京</option>
-<option value="北海" data-lng="109.1">北海</option>
-<option value="十堰" data-lng="110.8">十堰</option>
-<option value="南京" data-lng="118.8">南京</option>
-<option value="南充" data-lng="106.1">南充</option>
-<option value="南宁" data-lng="108.4">南宁</option>
-<option value="南平" data-lng="118.2">南平</option>
-<option value="南昌" data-lng="115.9">南昌</option>
-<option value="南通" data-lng="120.9">南通</option>
-<option value="南阳" data-lng="112.5">南阳</option>
-<option value="厦门" data-lng="118.1">厦门</option>
-<option value="台中" data-lng="120.7">台中</option>
-<option value="台北" data-lng="121.5">台北</option>
-<option value="台南" data-lng="120.2">台南</option>
-<option value="台州" data-lng="121.4">台州</option>
-<option value="合肥" data-lng="117.3">合肥</option>
-<option value="吉安" data-lng="114.9">吉安</option>
-<option value="吉林市" data-lng="126.6">吉林市</option>
-<option value="吐鲁番" data-lng="89.2">吐鲁番</option>
-<option value="吕梁" data-lng="111.1">吕梁</option>
-<option value="吴忠" data-lng="106.2">吴忠</option>
-<option value="周口" data-lng="114.7">周口</option>
-<option value="呼伦贝尔" data-lng="119.7">呼伦贝尔</option>
-<option value="和田" data-lng="79.9">和田</option>
-<option value="咸宁" data-lng="114.3">咸宁</option>
-<option value="咸阳" data-lng="108.7">咸阳</option>
-<option value="哈密" data-lng="93.5">哈密</option>
-<option value="哈尔滨" data-lng="126.5">哈尔滨</option>
-<option value="唐山" data-lng="118.2">唐山</option>
-<option value="商丘" data-lng="115.7">商丘</option>
-<option value="商洛" data-lng="109.9">商洛</option>
-<option value="喀什" data-lng="75.9">喀什</option>
-<option value="嘉兴" data-lng="120.8">嘉兴</option>
-<option value="四平" data-lng="124.4">四平</option>
-<option value="固原" data-lng="106.3">固原</option>
-<option value="大同" data-lng="113.3">大同</option>
-<option value="大庆" data-lng="125.0">大庆</option>
-<option value="大理" data-lng="100.2">大理</option>
-<option value="大连" data-lng="121.6">大连</option>
-<option value="天水" data-lng="105.7">天水</option>
-<option value="天津" data-lng="117.2">天津</option>
-<option value="太原" data-lng="112.5">太原</option>
-<option value="威海" data-lng="122.1">威海</option>
-<option value="娄底" data-lng="112.0">娄底</option>
-<option value="孝感" data-lng="113.9">孝感</option>
-<option value="宁德" data-lng="119.5">宁德</option>
-<option value="宁波" data-lng="121.6">宁波</option>
-<option value="安庆" data-lng="117.1">安庆</option>
-<option value="安康" data-lng="109.0">安康</option>
-<option value="安阳" data-lng="114.4">安阳</option>
-<option value="安顺" data-lng="105.9">安顺</option>
-<option value="定西" data-lng="104.6">定西</option>
-<option value="宜宾" data-lng="104.6">宜宾</option>
-<option value="宜昌" data-lng="111.3">宜昌</option>
-<option value="宜春" data-lng="114.4">宜春</option>
-<option value="宝鸡" data-lng="107.1">宝鸡</option>
-<option value="宣城" data-lng="118.8">宣城</option>
-<option value="宿州" data-lng="116.9">宿州</option>
-<option value="宿迁" data-lng="118.3">宿迁</option>
-<option value="岳阳" data-lng="113.1">岳阳</option>
-<option value="崇左" data-lng="107.4">崇左</option>
-<option value="巴中" data-lng="106.8">巴中</option>
-<option value="常州" data-lng="119.9">常州</option>
-<option value="常德" data-lng="111.7">常德</option>
-<option value="广元" data-lng="105.8">广元</option>
-<option value="广安" data-lng="106.6">广安</option>
-<option value="广州" data-lng="113.3">广州</option>
-<option value="庆阳" data-lng="107.6">庆阳</option>
-<option value="廊坊" data-lng="116.7">廊坊</option>
-<option value="延安" data-lng="109.5">延安</option>
-<option value="延边" data-lng="129.5">延边</option>
-<option value="开封" data-lng="114.3">开封</option>
-<option value="张家口" data-lng="114.9">张家口</option>
-<option value="张家界" data-lng="110.5">张家界</option>
-<option value="张掖" data-lng="100.4">张掖</option>
-<option value="徐州" data-lng="117.2">徐州</option>
-<option value="德宏" data-lng="98.6">德宏</option>
-<option value="德州" data-lng="116.3">德州</option>
-<option value="德阳" data-lng="104.4">德阳</option>
-<option value="忻州" data-lng="112.7">忻州</option>
-<option value="怀化" data-lng="110.0">怀化</option>
-<option value="恩施" data-lng="109.5">恩施</option>
-<option value="惠州" data-lng="114.4">惠州</option>
-<option value="成都" data-lng="104.1">成都</option>
-<option value="扬州" data-lng="119.4">扬州</option>
-<option value="承德" data-lng="117.9">承德</option>
-<option value="抚州" data-lng="116.4">抚州</option>
-<option value="抚顺" data-lng="123.9">抚顺</option>
-<option value="拉萨" data-lng="91.1">拉萨</option>
-<option value="攀枝花" data-lng="101.7">攀枝花</option>
-<option value="文山" data-lng="104.2">文山</option>
-<option value="新乡" data-lng="113.9">新乡</option>
-<option value="无锡" data-lng="120.3">无锡</option>
-<option value="日喀则" data-lng="88.9">日喀则</option>
-<option value="日照" data-lng="119.5">日照</option>
-<option value="昆明" data-lng="102.7">昆明</option>
-<option value="昌都" data-lng="97.2">昌都</option>
-<option value="昭通" data-lng="103.7">昭通</option>
-<option value="晋中" data-lng="112.7">晋中</option>
-<option value="晋城" data-lng="112.8">晋城</option>
-<option value="普洱" data-lng="100.9">普洱</option>
-<option value="景德镇" data-lng="117.2">景德镇</option>
-<option value="曲靖" data-lng="103.8">曲靖</option>
-<option value="朔州" data-lng="112.4">朔州</option>
-<option value="朝阳" data-lng="120.5">朝阳</option>
-<option value="本溪" data-lng="123.8">本溪</option>
-<option value="来宾" data-lng="109.2">来宾</option>
-<option value="杭州" data-lng="120.2">杭州</option>
-<option value="松原" data-lng="124.8">松原</option>
-<option value="林芝" data-lng="94.4">林芝</option>
-<option value="枣庄" data-lng="117.6">枣庄</option>
-<option value="柳州" data-lng="109.4">柳州</option>
-<option value="株洲" data-lng="113.1">株洲</option>
-<option value="桂林" data-lng="110.3">桂林</option>
-<option value="梅州" data-lng="116.1">梅州</option>
-<option value="梧州" data-lng="111.3">梧州</option>
-<option value="楚雄" data-lng="101.5">楚雄</option>
-<option value="榆林" data-lng="109.7">榆林</option>
-<option value="武威" data-lng="102.6">武威</option>
-<option value="武汉" data-lng="114.3">武汉</option>
-<option value="毕节" data-lng="105.3">毕节</option>
-<option value="永州" data-lng="111.6">永州</option>
-<option value="汉中" data-lng="107.0">汉中</option>
-<option value="汕头" data-lng="116.7">汕头</option>
-<option value="汕尾" data-lng="115.4">汕尾</option>
-<option value="江门" data-lng="113.1">江门</option>
-<option value="池州" data-lng="117.5">池州</option>
-<option value="沈阳" data-lng="123.4">沈阳</option>
-<option value="沧州" data-lng="116.8">沧州</option>
-<option value="河池" data-lng="108.1">河池</option>
-<option value="河源" data-lng="114.7">河源</option>
-<option value="泉州" data-lng="118.7">泉州</option>
-<option value="泰安" data-lng="117.1">泰安</option>
-<option value="泰州" data-lng="119.9">泰州</option>
-<option value="泸州" data-lng="105.4">泸州</option>
-<option value="洛阳" data-lng="112.4">洛阳</option>
-<option value="济南" data-lng="117.0">济南</option>
-<option value="济宁" data-lng="116.6">济宁</option>
-<option value="海口" data-lng="110.3">海口</option>
-<option value="淄博" data-lng="118.1">淄博</option>
-<option value="淮北" data-lng="116.8">淮北</option>
-<option value="淮南" data-lng="117.0">淮南</option>
-<option value="淮安" data-lng="119.0">淮安</option>
-<option value="深圳" data-lng="114.1">深圳</option>
-<option value="清远" data-lng="113.1">清远</option>
-<option value="温州" data-lng="120.7">温州</option>
-<option value="渭南" data-lng="109.5">渭南</option>
-<option value="湖州" data-lng="120.1">湖州</option>
-<option value="湘潭" data-lng="112.9">湘潭</option>
-<option value="湛江" data-lng="110.4">湛江</option>
-<option value="滁州" data-lng="118.3">滁州</option>
-<option value="滨州" data-lng="118.0">滨州</option>
-<option value="漯河" data-lng="114.0">漯河</option>
-<option value="漳州" data-lng="117.6">漳州</option>
-<option value="潍坊" data-lng="119.1">潍坊</option>
-<option value="潮州" data-lng="116.6">潮州</option>
-<option value="澳门" data-lng="113.5">澳门</option>
-<option value="濮阳" data-lng="115.0">濮阳</option>
-<option value="烟台" data-lng="121.4">烟台</option>
-<option value="焦作" data-lng="113.2">焦作</option>
-<option value="牡丹江" data-lng="129.6">牡丹江</option>
-<option value="玉林" data-lng="110.2">玉林</option>
-<option value="玉溪" data-lng="102.5">玉溪</option>
-<option value="珠海" data-lng="113.6">珠海</option>
-<option value="白城" data-lng="122.8">白城</option>
-<option value="白山" data-lng="126.4">白山</option>
-<option value="白银" data-lng="104.1">白银</option>
-<option value="百色" data-lng="106.6">百色</option>
-<option value="益阳" data-lng="112.4">益阳</option>
-<option value="盐城" data-lng="120.9">盐城</option>
-<option value="盘锦" data-lng="122.1">盘锦</option>
-<option value="眉山" data-lng="103.8">眉山</option>
-<option value="石嘴山" data-lng="106.4">石嘴山</option>
-<option value="石家庄" data-lng="114.5">石家庄</option>
-<option value="福州" data-lng="119.3">福州</option>
-<option value="秦皇岛" data-lng="119.6">秦皇岛</option>
-<option value="红河" data-lng="103.4">红河</option>
-<option value="绍兴" data-lng="120.6">绍兴</option>
-<option value="绥化" data-lng="126.9">绥化</option>
-<option value="绵阳" data-lng="104.7">绵阳</option>
-<option value="聊城" data-lng="115.9">聊城</option>
-<option value="肇庆" data-lng="112.5">肇庆</option>
-<option value="自贡" data-lng="104.8">自贡</option>
-<option value="舟山" data-lng="122.1">舟山</option>
-<option value="芜湖" data-lng="118.4">芜湖</option>
-<option value="苏州" data-lng="120.6">苏州</option>
-<option value="茂名" data-lng="110.9">茂名</option>
-<option value="荆州" data-lng="112.2">荆州</option>
-<option value="荆门" data-lng="112.2">荆门</option>
-<option value="莆田" data-lng="119.0">莆田</option>
-<option value="菏泽" data-lng="115.5">菏泽</option>
-<option value="萍乡" data-lng="113.9">萍乡</option>
-<option value="营口" data-lng="122.2">营口</option>
-<option value="葫芦岛" data-lng="120.8">葫芦岛</option>
-<option value="蚌埠" data-lng="117.4">蚌埠</option>
-<option value="衡水" data-lng="115.7">衡水</option>
-<option value="衡阳" data-lng="112.6">衡阳</option>
-<option value="衢州" data-lng="118.9">衢州</option>
-<option value="襄阳" data-lng="112.1">襄阳</option>
-<option value="西宁" data-lng="101.8">西宁</option>
-<option value="西安" data-lng="108.9">西安</option>
-<option value="许昌" data-lng="113.8">许昌</option>
-<option value="贵港" data-lng="109.6">贵港</option>
-<option value="贵阳" data-lng="106.7">贵阳</option>
-<option value="贺州" data-lng="111.6">贺州</option>
-<option value="资阳" data-lng="104.6">资阳</option>
-<option value="赣州" data-lng="114.9">赣州</option>
-<option value="赤峰" data-lng="118.9">赤峰</option>
-<option value="辽阳" data-lng="123.2">辽阳</option>
-<option value="达州" data-lng="107.5">达州</option>
-<option value="运城" data-lng="111.0">运城</option>
-<option value="连云港" data-lng="119.2">连云港</option>
-<option value="通化" data-lng="125.9">通化</option>
-<option value="通辽" data-lng="122.3">通辽</option>
-<option value="遂宁" data-lng="105.6">遂宁</option>
-<option value="遵义" data-lng="106.9">遵义</option>
-<option value="邢台" data-lng="114.5">邢台</option>
-<option value="邯郸" data-lng="114.5">邯郸</option>
-<option value="邵阳" data-lng="111.5">邵阳</option>
-<option value="郑州" data-lng="113.6">郑州</option>
-<option value="郴州" data-lng="113.0">郴州</option>
-<option value="鄂尔多斯" data-lng="109.8">鄂尔多斯</option>
-<option value="鄂州" data-lng="114.9">鄂州</option>
-<option value="酒泉" data-lng="98.5">酒泉</option>
-<option value="重庆" data-lng="106.5">重庆</option>
-<option value="金华" data-lng="119.6">金华</option>
-<option value="钦州" data-lng="108.6">钦州</option>
-<option value="铁岭" data-lng="123.8">铁岭</option>
-<option value="铜仁" data-lng="109.2">铜仁</option>
-<option value="铜川" data-lng="109.1">铜川</option>
-<option value="铜陵" data-lng="117.8">铜陵</option>
-<option value="银川" data-lng="106.3">银川</option>
-<option value="锦州" data-lng="121.1">锦州</option>
-<option value="镇江" data-lng="119.4">镇江</option>
-<option value="长春" data-lng="125.3">长春</option>
-<option value="长沙" data-lng="113.0">长沙</option>
-<option value="长治" data-lng="113.1">长治</option>
-<option value="阜新" data-lng="121.7">阜新</option>
-<option value="阜阳" data-lng="115.8">阜阳</option>
-<option value="防城港" data-lng="108.4">防城港</option>
-<option value="阳江" data-lng="111.9">阳江</option>
-<option value="阳泉" data-lng="113.6">阳泉</option>
-<option value="随州" data-lng="113.4">随州</option>
-<option value="雅安" data-lng="103.0">雅安</option>
-<option value="青岛" data-lng="120.4">青岛</option>
-<option value="鞍山" data-lng="123.0">鞍山</option>
-<option value="韶关" data-lng="113.6">韶关</option>
-<option value="香港" data-lng="114.2">香港</option>
-<option value="马鞍山" data-lng="118.5">马鞍山</option>
-<option value="驻马店" data-lng="114.0">驻马店</option>
-<option value="高雄" data-lng="120.3">高雄</option>
-<option value="鹰潭" data-lng="117.1">鹰潭</option>
-<option value="黄冈" data-lng="114.9">黄冈</option>
-<option value="黄山" data-lng="118.3">黄山</option>
-<option value="黄石" data-lng="115.0">黄石</option>
-<option value="黑河" data-lng="127.5">黑河</option>
-<option value="齐齐哈尔" data-lng="123.9">齐齐哈尔</option>
-<option value="龙岩" data-lng="117.0">龙岩</option>
-        </select>
+<optgroup label="A">
+  <option value="安庆" data-lng="117.1">安庆</option>
+  <option value="安康" data-lng="109.0">安康</option>
+  <option value="安阳" data-lng="114.4">安阳</option>
+  <option value="安顺" data-lng="105.9">安顺</option>
+  <option value="澳门" data-lng="113.5">澳门</option>
+  <option value="阿勒泰" data-lng="88.1">阿勒泰</option>
+  <option value="鞍山" data-lng="123.0">鞍山</option>
+</optgroup>
+<optgroup label="B">
+  <option value="亳州" data-lng="115.8">亳州</option>
+  <option value="保定" data-lng="115.5">保定</option>
+  <option value="保山" data-lng="99.2">保山</option>
+  <option value="北京" data-lng="116.4">北京</option>
+  <option value="北海" data-lng="109.1">北海</option>
+  <option value="宝鸡" data-lng="107.1">宝鸡</option>
+  <option value="本溪" data-lng="123.8">本溪</option>
+  <option value="毕节" data-lng="105.3">毕节</option>
+  <option value="滨州" data-lng="118.0">滨州</option>
+  <option value="白城" data-lng="122.8">白城</option>
+  <option value="白山" data-lng="126.4">白山</option>
+  <option value="白银" data-lng="104.1">白银</option>
+  <option value="百色" data-lng="106.6">百色</option>
+</optgroup>
+<optgroup label="C">
+  <option value="崇左" data-lng="107.4">崇左</option>
+  <option value="常州" data-lng="119.9">常州</option>
+  <option value="常德" data-lng="111.7">常德</option>
+  <option value="成都" data-lng="104.1">成都</option>
+  <option value="承德" data-lng="117.9">承德</option>
+  <option value="昌都" data-lng="97.2">昌都</option>
+  <option value="楚雄" data-lng="101.5">楚雄</option>
+  <option value="池州" data-lng="117.5">池州</option>
+  <option value="沧州" data-lng="116.8">沧州</option>
+  <option value="滁州" data-lng="118.3">滁州</option>
+  <option value="赤峰" data-lng="118.9">赤峰</option>
+  <option value="重庆" data-lng="106.5">重庆</option>
+  <option value="长春" data-lng="125.3">长春</option>
+  <option value="长沙" data-lng="113.0">长沙</option>
+  <option value="长治" data-lng="113.1">长治</option>
+</optgroup>
+<optgroup label="D">
+  <option value="东莞" data-lng="113.7">东莞</option>
+  <option value="东营" data-lng="118.7">东营</option>
+  <option value="丹东" data-lng="124.4">丹东</option>
+  <option value="大同" data-lng="113.3">大同</option>
+  <option value="大庆" data-lng="125.0">大庆</option>
+  <option value="大理" data-lng="100.2">大理</option>
+  <option value="大连" data-lng="121.6">大连</option>
+  <option value="定西" data-lng="104.6">定西</option>
+  <option value="德宏" data-lng="98.6">德宏</option>
+  <option value="德州" data-lng="116.3">德州</option>
+  <option value="德阳" data-lng="104.4">德阳</option>
+  <option value="达州" data-lng="107.5">达州</option>
+  <option value="迪庆" data-lng="99.7">迪庆</option>
+</optgroup>
+<optgroup label="E">
+  <option value="恩施" data-lng="109.5">恩施</option>
+  <option value="鄂尔多斯" data-lng="109.8">鄂尔多斯</option>
+  <option value="鄂州" data-lng="114.9">鄂州</option>
+</optgroup>
+<optgroup label="F">
+  <option value="佛山" data-lng="113.1">佛山</option>
+  <option value="抚州" data-lng="116.4">抚州</option>
+  <option value="抚顺" data-lng="123.9">抚顺</option>
+  <option value="福州" data-lng="119.3">福州</option>
+  <option value="阜新" data-lng="121.7">阜新</option>
+  <option value="阜阳" data-lng="115.8">阜阳</option>
+  <option value="防城港" data-lng="108.4">防城港</option>
+</optgroup>
+<optgroup label="G">
+  <option value="固原" data-lng="106.3">固原</option>
+  <option value="广元" data-lng="105.8">广元</option>
+  <option value="广安" data-lng="106.6">广安</option>
+  <option value="广州" data-lng="113.3">广州</option>
+  <option value="果洛" data-lng="100.2">果洛</option>
+  <option value="桂林" data-lng="110.3">桂林</option>
+  <option value="甘南" data-lng="102.9">甘南</option>
+  <option value="甘孜" data-lng="101.9">甘孜</option>
+  <option value="贵港" data-lng="109.6">贵港</option>
+  <option value="贵阳" data-lng="106.7">贵阳</option>
+  <option value="赣州" data-lng="114.9">赣州</option>
+  <option value="高雄" data-lng="120.3">高雄</option>
+</optgroup>
+<optgroup label="H">
+  <option value="合肥" data-lng="117.3">合肥</option>
+  <option value="呼伦贝尔" data-lng="119.7">呼伦贝尔</option>
+  <option value="呼和浩特" data-lng="111.7">呼和浩特</option>
+  <option value="和田" data-lng="79.9">和田</option>
+  <option value="哈密" data-lng="93.5">哈密</option>
+  <option value="哈尔滨" data-lng="126.5">哈尔滨</option>
+  <option value="怀化" data-lng="110.0">怀化</option>
+  <option value="惠州" data-lng="114.4">惠州</option>
+  <option value="杭州" data-lng="120.2">杭州</option>
+  <option value="汉中" data-lng="107.0">汉中</option>
+  <option value="河池" data-lng="108.1">河池</option>
+  <option value="河源" data-lng="114.7">河源</option>
+  <option value="海东" data-lng="102.4">海东</option>
+  <option value="海口" data-lng="110.3">海口</option>
+  <option value="海西" data-lng="97.4">海西</option>
+  <option value="湖州" data-lng="120.1">湖州</option>
+  <option value="红河" data-lng="103.4">红河</option>
+  <option value="葫芦岛" data-lng="120.8">葫芦岛</option>
+  <option value="衡水" data-lng="115.7">衡水</option>
+  <option value="衡阳" data-lng="112.6">衡阳</option>
+  <option value="贺州" data-lng="111.6">贺州</option>
+  <option value="邯郸" data-lng="114.5">邯郸</option>
+  <option value="香港" data-lng="114.2">香港</option>
+  <option value="黄冈" data-lng="114.9">黄冈</option>
+  <option value="黄南" data-lng="102.0">黄南</option>
+  <option value="黄山" data-lng="118.3">黄山</option>
+  <option value="黄石" data-lng="115.0">黄石</option>
+  <option value="黑河" data-lng="127.5">黑河</option>
+</optgroup>
+<optgroup label="J">
+  <option value="九江" data-lng="116.0">九江</option>
+  <option value="吉安" data-lng="114.9">吉安</option>
+  <option value="吉林" data-lng="126.6">吉林</option>
+  <option value="嘉兴" data-lng="120.8">嘉兴</option>
+  <option value="嘉峪关" data-lng="98.3">嘉峪关</option>
+  <option value="晋中" data-lng="112.7">晋中</option>
+  <option value="晋城" data-lng="112.8">晋城</option>
+  <option value="景德镇" data-lng="117.2">景德镇</option>
+  <option value="江门" data-lng="113.1">江门</option>
+  <option value="济南" data-lng="117.0">济南</option>
+  <option value="济宁" data-lng="116.6">济宁</option>
+  <option value="焦作" data-lng="113.2">焦作</option>
+  <option value="荆州" data-lng="112.2">荆州</option>
+  <option value="荆门" data-lng="112.2">荆门</option>
+  <option value="酒泉" data-lng="98.5">酒泉</option>
+  <option value="金华" data-lng="119.6">金华</option>
+  <option value="金昌" data-lng="102.2">金昌</option>
+  <option value="锦州" data-lng="121.1">锦州</option>
+</optgroup>
+<optgroup label="K">
+  <option value="克拉玛依" data-lng="84.9">克拉玛依</option>
+  <option value="喀什" data-lng="75.9">喀什</option>
+  <option value="开封" data-lng="114.3">开封</option>
+  <option value="昆明" data-lng="102.7">昆明</option>
+</optgroup>
+<optgroup label="L">
+  <option value="临夏" data-lng="103.2">临夏</option>
+  <option value="临汾" data-lng="111.5">临汾</option>
+  <option value="临沂" data-lng="118.4">临沂</option>
+  <option value="临沧" data-lng="100.1">临沧</option>
+  <option value="丽水" data-lng="119.9">丽水</option>
+  <option value="丽江" data-lng="100.2">丽江</option>
+  <option value="乐山" data-lng="103.8">乐山</option>
+  <option value="六安" data-lng="116.5">六安</option>
+  <option value="六盘水" data-lng="104.8">六盘水</option>
+  <option value="兰州" data-lng="103.8">兰州</option>
+  <option value="凉山" data-lng="102.3">凉山</option>
+  <option value="吕梁" data-lng="111.1">吕梁</option>
+  <option value="娄底" data-lng="112.0">娄底</option>
+  <option value="廊坊" data-lng="116.7">廊坊</option>
+  <option value="拉萨" data-lng="91.1">拉萨</option>
+  <option value="来宾" data-lng="109.2">来宾</option>
+  <option value="林芝" data-lng="94.4">林芝</option>
+  <option value="柳州" data-lng="109.4">柳州</option>
+  <option value="泸州" data-lng="105.4">泸州</option>
+  <option value="辽源" data-lng="125.1">辽源</option>
+  <option value="辽阳" data-lng="123.2">辽阳</option>
+  <option value="连云港" data-lng="119.2">连云港</option>
+  <option value="龙岩" data-lng="117.0">龙岩</option>
+</optgroup>
+<optgroup label="M">
+  <option value="梅州" data-lng="116.1">梅州</option>
+  <option value="牡丹江" data-lng="129.6">牡丹江</option>
+  <option value="绵阳" data-lng="104.7">绵阳</option>
+  <option value="茂名" data-lng="110.9">茂名</option>
+  <option value="莆田" data-lng="119.0">莆田</option>
+  <option value="马鞍山" data-lng="118.5">马鞍山</option>
+</optgroup>
+<optgroup label="N">
+  <option value="南京" data-lng="118.8">南京</option>
+  <option value="南充" data-lng="106.1">南充</option>
+  <option value="南宁" data-lng="108.4">南宁</option>
+  <option value="南平" data-lng="118.2">南平</option>
+  <option value="南昌" data-lng="115.9">南昌</option>
+  <option value="南通" data-lng="120.9">南通</option>
+  <option value="南阳" data-lng="112.5">南阳</option>
+  <option value="宁德" data-lng="119.5">宁德</option>
+  <option value="宁波" data-lng="121.6">宁波</option>
+  <option value="怒江" data-lng="98.9">怒江</option>
+  <option value="那曲" data-lng="92.1">那曲</option>
+</optgroup>
+<optgroup label="P">
+  <option value="普洱" data-lng="100.9">普洱</option>
+  <option value="濮阳" data-lng="115.0">濮阳</option>
+  <option value="盘锦" data-lng="122.1">盘锦</option>
+  <option value="萍乡" data-lng="113.9">萍乡</option>
+</optgroup>
+<optgroup label="Q">
+  <option value="庆阳" data-lng="107.6">庆阳</option>
+  <option value="曲靖" data-lng="103.8">曲靖</option>
+  <option value="泉州" data-lng="118.7">泉州</option>
+  <option value="秦皇岛" data-lng="119.6">秦皇岛</option>
+  <option value="衢州" data-lng="118.9">衢州</option>
+  <option value="钦州" data-lng="108.6">钦州</option>
+  <option value="青岛" data-lng="120.4">青岛</option>
+  <option value="黔东南" data-lng="107.9">黔东南</option>
+  <option value="黔南" data-lng="107.5">黔南</option>
+  <option value="黔西南" data-lng="104.9">黔西南</option>
+</optgroup>
+<optgroup label="R">
+  <option value="日喀则" data-lng="88.9">日喀则</option>
+  <option value="日照" data-lng="119.5">日照</option>
+</optgroup>
+<optgroup label="S">
+  <option value="三亚" data-lng="109.5">三亚</option>
+  <option value="三明" data-lng="117.6">三明</option>
+  <option value="三门峡" data-lng="111.2">三门峡</option>
+  <option value="上海" data-lng="121.5">上海</option>
+  <option value="上饶" data-lng="117.9">上饶</option>
+  <option value="商丘" data-lng="115.7">商丘</option>
+  <option value="商洛" data-lng="109.9">商洛</option>
+  <option value="宿州" data-lng="116.9">宿州</option>
+  <option value="宿迁" data-lng="118.3">宿迁</option>
+  <option value="朔州" data-lng="112.4">朔州</option>
+  <option value="松原" data-lng="124.8">松原</option>
+  <option value="沈阳" data-lng="123.4">沈阳</option>
+  <option value="深圳" data-lng="114.1">深圳</option>
+  <option value="石嘴山" data-lng="106.4">石嘴山</option>
+  <option value="石家庄" data-lng="114.5">石家庄</option>
+  <option value="绍兴" data-lng="120.6">绍兴</option>
+  <option value="绥化" data-lng="126.9">绥化</option>
+  <option value="遂宁" data-lng="105.6">遂宁</option>
+  <option value="随州" data-lng="113.4">随州</option>
+  <option value="韶关" data-lng="113.6">韶关</option>
+</optgroup>
+<optgroup label="T">
+  <option value="台中" data-lng="120.7">台中</option>
+  <option value="台北" data-lng="121.5">台北</option>
+  <option value="台南" data-lng="120.2">台南</option>
+  <option value="台州" data-lng="121.4">台州</option>
+  <option value="吐鲁番" data-lng="89.2">吐鲁番</option>
+  <option value="唐山" data-lng="118.2">唐山</option>
+  <option value="天水" data-lng="105.7">天水</option>
+  <option value="天津" data-lng="117.2">天津</option>
+  <option value="太原" data-lng="112.5">太原</option>
+  <option value="泰安" data-lng="117.1">泰安</option>
+  <option value="泰州" data-lng="119.9">泰州</option>
+  <option value="通化" data-lng="125.9">通化</option>
+  <option value="通辽" data-lng="122.3">通辽</option>
+  <option value="铁岭" data-lng="123.8">铁岭</option>
+  <option value="铜仁" data-lng="109.2">铜仁</option>
+  <option value="铜川" data-lng="109.1">铜川</option>
+  <option value="铜陵" data-lng="117.8">铜陵</option>
+</optgroup>
+<optgroup label="W">
+  <option value="乌鲁木齐" data-lng="87.6">乌鲁木齐</option>
+  <option value="吴忠" data-lng="106.2">吴忠</option>
+  <option value="梧州" data-lng="111.3">梧州</option>
+  <option value="武威" data-lng="102.6">武威</option>
+  <option value="武汉" data-lng="114.3">武汉</option>
+  <option value="温州" data-lng="120.7">温州</option>
+</optgroup>
+<optgroup label="X">
+  <option value="信阳" data-lng="114.1">信阳</option>
+  <option value="兴安盟" data-lng="122.1">兴安盟</option>
+  <option value="厦门" data-lng="118.1">厦门</option>
+  <option value="宣城" data-lng="118.8">宣城</option>
+  <option value="徐州" data-lng="117.2">徐州</option>
+  <option value="忻州" data-lng="112.7">忻州</option>
+  <option value="湘潭" data-lng="112.9">湘潭</option>
+  <option value="湘西" data-lng="109.7">湘西</option>
+  <option value="西双版纳" data-lng="100.8">西双版纳</option>
+  <option value="西宁" data-lng="101.8">西宁</option>
+  <option value="西安" data-lng="108.9">西安</option>
+  <option value="许昌" data-lng="113.8">许昌</option>
+  <option value="邢台" data-lng="114.5">邢台</option>
+  <option value="锡林郭勒盟" data-lng="116.1">锡林郭勒盟</option>
+</optgroup>
+<optgroup label="Y">
+  <option value="伊犁" data-lng="81.3">伊犁</option>
+  <option value="延安" data-lng="109.5">延安</option>
+  <option value="延边" data-lng="129.5">延边</option>
+  <option value="扬州" data-lng="119.4">扬州</option>
+  <option value="烟台" data-lng="121.4">烟台</option>
+  <option value="玉林" data-lng="110.2">玉林</option>
+  <option value="玉树" data-lng="97.0">玉树</option>
+  <option value="玉溪" data-lng="102.5">玉溪</option>
+  <option value="盐城" data-lng="120.2">盐城</option>
+  <option value="营口" data-lng="122.2">营口</option>
+  <option value="运城" data-lng="111.0">运城</option>
+  <option value="阳江" data-lng="111.9">阳江</option>
+  <option value="阳泉" data-lng="113.6">阳泉</option>
+  <option value="鹰潭" data-lng="117.1">鹰潭</option>
+</optgroup>
+<optgroup label="Z">
+  <option value="中卫" data-lng="105.2">中卫</option>
+  <option value="中山" data-lng="113.4">中山</option>
+  <option value="张家口" data-lng="114.9">张家口</option>
+  <option value="张家界" data-lng="110.5">张家界</option>
+  <option value="张掖" data-lng="100.4">张掖</option>
+  <option value="旅顺" data-lng="121.2">旅顺</option>
+  <option value="枣庄" data-lng="117.6">枣庄</option>
+  <option value="株洲" data-lng="113.1">株洲</option>
+  <option value="漳州" data-lng="117.6">漳州</option>
+  <option value="珠海" data-lng="113.6">珠海</option>
+  <option value="肇庆" data-lng="112.5">肇庆</option>
+  <option value="舟山" data-lng="122.1">舟山</option>
+  <option value="遵义" data-lng="106.9">遵义</option>
+  <option value="郑州" data-lng="113.6">郑州</option>
+  <option value="镇江" data-lng="119.4">镇江</option>
+</optgroup>
+</select>
         <div id="city-lng-display" style="font-size:11px;color:#999;margin-top:3px">经度：121.5°E</div>
       </div>
       </div>
