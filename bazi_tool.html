@@ -27,6 +27,7 @@ table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 1
 th { background: #f5ede0; color: #3d2b1f; padding: 7px 8px; border: 1px solid #e0d0b8; text-align: center; font-size: 12px; }
 td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
 .gz { font-size: 20px; font-weight: bold; color: #3d2b1f; }
+.gz-attr { font-size: 10px; color: #999; margin-top: 2px; }
 .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
 .info-item { background: #f9f4ec; border-radius: 6px; padding: 8px 12px; }
 .info-label { font-size: 11px; color: #999; }
@@ -36,18 +37,11 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
 .wx-fill { width: 100%; border-radius: 3px 3px 0 0; }
 .wx-label { font-size: 11px; color: #666; }
 .wx-val { font-size: 11px; font-weight: 500; }
-.mu { background: #3B6D11; color: #3B6D11; }
-.huo { background: #A32D2D; color: #A32D2D; }
-.tu { background: #854F0B; color: #854F0B; }
-.jin { background: #5F5E5A; color: #5F5E5A; }
-.shui { background: #185FA5; color: #185FA5; }
 .dayun-table td { font-size: 12px; }
 .now-row { background: rgba(139,105,20,0.1); font-weight: 500; }
-.copy-area { background: #f0ebe0; border-radius: 8px; padding: 12px; font-size: 12px; color: #444; line-height: 1.8; margin-bottom: 12px; white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
-.copy-btn { width: 100%; padding: 10px; background: #2d6a4f; color: white; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; }
+.copy-btn { width: 100%; padding: 10px; background: #2d6a4f; color: white; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; margin-top: 12px; }
 .copy-btn:hover { background: #1b4332; }
 .tip { font-size: 12px; color: #999; text-align: center; margin-top: 8px; }
-.gz-attr { font-size: 10px; color: #999; margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -116,8 +110,6 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="巴中">巴中</option>
   <option value="巴彦淖尔">巴彦淖尔</option>
   <option value="包头">包头</option>
-  <option value="博尔塔拉">博尔塔拉</option>
-  <option value="巴音郭楞">巴音郭楞</option>
 </optgroup>
 <optgroup label="C">
   <option value="沧州">沧州</option>
@@ -151,7 +143,6 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="定西">定西</option>
   <option value="东莞">东莞</option>
   <option value="东营">东营</option>
-  <option value="大兴安岭">大兴安岭</option>
 </optgroup>
 <optgroup label="E">
   <option value="鄂尔多斯">鄂尔多斯</option>
@@ -179,15 +170,12 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="桂林">桂林</option>
   <option value="甘南">甘南</option>
   <option value="甘孜">甘孜</option>
-  <option value="果洛">果洛</option>
 </optgroup>
 <optgroup label="H">
   <option value="哈密">哈密</option>
   <option value="哈尔滨">哈尔滨</option>
   <option value="海口">海口</option>
   <option value="海东">海东</option>
-  <option value="海北">海北</option>
-  <option value="海南州">海南州</option>
   <option value="海西">海西</option>
   <option value="邯郸">邯郸</option>
   <option value="汉中">汉中</option>
@@ -206,7 +194,6 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="湖州">湖州</option>
   <option value="怀化">怀化</option>
   <option value="黄冈">黄冈</option>
-  <option value="黄南">黄南</option>
   <option value="黄山">黄山</option>
   <option value="黄石">黄石</option>
   <option value="惠州">惠州</option>
@@ -232,14 +219,12 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="景德镇">景德镇</option>
   <option value="九江">九江</option>
   <option value="酒泉">酒泉</option>
-  <option value="基隆">基隆</option>
 </optgroup>
 <optgroup label="K">
   <option value="喀什">喀什</option>
   <option value="开封">开封</option>
   <option value="克拉玛依">克拉玛依</option>
   <option value="昆明">昆明</option>
-  <option value="克孜勒苏">克孜勒苏</option>
 </optgroup>
 <optgroup label="L">
   <option value="来宾">来宾</option>
@@ -285,7 +270,6 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="那曲">那曲</option>
   <option value="宁波">宁波</option>
   <option value="宁德">宁德</option>
-  <option value="怒江">怒江</option>
 </optgroup>
 <optgroup label="P">
   <option value="盘锦">盘锦</option>
@@ -294,7 +278,6 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="濮阳">濮阳</option>
   <option value="平凉">平凉</option>
   <option value="平顶山">平顶山</option>
-  <option value="屏东">屏东</option>
 </optgroup>
 <optgroup label="Q">
   <option value="钦州">钦州</option>
@@ -304,9 +287,6 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="曲靖">曲靖</option>
   <option value="衢州">衢州</option>
   <option value="泉州">泉州</option>
-  <option value="黔东南">黔东南</option>
-  <option value="黔南">黔南</option>
-  <option value="黔西南">黔西南</option>
 </optgroup>
 <optgroup label="R">
   <option value="日喀则">日喀则</option>
@@ -333,7 +313,6 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="宿州">宿州</option>
   <option value="随州">随州</option>
   <option value="绥化">绥化</option>
-  <option value="山南">山南</option>
 </optgroup>
 <optgroup label="T">
   <option value="台北">台北</option>
@@ -354,7 +333,6 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="铜仁">铜仁</option>
   <option value="铜陵">铜陵</option>
   <option value="吐鲁番">吐鲁番</option>
-  <option value="塔城">塔城</option>
 </optgroup>
 <optgroup label="W">
   <option value="温州">温州</option>
@@ -375,13 +353,10 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="湘西">湘西</option>
   <option value="忻州">忻州</option>
   <option value="信阳">信阳</option>
-  <option value="兴安盟">兴安盟</option>
   <option value="邢台">邢台</option>
   <option value="徐州">徐州</option>
   <option value="许昌">许昌</option>
   <option value="宣城">宣城</option>
-  <option value="锡林郭勒盟">锡林郭勒盟</option>
-  <option value="新竹">新竹</option>
   <option value="新余">新余</option>
 </optgroup>
 <optgroup label="Y">
@@ -404,7 +379,6 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <option value="宜昌">宜昌</option>
   <option value="益阳">益阳</option>
   <option value="岳阳">岳阳</option>
-  <option value="嘉义">嘉义</option>
 </optgroup>
 <optgroup label="Z">
   <option value="枣庄">枣庄</option>
@@ -453,7 +427,7 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
     </div>
 
     <div class="section-title">四柱八字</div>
-    <table id="bazi-table">
+    <table>
       <tr><th></th><th>年柱</th><th>月柱</th><th>日柱（日主）</th><th>时柱</th></tr>
       <tr>
         <th>天干</th>
@@ -500,107 +474,63 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
       <tr><th>序</th><th>年龄</th><th>干支</th><th>起运年份</th></tr>
     </table>
 
-    <button class="copy-btn" id="copy-btn" onclick="copyText()" style="margin-top:12px">复制八字信息给AI分析</button>
+    <button class="copy-btn" id="copy-btn" onclick="copyText()">复制八字信息给AI分析</button>
     <div class="tip">复制后切换到AI对话窗口，直接粘贴即可开始分析</div>
   </div>
 </div>
 
 <script>
-const GAN_INFO = {
-  "甲":{"desc":"阳木","color":"#3B6D11"},
-  "乙":{"desc":"阴木","color":"#3B6D11"},
-  "丙":{"desc":"阳火","color":"#A32D2D"},
-  "丁":{"desc":"阴火","color":"#A32D2D"},
-  "戊":{"desc":"阳土","color":"#854F0B"},
-  "己":{"desc":"阴土","color":"#854F0B"},
-  "庚":{"desc":"阳金","color":"#5F5E5A"},
-  "辛":{"desc":"阴金","color":"#5F5E5A"},
-  "壬":{"desc":"阳水","color":"#185FA5"},
-  "癸":{"desc":"阴水","color":"#185FA5"},
-};
-const ZHI_INFO = {
-  "子":{"desc":"阳水","color":"#185FA5"},
-  "丑":{"desc":"阴土(湿土)","color":"#854F0B"},
-  "寅":{"desc":"阳木","color":"#3B6D11"},
-  "卯":{"desc":"阴木","color":"#3B6D11"},
-  "辰":{"desc":"阳土(湿土)","color":"#854F0B"},
-  "巳":{"desc":"阴火","color":"#A32D2D"},
-  "午":{"desc":"阳火","color":"#A32D2D"},
-  "未":{"desc":"阴土(燥土)","color":"#854F0B"},
-  "申":{"desc":"阳金","color":"#5F5E5A"},
-  "酉":{"desc":"阴金","color":"#5F5E5A"},
-  "戌":{"desc":"阳土(燥土)","color":"#854F0B"},
-  "亥":{"desc":"阴水","color":"#185FA5"},
-};
-
-function setGanAttr(id, char) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const info = GAN_INFO[char];
-  if (info) {
-    el.textContent = info.desc;
-    el.style.color = info.color;
-    document.getElementById(id.replace('-attr','')).style.color = info.color;
-  }
-}
-function setZhiAttr(id, char) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const info = ZHI_INFO[char];
-  if (info) {
-    el.textContent = info.desc;
-    el.style.color = info.color;
-    document.getElementById(id.replace('-attr','')).style.color = info.color;
-  }
-}
-
-const CITIES = {"安康": 109.0, "安庆": 117.1, "安顺": 105.9, "安阳": 114.4, "鞍山": 123.0, "澳门": 113.5, "阿勒泰": 88.1, "阿克苏": 80.3, "阿里": 80.1, "阿拉善盟": 105.7, "白城": 122.8, "白山": 126.4, "白银": 104.1, "百色": 106.6, "保定": 115.5, "保山": 99.2, "宝鸡": 107.1, "北京": 116.4, "北海": 109.1, "本溪": 123.8, "毕节": 105.3, "滨州": 118.0, "亳州": 115.8, "巴中": 106.8, "巴彦淖尔": 107.4, "包头": 110.0, "博尔塔拉": 82.1, "巴音郭楞": 86.1, "沧州": 116.8, "长春": 125.3, "长沙": 113.0, "长治": 113.1, "常德": 111.7, "常州": 119.9, "承德": 117.9, "成都": 104.1, "赤峰": 118.9, "重庆": 106.5, "崇左": 107.4, "池州": 117.5, "楚雄": 101.5, "滁州": 118.3, "昌都": 97.2, "朝阳": 120.5, "达州": 107.5, "大连": 121.6, "大庆": 125.0, "大同": 113.3, "大理": 100.2, "丹东": 124.4, "德宏": 98.6, "德州": 116.3, "德阳": 104.4, "迪庆": 99.7, "定西": 104.6, "东莞": 113.7, "东营": 118.7, "大兴安岭": 124.1, "鄂尔多斯": 109.8, "鄂州": 114.9, "恩施": 109.5, "防城港": 108.4, "佛山": 113.1, "福州": 119.3, "抚顺": 123.9, "抚州": 116.4, "阜新": 121.7, "阜阳": 115.8, "赣州": 114.9, "高雄": 120.3, "固原": 106.3, "广安": 106.6, "广元": 105.8, "广州": 113.3, "贵港": 109.6, "贵阳": 106.7, "桂林": 110.3, "甘南": 102.9, "甘孜": 101.9, "果洛": 100.2, "哈密": 93.5, "哈尔滨": 126.5, "海口": 110.3, "海东": 102.4, "海北": 100.9, "海南州": 100.6, "海西": 97.4, "邯郸": 114.5, "汉中": 107.0, "杭州": 120.2, "合肥": 117.3, "河池": 108.1, "河源": 114.7, "贺州": 111.6, "黑河": 127.5, "衡水": 115.7, "衡阳": 112.6, "红河": 103.4, "葫芦岛": 120.8, "呼和浩特": 111.7, "呼伦贝尔": 119.7, "湖州": 120.1, "怀化": 110.0, "黄冈": 114.9, "黄南": 102.0, "黄山": 118.3, "黄石": 115.0, "惠州": 114.4, "和田": 79.9, "香港": 114.2, "吉安": 114.9, "吉林": 126.6, "济南": 117.0, "济宁": 116.6, "嘉兴": 120.8, "嘉峪关": 98.3, "江门": 113.1, "焦作": 113.2, "金昌": 102.2, "金华": 119.6, "锦州": 121.1, "晋城": 112.8, "晋中": 112.7, "荆门": 112.2, "荆州": 112.2, "景德镇": 117.2, "九江": 116.0, "酒泉": 98.5, "基隆": 121.7, "喀什": 75.9, "开封": 114.3, "克拉玛依": 84.9, "昆明": 102.7, "克孜勒苏": 76.2, "来宾": 109.2, "兰州": 103.8, "廊坊": 116.7, "乐山": 103.8, "丽江": 100.2, "丽水": 119.9, "连云港": 119.2, "凉山": 102.3, "辽阳": 123.2, "辽源": 125.1, "临沧": 100.1, "临汾": 111.5, "临沂": 118.4, "临夏": 103.2, "柳州": 109.4, "六安": 116.5, "六盘水": 104.8, "龙岩": 117.0, "娄底": 112.0, "泸州": 105.4, "吕梁": 111.1, "林芝": 94.4, "拉萨": 91.1, "马鞍山": 118.5, "茂名": 110.9, "梅州": 116.1, "绵阳": 104.7, "牡丹江": 129.6, "莆田": 119.0, "南昌": 115.9, "南充": 106.1, "南京": 118.8, "南宁": 108.4, "南平": 118.2, "南通": 120.9, "南阳": 112.5, "那曲": 92.1, "宁波": 121.6, "宁德": 119.5, "怒江": 98.9, "盘锦": 122.1, "萍乡": 113.9, "普洱": 100.9, "濮阳": 115.0, "平凉": 106.7, "平顶山": 113.3, "屏东": 120.5, "钦州": 108.6, "秦皇岛": 119.6, "青岛": 120.4, "庆阳": 107.6, "曲靖": 103.8, "衢州": 118.9, "泉州": 118.7, "黔东南": 107.9, "黔南": 107.5, "黔西南": 104.9, "日喀则": 88.9, "日照": 119.5, "三亚": 109.5, "三明": 117.6, "三门峡": 111.2, "商洛": 109.9, "商丘": 115.7, "上海": 121.5, "上饶": 117.9, "绍兴": 120.6, "韶关": 113.6, "深圳": 114.1, "沈阳": 123.4, "石家庄": 114.5, "石嘴山": 106.4, "朔州": 112.4, "松原": 124.8, "遂宁": 105.6, "宿迁": 118.3, "宿州": 116.9, "随州": 113.4, "绥化": 126.9, "山南": 91.8, "台北": 121.5, "台中": 120.7, "台南": 120.2, "台州": 121.4, "台东": 121.1, "太原": 112.5, "泰安": 117.1, "泰州": 119.9, "唐山": 118.2, "天津": 117.2, "天水": 105.7, "铁岭": 123.8, "通辽": 122.3, "通化": 125.9, "铜川": 109.1, "铜仁": 109.2, "铜陵": 117.8, "吐鲁番": 89.2, "塔城": 82.9, "温州": 120.7, "梧州": 111.3, "武汉": 114.3, "武威": 102.6, "吴忠": 106.2, "乌鲁木齐": 87.6, "乌海": 106.8, "乌兰察布": 113.1, "西安": 108.9, "西宁": 101.8, "西双版纳": 100.8, "厦门": 118.1, "湘潭": 112.9, "湘西": 109.7, "忻州": 112.7, "信阳": 114.1, "兴安盟": 122.1, "邢台": 114.5, "徐州": 117.2, "许昌": 113.8, "宣城": 118.8, "锡林郭勒盟": 116.1, "新竹": 121.0, "新余": 114.9, "烟台": 121.4, "延安": 109.5, "延边": 129.5, "盐城": 120.2, "扬州": 119.4, "阳江": 111.9, "阳泉": 113.6, "鹰潭": 117.1, "营口": 122.2, "玉林": 110.2, "玉溪": 102.5, "玉树": 97.0, "运城": 111.0, "伊犁": 81.3, "宜春": 114.4, "宜宾": 104.6, "宜昌": 111.3, "益阳": 112.4, "岳阳": 113.1, "嘉义": 120.4, "枣庄": 117.6, "张家界": 110.5, "张家口": 114.9, "张掖": 100.4, "漳州": 117.6, "肇庆": 112.5, "镇江": 119.4, "郑州": 113.6, "中卫": 105.2, "中山": 113.4, "舟山": 122.1, "珠海": 113.6, "株洲": 113.1, "遵义": 106.9, "资阳": 104.6, "自贡": 104.8, "昭通": 103.7};
+const CITIES = {"安康": 109.0, "安庆": 117.1, "安顺": 105.9, "安阳": 114.4, "鞍山": 123.0, "澳门": 113.5, "阿勒泰": 88.1, "阿克苏": 80.3, "阿里": 80.1, "阿拉善盟": 105.7, "白城": 122.8, "白山": 126.4, "白银": 104.1, "百色": 106.6, "保定": 115.5, "保山": 99.2, "宝鸡": 107.1, "北京": 116.4, "北海": 109.1, "本溪": 123.8, "毕节": 105.3, "滨州": 118.0, "亳州": 115.8, "巴中": 106.8, "巴彦淖尔": 107.4, "包头": 110.0, "沧州": 116.8, "长春": 125.3, "长沙": 113.0, "长治": 113.1, "常德": 111.7, "常州": 119.9, "承德": 117.9, "成都": 104.1, "赤峰": 118.9, "重庆": 106.5, "崇左": 107.4, "池州": 117.5, "楚雄": 101.5, "滁州": 118.3, "昌都": 97.2, "朝阳": 120.5, "达州": 107.5, "大连": 121.6, "大庆": 125.0, "大同": 113.3, "大理": 100.2, "丹东": 124.4, "德宏": 98.6, "德州": 116.3, "德阳": 104.4, "迪庆": 99.7, "定西": 104.6, "东莞": 113.7, "东营": 118.7, "鄂尔多斯": 109.8, "鄂州": 114.9, "恩施": 109.5, "防城港": 108.4, "佛山": 113.1, "福州": 119.3, "抚顺": 123.9, "抚州": 116.4, "阜新": 121.7, "阜阳": 115.8, "赣州": 114.9, "高雄": 120.3, "固原": 106.3, "广安": 106.6, "广元": 105.8, "广州": 113.3, "贵港": 109.6, "贵阳": 106.7, "桂林": 110.3, "甘南": 102.9, "甘孜": 101.9, "哈密": 93.5, "哈尔滨": 126.5, "海口": 110.3, "海东": 102.4, "海西": 97.4, "邯郸": 114.5, "汉中": 107.0, "杭州": 120.2, "合肥": 117.3, "河池": 108.1, "河源": 114.7, "贺州": 111.6, "黑河": 127.5, "衡水": 115.7, "衡阳": 112.6, "红河": 103.4, "葫芦岛": 120.8, "呼和浩特": 111.7, "呼伦贝尔": 119.7, "湖州": 120.1, "怀化": 110.0, "黄冈": 114.9, "黄山": 118.3, "黄石": 115.0, "惠州": 114.4, "和田": 79.9, "香港": 114.2, "吉安": 114.9, "吉林": 126.6, "济南": 117.0, "济宁": 116.6, "嘉兴": 120.8, "嘉峪关": 98.3, "江门": 113.1, "焦作": 113.2, "金昌": 102.2, "金华": 119.6, "锦州": 121.1, "晋城": 112.8, "晋中": 112.7, "荆门": 112.2, "荆州": 112.2, "景德镇": 117.2, "九江": 116.0, "酒泉": 98.5, "喀什": 75.9, "开封": 114.3, "克拉玛依": 84.9, "昆明": 102.7, "来宾": 109.2, "兰州": 103.8, "廊坊": 116.7, "乐山": 103.8, "丽江": 100.2, "丽水": 119.9, "连云港": 119.2, "凉山": 102.3, "辽阳": 123.2, "辽源": 125.1, "临沧": 100.1, "临汾": 111.5, "临沂": 118.4, "临夏": 103.2, "柳州": 109.4, "六安": 116.5, "六盘水": 104.8, "龙岩": 117.0, "娄底": 112.0, "泸州": 105.4, "吕梁": 111.1, "林芝": 94.4, "拉萨": 91.1, "马鞍山": 118.5, "茂名": 110.9, "梅州": 116.1, "绵阳": 104.7, "牡丹江": 129.6, "莆田": 119.0, "南昌": 115.9, "南充": 106.1, "南京": 118.8, "南宁": 108.4, "南平": 118.2, "南通": 120.9, "南阳": 112.5, "那曲": 92.1, "宁波": 121.6, "宁德": 119.5, "盘锦": 122.1, "萍乡": 113.9, "普洱": 100.9, "濮阳": 115.0, "平凉": 106.7, "平顶山": 113.3, "钦州": 108.6, "秦皇岛": 119.6, "青岛": 120.4, "庆阳": 107.6, "曲靖": 103.8, "衢州": 118.9, "泉州": 118.7, "日喀则": 88.9, "日照": 119.5, "三亚": 109.5, "三明": 117.6, "三门峡": 111.2, "商洛": 109.9, "商丘": 115.7, "上海": 121.5, "上饶": 117.9, "绍兴": 120.6, "韶关": 113.6, "深圳": 114.1, "沈阳": 123.4, "石家庄": 114.5, "石嘴山": 106.4, "朔州": 112.4, "松原": 124.8, "遂宁": 105.6, "宿迁": 118.3, "宿州": 116.9, "随州": 113.4, "绥化": 126.9, "台北": 121.5, "台中": 120.7, "台南": 120.2, "台州": 121.4, "台东": 121.1, "太原": 112.5, "泰安": 117.1, "泰州": 119.9, "唐山": 118.2, "天津": 117.2, "天水": 105.7, "铁岭": 123.8, "通辽": 122.3, "通化": 125.9, "铜川": 109.1, "铜仁": 109.2, "铜陵": 117.8, "吐鲁番": 89.2, "温州": 120.7, "梧州": 111.3, "武汉": 114.3, "武威": 102.6, "吴忠": 106.2, "乌鲁木齐": 87.6, "乌海": 106.8, "乌兰察布": 113.1, "西安": 108.9, "西宁": 101.8, "西双版纳": 100.8, "厦门": 118.1, "湘潭": 112.9, "湘西": 109.7, "忻州": 112.7, "信阳": 114.1, "邢台": 114.5, "徐州": 117.2, "许昌": 113.8, "宣城": 118.8, "新余": 114.9, "烟台": 121.4, "延安": 109.5, "延边": 129.5, "盐城": 120.2, "扬州": 119.4, "阳江": 111.9, "阳泉": 113.6, "鹰潭": 117.1, "营口": 122.2, "玉林": 110.2, "玉溪": 102.5, "玉树": 97.0, "运城": 111.0, "伊犁": 81.3, "宜春": 114.4, "宜宾": 104.6, "宜昌": 111.3, "益阳": 112.4, "岳阳": 113.1, "枣庄": 117.6, "张家界": 110.5, "张家口": 114.9, "张掖": 100.4, "漳州": 117.6, "肇庆": 112.5, "镇江": 119.4, "郑州": 113.6, "中卫": 105.2, "中山": 113.4, "舟山": 122.1, "珠海": 113.6, "株洲": 113.1, "遵义": 106.9, "资阳": 104.6, "自贡": 104.8, "昭通": 103.7};
+const GAN_INFO = {"甲": {"desc": "阳木", "color": "#3B6D11"}, "乙": {"desc": "阴木", "color": "#3B6D11"}, "丙": {"desc": "阳火", "color": "#A32D2D"}, "丁": {"desc": "阴火", "color": "#A32D2D"}, "戊": {"desc": "阳土", "color": "#854F0B"}, "己": {"desc": "阴土", "color": "#854F0B"}, "庚": {"desc": "阳金", "color": "#5F5E5A"}, "辛": {"desc": "阴金", "color": "#5F5E5A"}, "壬": {"desc": "阳水", "color": "#185FA5"}, "癸": {"desc": "阴水", "color": "#185FA5"}};
+const ZHI_INFO = {"子": {"desc": "阳水", "color": "#185FA5"}, "丑": {"desc": "阴土(湿土)", "color": "#854F0B"}, "寅": {"desc": "阳木", "color": "#3B6D11"}, "卯": {"desc": "阴木", "color": "#3B6D11"}, "辰": {"desc": "阳土(湿土)", "color": "#854F0B"}, "巳": {"desc": "阴火", "color": "#A32D2D"}, "午": {"desc": "阳火", "color": "#A32D2D"}, "未": {"desc": "阴土(燥土)", "color": "#854F0B"}, "申": {"desc": "阳金", "color": "#5F5E5A"}, "酉": {"desc": "阴金", "color": "#5F5E5A"}, "戌": {"desc": "阳土(燥土)", "color": "#854F0B"}, "亥": {"desc": "阴水", "color": "#185FA5"}};
 
 function updateCity(city) {
   const lng = CITIES[city] || 120.0;
   const offset = (lng - 120) * 4;
-  const offsetStr = (offset >= 0 ? '+' : '') + offset.toFixed(2);
-  document.getElementById('city-hint').textContent = '经度：' + lng + '°E（偏差北京时间' + offsetStr + '分钟）';
+  const sign = offset >= 0 ? '+' : '';
+  document.getElementById('city-hint').textContent = '经度：' + lng + '°E（偏差北京时间' + sign + offset.toFixed(2) + '分钟）';
 }
 
 function wxColor(wx) {
-  const map = {'木':'#3B6D11','火':'#A32D2D','土':'#854F0B','金':'#5F5E5A','水':'#185FA5'};
+  var map = {'木':'#3B6D11','火':'#A32D2D','土':'#854F0B','金':'#5F5E5A','水':'#185FA5'};
   return map[wx] || '#888';
 }
 
+function toArr(v) {
+  return Array.isArray(v) ? v.join('、') : (v || '');
+}
+
 async function calculate() {
-  const name = document.getElementById('name').value || '用户';
-  const gender = document.getElementById('gender').value;
-  const year = document.getElementById('year').value;
-  const month = document.getElementById('month').value;
-  const day = document.getElementById('day').value;
-  const hour = document.getElementById('hour').value;
-  const minute = document.getElementById('minute').value;
-  const city = document.getElementById('city-select').value;
+  var name = document.getElementById('name').value || '用户';
+  var gender = document.getElementById('gender').value;
+  var year = document.getElementById('year').value;
+  var month = document.getElementById('month').value;
+  var day = document.getElementById('day').value;
+  var hour = document.getElementById('hour').value;
+  var minute = document.getElementById('minute').value;
+  var city = document.getElementById('city-select').value;
 
   if (!year || !month || !day || hour === '') {
     alert('请填写完整的出生年月日和时间！');
     return;
   }
 
-  try {
-    const url = window.location.origin + '/calc?name=' + encodeURIComponent(name) +
-      '&gender=' + encodeURIComponent(gender) +
-      '&year=' + year + '&month=' + month + '&day=' + day +
-      '&hour=' + hour + '&minute=' + minute +
-      '&city=' + encodeURIComponent(city);
+  var url = window.location.origin + '/calc?name=' + encodeURIComponent(name) +
+    '&gender=' + encodeURIComponent(gender) +
+    '&year=' + year + '&month=' + month + '&day=' + day +
+    '&hour=' + hour + '&minute=' + minute +
+    '&city=' + encodeURIComponent(city);
 
-    const res = await fetch(url);
-    const d = await res.json();
+  try {
+    var res = await fetch(url);
+    var d = await res.json();
     if (d.error) { alert('计算出错：' + d.error); return; }
 
-    // 基本信息
     document.getElementById('r-name').textContent = d.name + ' / ' + d.gender;
     document.getElementById('r-solar').textContent = d.solar;
     document.getElementById('r-lunar').textContent = d.lunar_date;
-    document.getElementById('r-realtime').textContent = d.real_time + ' ' + d.shichen;
+    document.getElementById('r-realtime').textContent = d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）';
 
-    // 四柱
     document.getElementById('r-yg').textContent = d.year_gan;
     document.getElementById('r-mg').textContent = d.month_gan;
     document.getElementById('r-dg').textContent = d.day_gan;
@@ -610,126 +540,119 @@ async function calculate() {
     document.getElementById('r-dz').textContent = d.day_zhi;
     document.getElementById('r-hz').textContent = d.hour_zhi;
 
-    // 五行阴阳标注
-    setGanAttr('r-yg-attr', d.year_gan);
-    setGanAttr('r-mg-attr', d.month_gan);
-    setGanAttr('r-dg-attr', d.day_gan);
-    setGanAttr('r-hg-attr', d.hour_gan);
-    setZhiAttr('r-yz-attr', d.year_zhi);
-    setZhiAttr('r-mz-attr', d.month_zhi);
-    setZhiAttr('r-dz-attr', d.day_zhi);
-    setZhiAttr('r-hz-attr', d.hour_zhi);
+    var gans = ['yg','mg','dg','hg'];
+    var ganVals = [d.year_gan, d.month_gan, d.day_gan, d.hour_gan];
+    gans.forEach(function(id, i) {
+      var info = GAN_INFO[ganVals[i]];
+      if (info) {
+        document.getElementById('r-'+id+'-attr').textContent = info.desc;
+        document.getElementById('r-'+id+'-attr').style.color = info.color;
+        document.getElementById('r-'+id).style.color = info.color;
+      }
+    });
 
-    // 十神
+    var zhis = ['yz','mz','dz','hz'];
+    var zhiVals = [d.year_zhi, d.month_zhi, d.day_zhi, d.hour_zhi];
+    zhis.forEach(function(id, i) {
+      var info = ZHI_INFO[zhiVals[i]];
+      if (info) {
+        document.getElementById('r-'+id+'-attr').textContent = info.desc;
+        document.getElementById('r-'+id+'-attr').style.color = info.color;
+        document.getElementById('r-'+id).style.color = info.color;
+      }
+    });
+
     document.getElementById('r-yss').textContent = d.year_gan_ss;
     document.getElementById('r-mss').textContent = d.month_gan_ss;
     document.getElementById('r-hss').textContent = d.hour_gan_ss;
-    document.getElementById('r-yzss').textContent = Array.isArray(d.year_zhi_ss)?d.year_zhi_ss.join('、'):d.year_zhi_ss;
-    document.getElementById('r-mzss').textContent = Array.isArray(d.month_zhi_ss)?d.month_zhi_ss.join('、'):d.month_zhi_ss;
-    document.getElementById('r-dzss').textContent = Array.isArray(d.day_zhi_ss)?d.day_zhi_ss.join('、'):d.day_zhi_ss;
-    document.getElementById('r-hzss').textContent = Array.isArray(d.hour_zhi_ss)?d.hour_zhi_ss.join('、'):d.hour_zhi_ss;
+    document.getElementById('r-yzss').textContent = toArr(d.year_zhi_ss);
+    document.getElementById('r-mzss').textContent = toArr(d.month_zhi_ss);
+    document.getElementById('r-dzss').textContent = toArr(d.day_zhi_ss);
+    document.getElementById('r-hzss').textContent = toArr(d.hour_zhi_ss);
 
-    // 藏干
     document.getElementById('r-yhide').innerHTML = d.year_hide.join('<br>');
     document.getElementById('r-mhide').innerHTML = d.month_hide.join('<br>');
     document.getElementById('r-dhide').innerHTML = d.day_hide.join('<br>');
     document.getElementById('r-hhide').innerHTML = d.hour_hide.join('<br>');
 
-    // 五行
-    const wx = d.wuxing;
-    const wxKeys = Object.keys(wx);
-    const wxMax = Math.max(...Object.values(wx));
-    let wxHtml = '<div class="wuxing-bar">';
-    wxKeys.forEach(k => {
-      const val = wx[k];
-      const h = wxMax > 0 ? Math.round((val/wxMax)*40) + 10 : 10;
-      wxHtml += `<div class="wx-item">
-        <span class="wx-val" style="color:${wxColor(k)}">${val}</span>
-        <div class="wx-fill" style="height:${h}px;background:${wxColor(k)}"></div>
-        <span class="wx-label">${k}</span>
-      </div>`;
+    var wx = d.wuxing;
+    var wxKeys = Object.keys(wx);
+    var wxMax = Math.max.apply(null, Object.values(wx));
+    var wxHtml = '<div class="wuxing-bar">';
+    wxKeys.forEach(function(k) {
+      var val = wx[k];
+      var h = wxMax > 0 ? Math.round((val/wxMax)*40) + 10 : 10;
+      wxHtml += '<div class="wx-item"><span class="wx-val" style="color:' + wxColor(k) + '">' + val + '</span><div class="wx-fill" style="height:' + h + 'px;background:' + wxColor(k) + '"></div><span class="wx-label">' + k + '</span></div>';
     });
     wxHtml += '</div>';
     document.getElementById('wuxing-display').innerHTML = wxHtml;
 
-    // 大运
-    const dyTable = document.getElementById('dayun-table');
-    const currentYear = new Date().getFullYear();
+    var dyTable = document.getElementById('dayun-table');
     while (dyTable.rows.length > 1) dyTable.deleteRow(1);
-    d.da_yun.forEach((dy, i) => {
-      const row = dyTable.insertRow();
-      const isNow = dy.start_year <= currentYear && (dy.start_year + 10) > currentYear;
+    var currentYear = new Date().getFullYear();
+    d.da_yun.forEach(function(dy, i) {
+      if (!dy.gz) return;
+      var row = dyTable.insertRow();
+      var isNow = dy.start_year <= currentYear && (dy.start_year + 10) > currentYear;
       if (isNow) row.className = 'now-row';
-      row.innerHTML = `<td>${i+1}${isNow ? ' ★' : ''}</td><td>${dy.start_age}-${dy.end_age}岁</td><td style="font-weight:bold">${dy.gz}</td><td>${dy.start_year}年</td>`;
+      row.innerHTML = '<td>' + (i+1) + (isNow ? ' ★' : '') + '</td><td>' + dy.start_age + '-' + dy.end_age + '岁</td><td style="font-weight:bold">' + dy.gz + '</td><td>' + dy.start_year + '年</td>';
     });
 
-    // 复制文本
-    const hideStr = (arr) => arr ? arr.join('、') : '';
-    const wxStr = Object.entries(wx).map(([k,v]) => k+v).join(' ');
-    const dyStr = d.da_yun.map(dy => `${dy.gz}(${dy.start_age}-${dy.end_age}岁,${dy.start_year}年)`).join(' ');
-
-    const copyText =
-`姓名：${d.name}  性别：${d.gender}
-阳历：${d.solar}  农历：${d.lunar_date}
-出生地：${city}  真太阳时：${d.real_time} ${d.shichen}（校正${d.offset}）
-
-【四柱八字】
-      年柱    月柱    日柱    时柱
-天干   ${d.year_gan}      ${d.month_gan}      ${d.day_gan}      ${d.hour_gan}
-地支   ${d.year_zhi}      ${d.month_zhi}      ${d.day_zhi}      ${d.hour_zhi}
-十神   ${d.year_gan_ss}    ${d.month_gan_ss}    日主    ${d.hour_gan_ss}
-地十   ${Array.isArray(d.year_zhi_ss)?d.year_zhi_ss.join(','):d.year_zhi_ss}  ${Array.isArray(d.month_zhi_ss)?d.month_zhi_ss.join(','):d.month_zhi_ss}  ${Array.isArray(d.day_zhi_ss)?d.day_zhi_ss.join(','):d.day_zhi_ss}  ${Array.isArray(d.hour_zhi_ss)?d.hour_zhi_ss.join(','):d.hour_zhi_ss}
-藏干   ${hideStr(d.year_hide)}  ${hideStr(d.month_hide)}  ${hideStr(d.day_hide)}  ${hideStr(d.hour_hide)}
-
-【五行】${wxStr}
-
-【大运】起运：${d.yun_start_year}年
-${dyStr}
-
-请根据以上信息进行详细的八字命理分析。`;
-
-    document.getElementById('copy-text').textContent = copyText;
-    document.getElementById('result').style.display = 'block';
-    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
     window._lastResult = d;
     window._lastCity = city;
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('result').scrollIntoView({behavior: 'smooth'});
+
   } catch(e) {
-    alert('连接失败，请确认排盘服务器已启动！');
+    alert('服务器启动中（Render免费版需要30-60秒唤醒），请稍等后再按排盘按钮。');
   }
 }
 
 async function copyText() {
-  const d = window._lastResult;
+  var d = window._lastResult;
   if (!d) { alert('请先排盘！'); return; }
-  const city = window._lastCity || '';
-  const hideStr = (arr) => arr ? arr.join('、') : '';
-  const wxStr = Object.entries(d.wuxing).map(([k,v]) => k+':'+v).join(' ');
-  const dyStr = d.da_yun.filter(dy=>dy.gz).map(dy => dy.gz+'('+dy.start_age+'-'+dy.end_age+'岁,'+dy.start_year+'年)').join(' ');
-  const zssStr = (arr) => Array.isArray(arr) ? arr.join('、') : arr;
+  var city = window._lastCity || '';
 
-  const text =
-`姓名：${d.name}　性别：${d.gender}
-阳历：${d.solar}　农历：${d.lunar_date}
-出生地：${city}　真太阳时：${d.real_time} ${d.shichen}（校正${d.offset}）
+  var wxStr = Object.entries(d.wuxing).map(function(e) { return e[0]+':'+e[1]; }).join(' ');
+  var dyStr = d.da_yun.filter(function(dy) { return dy.gz; }).map(function(dy) {
+    return dy.gz + '(' + dy.start_age + '-' + dy.end_age + '岁,' + dy.start_year + '年)';
+  }).join(' ');
 
-【四柱八字】
-　　　年柱　　月柱　　日柱　　时柱
-天干　${d.year_gan}（${d.year_gan_ss}）　${d.month_gan}（${d.month_gan_ss}）　${d.day_gan}（日主）　${d.hour_gan}（${d.hour_gan_ss}）
-地支　${d.year_zhi}　　${d.month_zhi}　　${d.day_zhi}　　${d.hour_zhi}
-地十　${zssStr(d.year_zhi_ss)}　${zssStr(d.month_zhi_ss)}　${zssStr(d.day_zhi_ss)}　${zssStr(d.hour_zhi_ss)}
-藏干　${hideStr(d.year_hide)}　${hideStr(d.month_hide)}　${hideStr(d.day_hide)}　${hideStr(d.hour_hide)}
+  var text = '姓名：' + d.name + '　性别：' + d.gender + '
+' +
+    '阳历：' + d.solar + '　农历：' + d.lunar_date + '
+' +
+    '出生地：' + city + '　真太阳时：' + d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）
 
-【五行】${wxStr}
+' +
+    '【四柱八字】
+' +
+    '　　年柱　月柱　日柱　时柱
+' +
+    '天干　' + d.year_gan + '　　' + d.month_gan + '　　' + d.day_gan + '　　' + d.hour_gan + '
+' +
+    '地支　' + d.year_zhi + '　　' + d.month_zhi + '　　' + d.day_zhi + '　　' + d.hour_zhi + '
+' +
+    '十神　' + d.year_gan_ss + '　' + d.month_gan_ss + '　日主　' + d.hour_gan_ss + '
+' +
+    '地十　' + toArr(d.year_zhi_ss) + '　' + toArr(d.month_zhi_ss) + '　' + toArr(d.day_zhi_ss) + '　' + toArr(d.hour_zhi_ss) + '
+' +
+    '藏干　' + d.year_hide.join('、') + '　' + d.month_hide.join('、') + '　' + d.day_hide.join('、') + '　' + d.hour_hide.join('、') + '
 
-【大运】起运：${d.yun_start_year}年
-${dyStr}
+' +
+    '【五行】' + wxStr + '
 
-请根据以上信息进行详细的八字命理分析。`;
+' +
+    '【大运】起运：' + d.yun_start_year + '年
+' + dyStr + '
+
+' +
+    '请根据以上信息进行详细的八字命理分析。';
 
   await navigator.clipboard.writeText(text);
-  const btn = document.getElementById('copy-btn');
+  var btn = document.getElementById('copy-btn');
   btn.textContent = '已复制！';
-  setTimeout(() => { btn.textContent = '复制八字信息给AI分析'; }, 2000);
+  setTimeout(function() { btn.textContent = '复制八字信息给AI分析'; }, 2000);
 }
 
 updateCity(document.getElementById('city-select').value);
