@@ -267,14 +267,27 @@ async function calculate() {
     document.getElementById('r-yg').textContent = d.year_gan;
     document.getElementById('r-mg').textContent = d.month_gan;
     document.getElementById('r-dg').textContent = d.day_gan;
-    document.getElementById('r-hg').textContent = d.hour_gan;
     document.getElementById('r-yz').textContent = d.year_zhi;
     document.getElementById('r-mz').textContent = d.month_zhi;
     document.getElementById('r-dz').textContent = d.day_zhi;
-    document.getElementById('r-hz').textContent = d.hour_zhi;
 
-    var gans = ['yg','mg','dg','hg'];
-    var ganVals = [d.year_gan, d.month_gan, d.day_gan, d.hour_gan];
+    if (hourUnknown) {
+      document.getElementById('r-hg').textContent = '？';
+      document.getElementById('r-hz').textContent = '？';
+      document.getElementById('r-hss').textContent = '未知';
+      document.getElementById('r-hzss').textContent = '未知';
+      document.getElementById('r-hhide').textContent = '未知';
+    } else {
+      document.getElementById('r-hg').textContent = d.hour_gan;
+      document.getElementById('r-hz').textContent = d.hour_zhi;
+      document.getElementById('r-hss').textContent = d.hour_gan_ss;
+      document.getElementById('r-hzss').textContent = toArr(d.hour_zhi_ss);
+      document.getElementById('r-hhide').innerHTML = d.hour_hide.join('<br>');
+    }
+
+    var gans = ['yg','mg','dg'];
+    var ganVals = [d.year_gan, d.month_gan, d.day_gan];
+    if (!hourUnknown) { gans.push('hg'); ganVals.push(d.hour_gan); }
     gans.forEach(function(id, i) {
       var info = GAN_INFO[ganVals[i]];
       if (info) {
@@ -284,8 +297,9 @@ async function calculate() {
       }
     });
 
-    var zhis = ['yz','mz','dz','hz'];
-    var zhiVals = [d.year_zhi, d.month_zhi, d.day_zhi, d.hour_zhi];
+    var zhis = ['yz','mz','dz'];
+    var zhiVals = [d.year_zhi, d.month_zhi, d.day_zhi];
+    if (!hourUnknown) { zhis.push('hz'); zhiVals.push(d.hour_zhi); }
     zhis.forEach(function(id, i) {
       var info = ZHI_INFO[zhiVals[i]];
       if (info) {
@@ -297,18 +311,21 @@ async function calculate() {
 
     document.getElementById('r-yss').textContent = d.year_gan_ss;
     document.getElementById('r-mss').textContent = d.month_gan_ss;
-    document.getElementById('r-hss').textContent = d.hour_gan_ss;
     document.getElementById('r-yzss').textContent = toArr(d.year_zhi_ss);
     document.getElementById('r-mzss').textContent = toArr(d.month_zhi_ss);
     document.getElementById('r-dzss').textContent = toArr(d.day_zhi_ss);
-    document.getElementById('r-hzss').textContent = toArr(d.hour_zhi_ss);
-
     document.getElementById('r-yhide').innerHTML = d.year_hide.join('<br>');
     document.getElementById('r-mhide').innerHTML = d.month_hide.join('<br>');
     document.getElementById('r-dhide').innerHTML = d.day_hide.join('<br>');
-    document.getElementById('r-hhide').innerHTML = d.hour_hide.join('<br>');
 
     var wx = d.wuxing;
+    if (hourUnknown) {
+      var wxMap = {'甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水','子':'水','丑':'土','寅':'木','卯':'木','辰':'土','巳':'火','午':'火','未':'土','申':'金','酉':'金','戌':'土','亥':'水'};
+      wx = {'木':0,'火':0,'土':0,'金':0,'水':0};
+      for (var gz of [d.year_gan+d.year_zhi, d.month_gan+d.month_zhi, d.day_gan+d.day_zhi]) {
+        for (var ch of gz) { if (wxMap[ch]) wx[wxMap[ch]]++; }
+      }
+    }
     var wxKeys = Object.keys(wx);
     var wxMax = Math.max.apply(null, Object.values(wx));
     var wxHtml = '<div class="wuxing-bar">';
@@ -318,6 +335,7 @@ async function calculate() {
       wxHtml += '<div class="wx-item"><span class="wx-val" style="color:' + wxColor(k) + '">' + val + '</span><div class="wx-fill" style="height:' + h + 'px;background:' + wxColor(k) + '"></div><span class="wx-label">' + k + '</span></div>';
     });
     wxHtml += '</div>';
+    if (hourUnknown) wxHtml += '<div style="font-size:11px;color:#999;margin-top:4px;">（时辰未知，仅统计六字）</div>';
     document.getElementById('wuxing-display').innerHTML = wxHtml;
 
     var dyTable = document.getElementById('dayun-table');
