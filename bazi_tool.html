@@ -132,12 +132,12 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>出生小时（24小时制）</label>
-        <input type="number" id="hour" placeholder="0-23" min="0" max="23">
+        <label>出生小时（24小时制，不知道可留空）</label>
+        <input type="number" id="hour" placeholder="不知道可留空" min="0" max="23">
       </div>
       <div class="form-group">
-        <label>出生分钟</label>
-        <input type="number" id="minute" placeholder="0-59" min="0" max="59" value="0">
+        <label>出生分钟（不知道可留空）</label>
+        <input type="number" id="minute" placeholder="不知道可留空" min="0" max="59">
       </div>
     </div>
     <button class="btn" onclick="calculate()">排盘</button>
@@ -236,16 +236,18 @@ async function calculate() {
   var minute = document.getElementById('minute').value;
   var city = document.getElementById('city-select').value;
 
-  if (!year || !month || !day || hour === '') {
-    alert('请填写完整的出生年月日和时间！');
+  if (!year || !month || !day) {
+    alert('请填写完整的出生年月日！');
     return;
   }
 
+  var hourUnknown = (hour === '');
   var url = window.location.origin + '/calc?name=' + encodeURIComponent(name) +
     '&gender=' + encodeURIComponent(gender) +
     '&year=' + year + '&month=' + month + '&day=' + day +
-    '&hour=' + hour + '&minute=' + minute +
-    '&city=' + encodeURIComponent(city);
+    '&hour=' + (hourUnknown ? 12 : hour) + '&minute=' + (minute || 0) +
+    '&city=' + encodeURIComponent(city) +
+    '&hour_unknown=' + (hourUnknown ? '1' : '0');
 
   try {
     var res = await fetch(url);
@@ -256,6 +258,11 @@ async function calculate() {
     document.getElementById('r-solar').textContent = d.solar;
     document.getElementById('r-lunar').textContent = d.lunar_date;
     document.getElementById('r-realtime').textContent = d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）';
+
+    var hourUnknownFlag = hourUnknown;
+    if (hourUnknownFlag) {
+      document.getElementById('r-realtime').textContent = '时辰未知（仅供六字分析参考）';
+    }
 
     document.getElementById('r-yg').textContent = d.year_gan;
     document.getElementById('r-mg').textContent = d.month_gan;
@@ -345,6 +352,7 @@ async function copyText() {
     return '  ' + dy.gz + '（' + dy.start_age + '-' + dy.end_age + '岁，' + dy.start_year + '年起）';
   }).join('\n');
 
+  var hourUnknownFlag = (document.getElementById('hour').value === '');
   var text = [
     '【八字排盘信息】',
     '姓名：' + d.name,
@@ -352,20 +360,22 @@ async function copyText() {
     '阳历生日：' + d.solar,
     '农历生日：' + d.lunar_date,
     '出生地：' + city,
-    '真太阳时：' + d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）',
+    hourUnknownFlag ? '时辰：未知（请仅做六字分析，不推算时柱相关内容）' : '真太阳时：' + d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）',
     '',
     '【四柱八字】',
     '年柱：' + d.year_gan + d.year_zhi + '（天干十神：' + d.year_gan_ss + '，地支十神：' + toArr(d.year_zhi_ss) + '，藏干：' + d.year_hide.join('、') + '）',
     '月柱：' + d.month_gan + d.month_zhi + '（天干十神：' + d.month_gan_ss + '，地支十神：' + toArr(d.month_zhi_ss) + '，藏干：' + d.month_hide.join('、') + '）',
     '日柱：' + d.day_gan + d.day_zhi + '（日主，地支十神：' + toArr(d.day_zhi_ss) + '，藏干：' + d.day_hide.join('、') + '）',
-    '时柱：' + d.hour_gan + d.hour_zhi + '（天干十神：' + d.hour_gan_ss + '，地支十神：' + toArr(d.hour_zhi_ss) + '，藏干：' + d.hour_hide.join('、') + '）',
+    hourUnknownFlag ? '时柱：未知' : '时柱：' + d.hour_gan + d.hour_zhi + '（天干十神：' + d.hour_gan_ss + '，地支十神：' + toArr(d.hour_zhi_ss) + '，藏干：' + d.hour_hide.join('、') + '）',
     '',
-    '【五行统计】' + wxStr,
+    '【五行统计】' + wxStr + (hourUnknownFlag ? '（不含时柱）' : ''),
     '',
     '【大运】起运年份：' + d.yun_start_year + '年',
     dyLines,
     '',
-    '请根据以上八字信息进行专业详细的命理分析，包括：日主旺衰、格局判定、喜用神、大运流年分析，并引用经典典籍论断。'
+    hourUnknownFlag
+      ? '时辰未知，请根据以上六字信息进行专业命理分析，不推算时柱相关内容。'
+      : '请根据以上八字信息进行专业详细的命理分析，包括：日主旺衰、格局判定、喜用神、大运流年分析，并引用经典典籍论断。'
   ].join('\n');
 
   await navigator.clipboard.writeText(text);
