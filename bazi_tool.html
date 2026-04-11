@@ -364,6 +364,13 @@ async function copyText() {
   if (!d) { alert('请先排盘！'); return; }
   var city = window._lastCity || '';
 
+  var GAN_ATTR = {"甲":"阳木","乙":"阴木","丙":"阳火","丁":"阴火","戊":"阳土","己":"阴土","庚":"阳金","辛":"阴金","壬":"阳水","癸":"阴水"};
+  var ZHI_ATTR = {"子":"阳水","丑":"阴土(湿土)","寅":"阳木","卯":"阴木","辰":"阳土(湿土)","巳":"阴火","午":"阳火","未":"阴土(燥土)","申":"阳金","酉":"阴金","戌":"阳土(燥土)","亥":"阴水"};
+
+  function colDesc(gan, zhi) {
+    return (GAN_ATTR[gan] || '') + '/' + (ZHI_ATTR[zhi] || '');
+  }
+
   var wxStr = Object.entries(d.wuxing).map(function(e) { return e[0] + ':' + e[1]; }).join('、');
 
   var dyLines = d.da_yun.filter(function(dy) { return dy.gz; }).map(function(dy) {
@@ -381,10 +388,10 @@ async function copyText() {
     hourUnknownFlag ? '时辰：未知（请仅做六字分析，不推算时柱相关内容）' : '真太阳时：' + d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）',
     '',
     '【四柱八字】',
-    '年柱：' + d.year_gan + d.year_zhi + '（天干十神：' + d.year_gan_ss + '，地支十神：' + toArr(d.year_zhi_ss) + '，藏干：' + d.year_hide.join('、') + '）',
-    '月柱：' + d.month_gan + d.month_zhi + '（天干十神：' + d.month_gan_ss + '，地支十神：' + toArr(d.month_zhi_ss) + '，藏干：' + d.month_hide.join('、') + '）',
-    '日柱：' + d.day_gan + d.day_zhi + '（日主，地支十神：' + toArr(d.day_zhi_ss) + '，藏干：' + d.day_hide.join('、') + '）',
-    hourUnknownFlag ? '时柱：未知' : '时柱：' + d.hour_gan + d.hour_zhi + '（天干十神：' + d.hour_gan_ss + '，地支十神：' + toArr(d.hour_zhi_ss) + '，藏干：' + d.hour_hide.join('、') + '）',
+    '年柱：' + d.year_gan + d.year_zhi + '（' + colDesc(d.year_gan, d.year_zhi) + '，天干十神：' + d.year_gan_ss + '，地支十神：' + toArr(d.year_zhi_ss) + '，藏干：' + d.year_hide.join('、') + '）',
+    '月柱：' + d.month_gan + d.month_zhi + '（' + colDesc(d.month_gan, d.month_zhi) + '，天干十神：' + d.month_gan_ss + '，地支十神：' + toArr(d.month_zhi_ss) + '，藏干：' + d.month_hide.join('、') + '）',
+    '日柱：' + d.day_gan + d.day_zhi + '（' + colDesc(d.day_gan, d.day_zhi) + '，日主，地支十神：' + toArr(d.day_zhi_ss) + '，藏干：' + d.day_hide.join('、') + '）',
+    hourUnknownFlag ? '时柱：未知' : '时柱：' + d.hour_gan + d.hour_zhi + '（' + colDesc(d.hour_gan, d.hour_zhi) + '，天干十神：' + d.hour_gan_ss + '，地支十神：' + toArr(d.hour_zhi_ss) + '，藏干：' + d.hour_hide.join('、') + '）',
     '',
     '【五行统计】' + wxStr + (hourUnknownFlag ? '（不含时柱）' : ''),
     '',
