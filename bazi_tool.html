@@ -360,12 +360,278 @@ async function calculate() {
 }
 
 async function copyText() {
-  var d = window._lastResult;
+ var d = window._lastResult;
   if (!d) { alert('请先排盘！'); return; }
   var city = window._lastCity || '';
 
   var GAN_ATTR = {"甲":"阳木","乙":"阴木","丙":"阳火","丁":"阴火","戊":"阳土","己":"阴土","庚":"阳金","辛":"阴金","壬":"阳水","癸":"阴水"};
   var ZHI_ATTR = {"子":"阳水","丑":"阴土(湿土)","寅":"阳木","卯":"阴木","辰":"阳土(湿土)","巳":"阴火","午":"阳火","未":"阴土(燥土)","申":"阳金","酉":"阴金","戌":"阳土(燥土)","亥":"阴水"};
+
+  function colDesc(gan, zhi) {
+    return (GAN_ATTR[gan] || '') + '/' + (ZHI_ATTR[zhi] || '');
+  }
+
+  var wxStr = Object.entries(d.wuxing).map(function(e) { return e[0] + ':' + e[1]; }).join('、');
+
+  var dyLines = d.da_yun.filter(function(dy) { return dy.gz; }).map(function(dy) {
+    return '  ' + dy.gz + '（' + dy.start_age + '-' + dy.end_age + '岁，' + dy.start_year + '年起）';
+  }).join('\n');
+
+  var hourUnknownFlag = (document.getElementById('hour').value === '');
+
+  // =============================================
+  // 预计算刑冲合害区块
+  // =============================================
+  function calcRelations(zhiList) {
+    var results = [];
+
+    // 六冲
+    var chong = [['子','午'],['丑','未'],['寅','申'],['卯','酉'],['辰','戌'],['巳','亥']];
+    // 六合
+    var he6 = [['子','丑'],['寅','亥'],['卯','戌'],['辰','酉'],['巳','申'],['午','未']];
+    // 六害
+    var hai = [['子','未'],['丑','午'],['寅','巳'],['卯','辰'],['申','亥'],['酉','戌']];
+    // 三合
+    var sanhe = [['申','子','辰'],['寅','午','戌'],['巳','酉','丑'],['亥','卯','未']];
+    var sanhe_names = ['水局','火局','金局','木局'];
+    // 半合
+    var banhe = [['申','子'],['子','辰'],['寅','午'],['午','戌'],['巳','酉'],['酉','丑'],['亥','卯'],['卯','未']];
+    var banhe_full = [['申','子','辰'],['申','子','辰'],['寅','午','戌'],['寅','午','戌'],['巳','酉','丑'],['巳','酉','丑'],['亥','卯','未'],['亥','卯','未']];
+    var banhe_wx = ['水','水','火','火','金','金','木','木'];
+    // 方合
+    var fanghe = [['寅','卯','辰'],['巳','午','未'],['申','酉','戌'],['亥','子','丑']];
+    var fanghe_names = ['木局','火局','金局','水局'];
+    // 相刑（子卯）
+    var xiangxing = [['子','卯']];
+    // 三刑组（需三字同现）
+    var sanxing = [['寅','巳','申'],['丑','戌','未']];
+    var sanxing_names = ['无恩之刑','持势之刑'];
+    // 自刑
+    var zixing = ['辰','午','酉','亥'];
+
+    var has = function(arr, z) { return arr.indexOf(z) !== -1; };
+
+    // 六冲
+    chong.forEach(function(pair) {
+      var a = pair[0], b = pair[1];
+      var ca = zhiList.filter(function(z){return z===a;}).length;
+      var cb = zhiList.filter(function(z){return z===b;}).length;
+      if (ca > 0 && cb > 0) {
+        var positions = [];
+        zhiList.forEach(function(z,i){ if(z===a||z===b) positions.push(posName(i, zhiList.length)); });
+        results.push('【' + a + b + '冲】' + positions.join('与'));
+      }
+    });
+
+    // 六合
+    he6.forEach(function(pair) {
+      var a = pair[0], b = pair[1];
+      if (has(zhiList,a) && has(zhiList,b)) {
+        results.push('【' + a + b + '六合】');
+      }
+    });
+
+    // 六害
+    hai.forEach(function(pair) {
+      var a = pair[0], b = pair[1];
+      if (has(zhiList,a) && has(zhiList,b)) {
+        results.push('【' + a + b + '害】');
+      }
+    });
+
+    // 三合
+    sanhe.forEach(function(trio, i) {
+      if (has(zhiList,trio[0]) && has(zhiList,trio[1]) && has(zhiList,trio[2])) {
+        results.push('【' + trio.join('') + '三合' + sanhe_names[i] + '】');
+      }
+    });
+
+    // 半合（仅两字出现且不构成三合时）
+    banhe.forEach(function(pair, i) {
+      var full = banhe_full[i];
+      var missingChar = full.find(function(z){ return !has(zhiList,z); });
+      if (!missingChar) return; // 三合已成立，跳过半合
+      if (has(zhiList,pair[0]) && has(zhiList,pair[1])) {
+        results.push('【' + pair.join('') + '半合' + banhe_wx[i] + '局（缺' + missingChar + '）】');
+      }
+    });
+
+    // 方合
+    fanghe.forEach(function(trio, i) {
+      if (has(zhiList,trio[0]) && has(zhiList,trio[1]) && has(zhiList,trio[2])) {
+        results.push('【' + trio.join('') + '方合' + fanghe_names[i] + '】');
+      }
+    });
+
+    // 子卯相刑
+    xiangxing.forEach(function(pair) {
+      if (has(zhiList,pair[0]) && has(zhiList,pair[1])) {
+        results.push('【' + pair[0] + pair[1] + '相刑（无礼之刑）】');
+      }
+    });
+
+    // 三刑（须三字同现）
+    sanxing.forEach(function(trio, i) {
+      if (has(zhiList,trio[0]) && has(zhiList,trio[1]) && has(zhiList,trio[2])) {
+        results.push('【' + trio.join('') + '三刑（' + sanxing_names[i] + '）】');
+      } else {
+        // 仅两字相遇→相刑
+        var pairs = [[trio[0],trio[1]],[trio[1],trio[2]],[trio[0],trio[2]]];
+        pairs.forEach(function(p) {
+          if (has(zhiList,p[0]) && has(zhiList,p[1])) {
+            results.push('【' + p[0] + p[1] + '相刑（' + trio.join('') + '三刑未全，仅两字）】');
+          }
+        });
+      }
+    });
+
+    // 自刑
+    zixing.forEach(function(z) {
+      var cnt = zhiList.filter(function(x){return x===z;}).length;
+      if (cnt >= 2) results.push('【' + z + z + '自刑】');
+    });
+
+    return results.length > 0 ? results.join('；') : '无';
+  }
+
+  function posName(idx, total) {
+    // 原局四支：年支/月支/日支/时支
+    // 扩展列表：前四为原局，第五为大运，第六为流年
+    var names = ['年支','月支','日支','时支','大运地支','流年地支'];
+    return names[idx] || ('支'+idx);
+  }
+
+  // 天干合克预计算
+  function calcGanRelations(ganList) {
+    var results = [];
+    var he5 = [['甲','己'],['乙','庚'],['丙','辛'],['丁','壬'],['戊','癸']];
+    var he5_wx = ['土','金','水','木','火'];
+    var ke = [['甲','戊'],['甲','己'],['乙','戊'],['乙','己'],  // 木克土
+              ['戊','壬'],['戊','癸'],['己','壬'],['己','癸'],  // 土克水
+              ['壬','丙'],['壬','丁'],['癸','丙'],['癸','丁'],  // 水克火
+              ['丙','庚'],['丙','辛'],['丁','庚'],['丁','辛'],  // 火克金
+              ['庚','甲'],['庚','乙'],['辛','甲'],['辛','乙']]; // 金克木
+    var ke_desc = ['木克土','木克土','木克土','木克土','土克水','土克水','土克水','土克水','水克火','水克火','水克火','水克火','火克金','火克金','火克金','火克金','金克木','金克木','金克木','金克木'];
+
+    he5.forEach(function(pair, i) {
+      var a = pair[0], b = pair[1];
+      if (ganList.indexOf(a) !== -1 && ganList.indexOf(b) !== -1) {
+        results.push(a + b + '合化' + he5_wx[i]);
+      }
+    });
+
+    return results.length > 0 ? results.join('；') : '无';
+  }
+
+  // 原局地支
+  var yuanZhi = [d.year_zhi, d.month_zhi, d.day_zhi];
+  if (!hourUnknownFlag) yuanZhi.push(d.hour_zhi);
+  var yuanGan = [d.year_gan, d.month_gan, d.day_gan];
+  if (!hourUnknownFlag) yuanGan.push(d.hour_gan);
+
+  var yuanZhiStr = yuanZhi.join(' ');
+  var yuanNeiRelations = calcRelations(yuanZhi);
+  var yuanGanRelations = calcGanRelations(yuanGan);
+
+  // 各步大运与原局
+  var currentYear = new Date().getFullYear();
+  var dyRelLines = [];
+  d.da_yun.filter(function(dy){ return dy.gz; }).forEach(function(dy) {
+    if (dy.start_year > currentYear) return; // 只算已发生大运
+    var dyGan = dy.gz[0], dyZhi = dy.gz[1];
+    var combinedZhi = yuanZhi.concat([dyZhi]);
+    var combinedGan = yuanGan.concat([dyGan]);
+    // 只看大运地支与原局各支的两两关系
+    var dyZhiRels = calcRelations(combinedZhi);
+    var dyGanRels = calcGanRelations(combinedGan);
+    dyRelLines.push(
+      dy.gz + '大运（' + dy.start_age + '-' + dy.end_age + '岁，' + dy.start_year + '年起）：\n' +
+      '  天干关系：' + dyGanRels + '\n' +
+      '  地支关系：' + dyZhiRels
+    );
+  });
+
+  // 近三年流年与原局+当前大运
+  var liuNianLines = [];
+  var currentDayun = d.da_yun.find(function(dy) {
+    return dy.start_year <= currentYear && (dy.start_year + 10) > currentYear;
+  });
+  var GAN_SEQ = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+  var ZHI_SEQ = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+  for (var yr = currentYear - 2; yr <= currentYear; yr++) {
+    var ganIdx = (yr - 4) % 10; if (ganIdx < 0) ganIdx += 10;
+    var zhiIdx = (yr - 4) % 12; if (zhiIdx < 0) zhiIdx += 12;
+    var lyGan = GAN_SEQ[ganIdx];
+    var lyZhi = ZHI_SEQ[zhiIdx];
+    var baseZhi = currentDayun ? yuanZhi.concat([currentDayun.gz[1]]) : yuanZhi.slice();
+    var baseGan = currentDayun ? yuanGan.concat([currentDayun.gz[0]]) : yuanGan.slice();
+    var lyZhiList = baseZhi.concat([lyZhi]);
+    var lyGanList = baseGan.concat([lyGan]);
+    var lyZhiRels = calcRelations(lyZhiList);
+    var lyGanRels = calcGanRelations(lyGanList);
+    liuNianLines.push(
+      yr + '年 ' + lyGan + lyZhi + '年：\n' +
+      '  天干关系：' + lyGanRels + '\n' +
+      '  地支关系：' + lyZhiRels
+    );
+  }
+
+  var preCalcBlock = [
+    '【刑冲合害预计算区块】（程序自动计算，AI请勿自行新增或修改）',
+    '',
+    '原局地支：' + yuanZhiStr,
+    '原局天干：' + yuanGan.join(' '),
+    '',
+    '■ 原局内部天干关系：' + yuanGanRelations,
+    '■ 原局内部地支关系：' + yuanNeiRelations,
+    '',
+    '■ 各步大运与原局的关系：',
+    dyRelLines.join('\n'),
+    '',
+    '■ 近三年流年与原局+当前大运的关系：',
+    liuNianLines.join('\n'),
+    '',
+    '⚠️ AI分析规则：',
+    '1. 第五步和第六步，所有刑冲合害只能依据上方已列出的关系，不得自行补充。',
+    '2. 区块中未列出的关系一律视为不成立。',
+    '3. 丑戌未、寅巳申须三字同现方成三刑；仅两字相遇只称「XX相刑」，不得称「三刑」。',
+    '4. 自刑仅限：辰辰、午午、酉酉、亥亥。',
+  ].join('\n');
+  // =============================================
+
+  var text = [
+    '【八字排盘信息】',
+    '姓名：' + d.name,
+    '性别：' + d.gender,
+    '阳历生日：' + d.solar,
+    '农历生日：' + d.lunar_date,
+    '出生地：' + city,
+    hourUnknownFlag ? '时辰：未知（请仅做六字分析，不推算时柱相关内容）' : '真太阳时：' + d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）',
+    '',
+    '【四柱八字】',
+    '年柱：' + d.year_gan + d.year_zhi + '（' + colDesc(d.year_gan, d.year_zhi) + '，天干十神：' + d.year_gan_ss + '，地支十神：' + toArr(d.year_zhi_ss) + '，藏干：' + d.year_hide.join('、') + '）',
+    '月柱：' + d.month_gan + d.month_zhi + '（' + colDesc(d.month_gan, d.month_zhi) + '，天干十神：' + d.month_gan_ss + '，地支十神：' + toArr(d.month_zhi_ss) + '，藏干：' + d.month_hide.join('、') + '）',
+    '日柱：' + d.day_gan + d.day_zhi + '（' + colDesc(d.day_gan, d.day_zhi) + '，日主，地支十神：' + toArr(d.day_zhi_ss) + '，藏干：' + d.day_hide.join('、') + '）',
+    hourUnknownFlag ? '时柱：未知' : '时柱：' + d.hour_gan + d.hour_zhi + '（' + colDesc(d.hour_gan, d.hour_zhi) + '，天干十神：' + d.hour_gan_ss + '，地支十神：' + toArr(d.hour_zhi_ss) + '，藏干：' + d.hour_hide.join('、') + '）',
+    '',
+    '【五行统计】' + wxStr + (hourUnknownFlag ? '（不含时柱）' : ''),
+    '',
+    '【大运】起运年份：' + d.yun_start_year + '年',
+    dyLines,
+    '',
+    preCalcBlock,
+    '',
+    hourUnknownFlag
+      ? '时辰未知，请根据以上六字信息进行专业命理分析，不推算时柱相关内容。'
+      : '请根据以上八字信息进行专业详细的命理分析，包括：日主旺衰、格局判定、喜用神、大运流年分析，并引用经典典籍论断。'
+  ].join('\n');
+
+  await navigator.clipboard.writeText(text);
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✓ 已复制！切换到AI窗口粘贴即可';
+  setTimeout(function() { btn.textContent = '复制八字信息给AI分析'; }, 3000);
+}
+  
 
   function colDesc(gan, zhi) {
     return (GAN_ATTR[gan] || '') + '/' + (ZHI_ATTR[zhi] || '');
