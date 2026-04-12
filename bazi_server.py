@@ -193,10 +193,14 @@ class BaziHandler(BaseHTTPRequestHandler):
                     "year_gan_ss": bazi.getYearShiShenGan(),
                     "month_gan_ss": bazi.getMonthShiShenGan(),
                     "hour_gan_ss": bazi.getTimeShiShenGan(),  # 注：以日主为基准
-                    "year_zhi_ss": bazi.getYearShiShenZhi(),
-                    "month_zhi_ss": bazi.getMonthShiShenZhi(),
-                    "day_zhi_ss": bazi.getDayShiShenZhi(),
-                    "hour_zhi_ss": bazi.getTimeShiShenZhi(),
+
+
+      "year_zhi_ss": list(bazi.getYearShiShenZhi()),
+"month_zhi_ss": list(bazi.getMonthShiShenZhi()),
+"day_zhi_ss": list(bazi.getDayShiShenZhi()),
+"hour_zhi_ss": list(bazi.getTimeShiShenZhi()),              
+
+
                     # 藏干
                     "year_hide": bazi.getYearHideGan(),
                     "month_hide": bazi.getMonthHideGan(),
