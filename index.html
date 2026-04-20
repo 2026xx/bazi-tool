@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>八字排盘工具</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Microsoft JhengHei", sans-serif; background: #f5f0e8; min-height: 100vh; padding: 30px 20px; }
+.container { max-width: 680px; margin: 0 auto; }
+h1 { text-align: center; font-size: 24px; color: #3d2b1f; margin-bottom: 6px; }
+.subtitle { text-align: center; color: #8b6914; font-size: 14px; margin-bottom: 30px; }
+.card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.card h2 { font-size: 16px; color: #3d2b1f; margin-bottom: 16px; border-bottom: 1px solid #e8dcc8; padding-bottom: 8px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+label { font-size: 13px; color: #666; }
+input, select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; color: #333; background: #fafafa; width: 100%; }
+input:focus, select:focus { outline: none; border-color: #8b6914; background: white; }
+.hint { font-size: 11px; color: #999; margin-top: 3px; }
+.btn { width: 100%; padding: 12px; background: #8b6914; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 8px; }
+.btn:hover { background: #6d5210; }
+.result-card { background: #fffdf7; border: 1px solid #e8dcc8; border-radius: 12px; padding: 20px; margin-bottom: 20px; display: none; }
+.result-card h2 { font-size: 16px; color: #3d2b1f; margin-bottom: 12px; }
+.section-title { font-size: 13px; font-weight: 500; color: #8b6914; margin: 14px 0 8px; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 13px; }
+th { background: #f5ede0; color: #3d2b1f; padding: 7px 8px; border: 1px solid #e0d0b8; text-align: center; font-size: 12px; }
+td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
+.gz { font-size: 20px; font-weight: bold; color: #3d2b1f; }
+.gz-attr { font-size: 10px; color: #999; margin-top: 2px; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.info-item { background: #f9f4ec; border-radius: 6px; padding: 8px 12px; }
+.info-label { font-size: 11px; color: #999; }
+.info-value { font-size: 13px; color: #333; font-weight: 500; }
+.wuxing-bar { display: flex; gap: 6px; align-items: flex-end; height: 50px; margin-bottom: 4px; }
+.wx-item { display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; }
+.wx-fill { width: 100%; border-radius: 3px 3px 0 0; }
+.wx-label { font-size: 11px; color: #666; }
+.wx-val { font-size: 11px; font-weight: 500; }
+.dayun-table td { font-size: 12px; }
+.now-row { background: rgba(139,105,20,0.1); font-weight: 500; }
+.copy-btn { width: 100%; padding: 10px; background: #2d6a4f; color: white; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; margin-top: 12px; }
+.copy-btn:hover { background: #1b4332; }
+.tip { font-size: 12px; color: #999; text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>八字排盘工具</h1>
+  <div class="subtitle">自动真太阳时校正 · 精准四柱排盘 · 十神藏干五行大运</div>
+  <div class="card">
+    <h2>输入出生信息</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>姓名</label>
+        <input type="text" id="name" placeholder="请输入姓名">
+      </div>
+      <div class="form-group">
+        <label>性别</label>
+        <select id="gender">
+          <option value="女">女</option>
+          <option value="男">男</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>出生年份</label>
+        <input type="number" id="year" placeholder="如：1985" min="1900" max="2100">
+      </div>
+      <div class="form-group">
+        <label>出生月份</label>
+        <input type="number" id="month" placeholder="1-12" min="1" max="12">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>出生日期</label>
+        <input type="number" id="day" placeholder="1-31" min="1" max="31">
+      </div>
+      <div class="form-group">
+        <label>出生城市（按拼音首字母）</label>
+        <select id="city-select" onchange="updateCity(this.value)">
+          <optgroup label="A">
+  <option value="安康">安康</option><option value="安庆">安庆</option><option value="安顺">安顺</option><option value="安阳">安阳</option><option value="鞍山">鞍山</option><option value="澳门">澳门</option><option value="阿勒泰">阿勒泰</option><option value="阿克苏">阿克苏</option><option value="阿里">阿里</option><option value="阿拉善盟">阿拉善盟</option>
+</optgroup><optgroup label="B">
+  <option value="白城">白城</option><option value="白山">白山</option><option value="白银">白银</option><option value="百色">百色</option><option value="保定">保定</option><option value="保山">保山</option><option value="宝鸡">宝鸡</option><option value="北京">北京</option><option value="北海">北海</option><option value="本溪">本溪</option><option value="毕节">毕节</option><option value="滨州">滨州</option><option value="亳州">亳州</option><option value="巴中">巴中</option><option value="巴彦淖尔">巴彦淖尔</option><option value="包头">包头</option>
+</optgroup><optgroup label="C">
+  <option value="沧州">沧州</option><option value="长春">长春</option><option value="长沙">长沙</option><option value="长治">长治</option><option value="常德">常德</option><option value="常州">常州</option><option value="承德">承德</option><option value="成都">成都</option><option value="赤峰">赤峰</option><option value="重庆">重庆</option><option value="崇左">崇左</option><option value="池州">池州</option><option value="楚雄">楚雄</option><option value="滁州">滁州</option><option value="昌都">昌都</option><option value="朝阳">朝阳</option>
+</optgroup><optgroup label="D">
+  <option value="达州">达州</option><option value="大连">大连</option><option value="大庆">大庆</option><option value="大同">大同</option><option value="大理">大理</option><option value="丹东">丹东</option><option value="德宏">德宏</option><option value="德州">德州</option><option value="德阳">德阳</option><option value="迪庆">迪庆</option><option value="定西">定西</option><option value="东莞">东莞</option><option value="东营">东营</option>
+</optgroup><optgroup label="E">
+  <option value="鄂尔多斯">鄂尔多斯</option><option value="鄂州">鄂州</option><option value="恩施">恩施</option>
+</optgroup><optgroup label="F">
+  <option value="防城港">防城港</option><option value="佛山">佛山</option><option value="福州">福州</option><option value="抚顺">抚顺</option><option value="抚州">抚州</option><option value="阜新">阜新</option><option value="阜阳">阜阳</option>
+</optgroup><optgroup label="G">
+  <option value="赣州">赣州</option><option value="高雄">高雄</option><option value="固原">固原</option><option value="广安">广安</option><option value="广元">广元</option><option value="广州">广州</option><option value="贵港">贵港</option><option value="贵阳">贵阳</option><option value="桂林">桂林</option><option value="甘南">甘南</option><option value="甘孜">甘孜</option>
+</optgroup><optgroup label="H">
+  <option value="哈密">哈密</option><option value="哈尔滨">哈尔滨</option><option value="海口">海口</option><option value="海东">海东</option><option value="海西">海西</option><option value="邯郸">邯郸</option><option value="汉中">汉中</option><option value="杭州">杭州</option><option value="合肥">合肥</option><option value="河池">河池</option><option value="河源">河源</option><option value="贺州">贺州</option><option value="黑河">黑河</option><option value="衡水">衡水</option><option value="衡阳">衡阳</option><option value="红河">红河</option><option value="葫芦岛">葫芦岛</option><option value="呼和浩特">呼和浩特</option><option value="呼伦贝尔">呼伦贝尔</option><option value="湖州">湖州</option><option value="怀化">怀化</option><option value="黄冈">黄冈</option><option value="黄山">黄山</option><option value="黄石">黄石</option><option value="惠州">惠州</option><option value="和田">和田</option><option value="香港">香港</option>
+</optgroup><optgroup label="J">
+  <option value="吉安">吉安</option><option value="吉林">吉林</option><option value="济南">济南</option><option value="济宁">济宁</option><option value="嘉兴">嘉兴</option><option value="嘉峪关">嘉峪关</option><option value="江门">江门</option><option value="焦作">焦作</option><option value="金昌">金昌</option><option value="金华">金华</option><option value="锦州">锦州</option><option value="晋城">晋城</option><option value="晋中">晋中</option><option value="荆门">荆门</option><option value="荆州">荆州</option><option value="景德镇">景德镇</option><option value="九江">九江</option><option value="酒泉">酒泉</option>
+</optgroup><optgroup label="K">
+  <option value="喀什">喀什</option><option value="开封">开封</option><option value="克拉玛依">克拉玛依</option><option value="昆明">昆明</option>
+</optgroup><optgroup label="L">
+  <option value="来宾">来宾</option><option value="兰州">兰州</option><option value="廊坊">廊坊</option><option value="乐山">乐山</option><option value="丽江">丽江</option><option value="丽水">丽水</option><option value="连云港">连云港</option><option value="凉山">凉山</option><option value="辽阳">辽阳</option><option value="辽源">辽源</option><option value="临沧">临沧</option><option value="临汾">临汾</option><option value="临沂">临沂</option><option value="临夏">临夏</option><option value="柳州">柳州</option><option value="六安">六安</option><option value="六盘水">六盘水</option><option value="龙岩">龙岩</option><option value="娄底">娄底</option><option value="泸州">泸州</option><option value="吕梁">吕梁</option><option value="林芝">林芝</option><option value="拉萨">拉萨</option>
+</optgroup><optgroup label="M">
+  <option value="马鞍山">马鞍山</option><option value="茂名">茂名</option><option value="梅州">梅州</option><option value="绵阳">绵阳</option><option value="牡丹江">牡丹江</option><option value="莆田">莆田</option>
+</optgroup><optgroup label="N">
+  <option value="南昌">南昌</option><option value="南充">南充</option><option value="南京">南京</option><option value="南宁">南宁</option><option value="南平">南平</option><option value="南通">南通</option><option value="南阳">南阳</option><option value="那曲">那曲</option><option value="宁波">宁波</option><option value="宁德">宁德</option>
+</optgroup><optgroup label="P">
+  <option value="盘锦">盘锦</option><option value="萍乡">萍乡</option><option value="普洱">普洱</option><option value="濮阳">濮阳</option><option value="平凉">平凉</option><option value="平顶山">平顶山</option>
+</optgroup><optgroup label="Q">
+  <option value="钦州">钦州</option><option value="秦皇岛">秦皇岛</option><option value="青岛">青岛</option><option value="庆阳">庆阳</option><option value="曲靖">曲靖</option><option value="衢州">衢州</option><option value="泉州">泉州</option>
+</optgroup><optgroup label="R">
+  <option value="日喀则">日喀则</option><option value="日照">日照</option>
+</optgroup><optgroup label="S">
+  <option value="三亚">三亚</option><option value="三明">三明</option><option value="三门峡">三门峡</option><option value="商洛">商洛</option><option value="商丘">商丘</option><option value="上海" selected>上海</option><option value="上饶">上饶</option><option value="绍兴">绍兴</option><option value="韶关">韶关</option><option value="深圳">深圳</option><option value="沈阳">沈阳</option><option value="石家庄">石家庄</option><option value="石嘴山">石嘴山</option><option value="朔州">朔州</option><option value="松原">松原</option><option value="遂宁">遂宁</option><option value="宿迁">宿迁</option><option value="宿州">宿州</option><option value="随州">随州</option><option value="绥化">绥化</option>
+</optgroup><optgroup label="T">
+  <option value="台北">台北</option><option value="台中">台中</option><option value="台南">台南</option><option value="台州">台州</option><option value="台东">台东</option><option value="太原">太原</option><option value="泰安">泰安</option><option value="泰州">泰州</option><option value="唐山">唐山</option><option value="天津">天津</option><option value="天水">天水</option><option value="铁岭">铁岭</option><option value="通辽">通辽</option><option value="通化">通化</option><option value="铜川">铜川</option><option value="铜仁">铜仁</option><option value="铜陵">铜陵</option><option value="吐鲁番">吐鲁番</option>
+</optgroup><optgroup label="W">
+  <option value="温州">温州</option><option value="梧州">梧州</option><option value="武汉">武汉</option><option value="武威">武威</option><option value="吴忠">吴忠</option><option value="乌鲁木齐">乌鲁木齐</option><option value="乌海">乌海</option><option value="乌兰察布">乌兰察布</option>
+</optgroup><optgroup label="X">
+  <option value="西安">西安</option><option value="西宁">西宁</option><option value="西双版纳">西双版纳</option><option value="厦门">厦门</option><option value="湘潭">湘潭</option><option value="湘西">湘西</option><option value="忻州">忻州</option><option value="信阳">信阳</option><option value="邢台">邢台</option><option value="徐州">徐州</option><option value="许昌">许昌</option><option value="宣城">宣城</option><option value="新余">新余</option>
+</optgroup><optgroup label="Y">
+  <option value="烟台">烟台</option><option value="延安">延安</option><option value="延边">延边</option><option value="盐城">盐城</option><option value="扬州">扬州</option><option value="阳江">阳江</option><option value="阳泉">阳泉</option><option value="鹰潭">鹰潭</option><option value="营口">营口</option><option value="玉林">玉林</option><option value="玉溪">玉溪</option><option value="玉树">玉树</option><option value="运城">运城</option><option value="伊犁">伊犁</option><option value="宜春">宜春</option><option value="宜宾">宜宾</option><option value="宜昌">宜昌</option><option value="益阳">益阳</option><option value="岳阳">岳阳</option>
+</optgroup><optgroup label="Z">
+  <option value="枣庄">枣庄</option><option value="张家界">张家界</option><option value="张家口">张家口</option><option value="张掖">张掖</option><option value="漳州">漳州</option><option value="肇庆">肇庆</option><option value="镇江">镇江</option><option value="郑州">郑州</option><option value="中卫">中卫</option><option value="中山">中山</option><option value="舟山">舟山</option><option value="珠海">珠海</option><option value="株洲">株洲</option><option value="遵义">遵义</option><option value="资阳">资阳</option><option value="自贡">自贡</option><option value="昭通">昭通</option>
+</optgroup>
+        </select>
+        <div class="hint" id="city-hint"></div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>出生小时（24小时制，不知道可留空）</label>
+        <input type="number" id="hour" placeholder="不知道可留空" min="0" max="23">
+      </div>
+      <div class="form-group">
+        <label>出生分钟（不知道可留空）</label>
+        <input type="number" id="minute" placeholder="不知道可留空" min="0" max="59">
+      </div>
+    </div>
+    <button class="btn" onclick="calculate()">排盘</button>
+  </div>
+
+  <div class="result-card" id="result">
+    <h2>排盘结果</h2>
+    <div class="info-grid">
+      <div class="info-item"><div class="info-label">姓名 / 性别</div><div class="info-value" id="r-name"></div></div>
+      <div class="info-item"><div class="info-label">阳历生日</div><div class="info-value" id="r-solar"></div></div>
+      <div class="info-item"><div class="info-label">农历生日</div><div class="info-value" id="r-lunar"></div></div>
+      <div class="info-item"><div class="info-label">真太阳时 / 时辰</div><div class="info-value" id="r-realtime"></div></div>
+    </div>
+
+    <div class="section-title">四柱八字</div>
+    <table>
+      <tr><th></th><th>年柱</th><th>月柱</th><th>日柱（日主）</th><th>时柱</th></tr>
+      <tr>
+        <th>天干</th>
+        <td><div class="gz" id="r-yg"></div><div class="gz-attr" id="r-yg-attr"></div></td>
+        <td><div class="gz" id="r-mg"></div><div class="gz-attr" id="r-mg-attr"></div></td>
+        <td style="background:rgba(83,74,183,0.06)"><div class="gz" id="r-dg"></div><div class="gz-attr" id="r-dg-attr"></div></td>
+        <td><div class="gz" id="r-hg"></div><div class="gz-attr" id="r-hg-attr"></div></td>
+      </tr>
+      <tr>
+        <th>地支</th>
+        <td><div class="gz" id="r-yz"></div><div class="gz-attr" id="r-yz-attr"></div></td>
+        <td><div class="gz" id="r-mz"></div><div class="gz-attr" id="r-mz-attr"></div></td>
+        <td style="background:rgba(83,74,183,0.06)"><div class="gz" id="r-dz"></div><div class="gz-attr" id="r-dz-attr"></div></td>
+        <td><div class="gz" id="r-hz"></div><div class="gz-attr" id="r-hz-attr"></div></td>
+      </tr>
+      <tr>
+        <th>十神</th>
+        <td id="r-yss"></td>
+        <td id="r-mss"></td>
+        <td style="background:rgba(83,74,183,0.06)">— 日主 —</td>
+        <td id="r-hss"></td>
+      </tr>
+      <tr>
+        <th>地支十神</th>
+        <td id="r-yzss"></td>
+        <td id="r-mzss"></td>
+        <td style="background:rgba(83,74,183,0.06)" id="r-dzss"></td>
+        <td id="r-hzss"></td>
+      </tr>
+      <tr>
+        <th>藏干</th>
+        <td id="r-yhide"></td>
+        <td id="r-mhide"></td>
+        <td style="background:rgba(83,74,183,0.06)" id="r-dhide"></td>
+        <td id="r-hhide"></td>
+      </tr>
+    </table>
+
+    <div class="section-title">五行分布</div>
+    <div id="wuxing-display"></div>
+
+    <div class="section-title">大运</div>
+    <table id="dayun-table">
+      <tr><th>序</th><th>年龄</th><th>干支</th><th>起运年份</th></tr>
+    </table>
+
+    <button class="copy-btn" id="copy-btn" onclick="copyText()">复制八字信息给AI分析</button>
+    <div class="tip">复制后切换到AI对话窗口，直接粘贴即可开始分析</div>
+  </div>
+</div>
+
+<script>
+const CITIES = {"安康":109.0,"安庆":117.1,"安顺":105.9,"安阳":114.4,"鞍山":123.0,"澳门":113.5,"阿勒泰":88.1,"阿克苏":80.3,"阿里":80.1,"阿拉善盟":105.7,"白城":122.8,"白山":126.4,"白银":104.1,"百色":106.6,"保定":115.5,"保山":99.2,"宝鸡":107.1,"北京":116.4,"北海":109.1,"本溪":123.8,"毕节":105.3,"滨州":118.0,"亳州":115.8,"巴中":106.8,"巴彦淖尔":107.4,"包头":110.0,"沧州":116.8,"长春":125.3,"长沙":113.0,"长治":113.1,"常德":111.7,"常州":119.9,"承德":117.9,"成都":104.1,"赤峰":118.9,"重庆":106.5,"崇左":107.4,"池州":117.5,"楚雄":101.5,"滁州":118.3,"昌都":97.2,"朝阳":120.5,"达州":107.5,"大连":121.6,"大庆":125.0,"大同":113.3,"大理":100.2,"丹东":124.4,"德宏":98.6,"德州":116.3,"德阳":104.4,"迪庆":99.7,"定西":104.6,"东莞":113.7,"东营":118.7,"鄂尔多斯":109.8,"鄂州":114.9,"恩施":109.5,"防城港":108.4,"佛山":113.1,"福州":119.3,"抚顺":123.9,"抚州":116.4,"阜新":121.7,"阜阳":115.8,"赣州":114.9,"高雄":120.3,"固原":106.3,"广安":106.6,"广元":105.8,"广州":113.3,"贵港":109.6,"贵阳":106.7,"桂林":110.3,"甘南":102.9,"甘孜":101.9,"哈密":93.5,"哈尔滨":126.5,"海口":110.3,"海东":102.4,"海西":97.4,"邯郸":114.5,"汉中":107.0,"杭州":120.2,"合肥":117.3,"河池":108.1,"河源":114.7,"贺州":111.6,"黑河":127.5,"衡水":115.7,"衡阳":112.6,"红河":103.4,"葫芦岛":120.8,"呼和浩特":111.7,"呼伦贝尔":119.7,"湖州":120.1,"怀化":110.0,"黄冈":114.9,"黄山":118.3,"黄石":115.0,"惠州":114.4,"和田":79.9,"香港":114.2,"吉安":114.9,"吉林":126.6,"济南":117.0,"济宁":116.6,"嘉兴":120.8,"嘉峪关":98.3,"江门":113.1,"焦作":113.2,"金昌":102.2,"金华":119.6,"锦州":121.1,"晋城":112.8,"晋中":112.7,"荆门":112.2,"荆州":112.2,"景德镇":117.2,"九江":116.0,"酒泉":98.5,"喀什":75.9,"开封":114.3,"克拉玛依":84.9,"昆明":102.7,"来宾":109.2,"兰州":103.8,"廊坊":116.7,"乐山":103.8,"丽江":100.2,"丽水":119.9,"连云港":119.2,"凉山":102.3,"辽阳":123.2,"辽源":125.1,"临沧":100.1,"临汾":111.5,"临沂":118.4,"临夏":103.2,"柳州":109.4,"六安":116.5,"六盘水":104.8,"龙岩":117.0,"娄底":112.0,"泸州":105.4,"吕梁":111.1,"林芝":94.4,"拉萨":91.1,"马鞍山":118.5,"茂名":110.9,"梅州":116.1,"绵阳":104.7,"牡丹江":129.6,"莆田":119.0,"南昌":115.9,"南充":106.1,"南京":118.8,"南宁":108.4,"南平":118.2,"南通":120.9,"南阳":112.5,"那曲":92.1,"宁波":121.6,"宁德":119.5,"盘锦":122.1,"萍乡":113.9,"普洱":100.9,"濮阳":115.0,"平凉":106.7,"平顶山":113.3,"钦州":108.6,"秦皇岛":119.6,"青岛":120.4,"庆阳":107.6,"曲靖":103.8,"衢州":118.9,"泉州":118.7,"日喀则":88.9,"日照":119.5,"三亚":109.5,"三明":117.6,"三门峡":111.2,"商洛":109.9,"商丘":115.7,"上海":121.5,"上饶":117.9,"绍兴":120.6,"韶关":113.6,"深圳":114.1,"沈阳":123.4,"石家庄":114.5,"石嘴山":106.4,"朔州":112.4,"松原":124.8,"遂宁":105.6,"宿迁":118.3,"宿州":116.9,"随州":113.4,"绥化":126.9,"台北":121.5,"台中":120.7,"台南":120.2,"台州":121.4,"台东":121.1,"太原":112.5,"泰安":117.1,"泰州":119.9,"唐山":118.2,"天津":117.2,"天水":105.7,"铁岭":123.8,"通辽":122.3,"通化":125.9,"铜川":109.1,"铜仁":109.2,"铜陵":117.8,"吐鲁番":89.2,"温州":120.7,"梧州":111.3,"武汉":114.3,"武威":102.6,"吴忠":106.2,"乌鲁木齐":87.6,"乌海":106.8,"乌兰察布":113.1,"西安":108.9,"西宁":101.8,"西双版纳":100.8,"厦门":118.1,"湘潭":112.9,"湘西":109.7,"忻州":112.7,"信阳":114.1,"邢台":114.5,"徐州":117.2,"许昌":113.8,"宣城":118.8,"新余":114.9,"烟台":121.4,"延安":109.5,"延边":129.5,"盐城":120.2,"扬州":119.4,"阳江":111.9,"阳泉":113.6,"鹰潭":117.1,"营口":122.2,"玉林":110.2,"玉溪":102.5,"玉树":97.0,"运城":111.0,"伊犁":81.3,"宜春":114.4,"宜宾":104.6,"宜昌":111.3,"益阳":112.4,"岳阳":113.1,"枣庄":117.6,"张家界":110.5,"张家口":114.9,"张掖":100.4,"漳州":117.6,"肇庆":112.5,"镇江":119.4,"郑州":113.6,"中卫":105.2,"中山":113.4,"舟山":122.1,"珠海":113.6,"株洲":113.1,"遵义":106.9,"资阳":104.6,"自贡":104.8,"昭通":103.7};
+const GAN_INFO = {"甲":{"desc":"阳木","color":"#3B6D11"},"乙":{"desc":"阴木","color":"#3B6D11"},"丙":{"desc":"阳火","color":"#A32D2D"},"丁":{"desc":"阴火","color":"#A32D2D"},"戊":{"desc":"阳土","color":"#854F0B"},"己":{"desc":"阴土","color":"#854F0B"},"庚":{"desc":"阳金","color":"#5F5E5A"},"辛":{"desc":"阴金","color":"#5F5E5A"},"壬":{"desc":"阳水","color":"#185FA5"},"癸":{"desc":"阴水","color":"#185FA5"}};
+const ZHI_INFO = {"子":{"desc":"阳水","color":"#185FA5"},"丑":{"desc":"阴土(湿土)","color":"#854F0B"},"寅":{"desc":"阳木","color":"#3B6D11"},"卯":{"desc":"阴木","color":"#3B6D11"},"辰":{"desc":"阳土(湿土)","color":"#854F0B"},"巳":{"desc":"阴火","color":"#A32D2D"},"午":{"desc":"阳火","color":"#A32D2D"},"未":{"desc":"阴土(燥土)","color":"#854F0B"},"申":{"desc":"阳金","color":"#5F5E5A"},"酉":{"desc":"阴金","color":"#5F5E5A"},"戌":{"desc":"阳土(燥土)","color":"#854F0B"},"亥":{"desc":"阴水","color":"#185FA5"}};
+
+function updateCity(city) {
+  var lng = CITIES[city] || 120.0;
+  var offset = (lng - 120) * 4;
+  var sign = offset >= 0 ? '+' : '';
+  document.getElementById('city-hint').textContent = '经度：' + lng + '°E（偏差北京时间' + sign + offset.toFixed(2) + '分钟）';
+}
+
+function wxColor(wx) {
+  var map = {'木':'#3B6D11','火':'#A32D2D','土':'#854F0B','金':'#5F5E5A','水':'#185FA5'};
+  return map[wx] || '#888';
+}
+
+function toArr(v) {
+  return Array.isArray(v) ? v.join('、') : (v || '');
+}
+
+async function calculate() {
+  var name = document.getElementById('name').value || '用户';
+  var gender = document.getElementById('gender').value;
+  var year = document.getElementById('year').value;
+  var month = document.getElementById('month').value;
+  var day = document.getElementById('day').value;
+  var hour = document.getElementById('hour').value;
+  var minute = document.getElementById('minute').value;
+  var city = document.getElementById('city-select').value;
+
+  if (!year || !month || !day) { alert('请填写完整的出生年月日！'); return; }
+
+  var hourUnknown = (hour === '');
+  var url = window.location.origin + '/calc?name=' + encodeURIComponent(name) +
+    '&gender=' + encodeURIComponent(gender) +
+    '&year=' + year + '&month=' + month + '&day=' + day +
+    '&hour=' + (hourUnknown ? 12 : hour) + '&minute=' + (minute || 0) +
+    '&city=' + encodeURIComponent(city) +
+    '&hour_unknown=' + (hourUnknown ? '1' : '0');
+
+  try {
+    var res = await fetch(url);
+    var d = await res.json();
+    if (d.error) { alert('计算出错：' + d.error); return; }
+
+    document.getElementById('r-name').textContent = d.name + ' / ' + d.gender;
+    document.getElementById('r-solar').textContent = d.solar;
+    document.getElementById('r-lunar').textContent = d.lunar_date;
+    document.getElementById('r-realtime').textContent = d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）';
+
+    if (hourUnknown) {
+      document.getElementById('r-realtime').textContent = '时辰未知（仅供六字分析参考）';
+    }
+
+    document.getElementById('r-yg').textContent = d.year_gan;
+    document.getElementById('r-mg').textContent = d.month_gan;
+    document.getElementById('r-dg').textContent = d.day_gan;
+    document.getElementById('r-yz').textContent = d.year_zhi;
+    document.getElementById('r-mz').textContent = d.month_zhi;
+    document.getElementById('r-dz').textContent = d.day_zhi;
+
+    if (hourUnknown) {
+      document.getElementById('r-hg').textContent = '？';
+      document.getElementById('r-hz').textContent = '？';
+      document.getElementById('r-hss').textContent = '未知';
+      document.getElementById('r-hzss').textContent = '未知';
+      document.getElementById('r-hhide').textContent = '未知';
+    } else {
+      document.getElementById('r-hg').textContent = d.hour_gan;
+      document.getElementById('r-hz').textContent = d.hour_zhi;
+      document.getElementById('r-hss').textContent = d.hour_gan_ss;
+      document.getElementById('r-hzss').textContent = toArr(d.hour_zhi_ss);
+      document.getElementById('r-hhide').innerHTML = d.hour_hide.join('<br>');
+    }
+
+    var gans = ['yg','mg','dg'];
+    var ganVals = [d.year_gan, d.month_gan, d.day_gan];
+    if (!hourUnknown) { gans.push('hg'); ganVals.push(d.hour_gan); }
+    gans.forEach(function(id, i) {
+      var info = GAN_INFO[ganVals[i]];
+      if (info) {
+        document.getElementById('r-'+id+'-attr').textContent = info.desc;
+        document.getElementById('r-'+id+'-attr').style.color = info.color;
+        document.getElementById('r-'+id).style.color = info.color;
+      }
+    });
+
+    var zhis = ['yz','mz','dz'];
+    var zhiVals = [d.year_zhi, d.month_zhi, d.day_zhi];
+    if (!hourUnknown) { zhis.push('hz'); zhiVals.push(d.hour_zhi); }
+    zhis.forEach(function(id, i) {
+      var info = ZHI_INFO[zhiVals[i]];
+      if (info) {
+        document.getElementById('r-'+id+'-attr').textContent = info.desc;
+        document.getElementById('r-'+id+'-attr').style.color = info.color;
+        document.getElementById('r-'+id).style.color = info.color;
+      }
+    });
+
+    document.getElementById('r-yss').textContent = d.year_gan_ss;
+    document.getElementById('r-mss').textContent = d.month_gan_ss;
+    document.getElementById('r-yzss').textContent = toArr(d.year_zhi_ss);
+    document.getElementById('r-mzss').textContent = toArr(d.month_zhi_ss);
+    document.getElementById('r-dzss').textContent = toArr(d.day_zhi_ss);
+    document.getElementById('r-yhide').innerHTML = d.year_hide.join('<br>');
+    document.getElementById('r-mhide').innerHTML = d.month_hide.join('<br>');
+    document.getElementById('r-dhide').innerHTML = d.day_hide.join('<br>');
+
+    var wx = d.wuxing;
+    if (hourUnknown) {
+      var wxMap = {'甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水','子':'水','丑':'土','寅':'木','卯':'木','辰':'土','巳':'火','午':'火','未':'土','申':'金','酉':'金','戌':'土','亥':'水'};
+      wx = {'木':0,'火':0,'土':0,'金':0,'水':0};
+      for (var gz of [d.year_gan+d.year_zhi, d.month_gan+d.month_zhi, d.day_gan+d.day_zhi]) {
+        for (var ch of gz) { if (wxMap[ch]) wx[wxMap[ch]]++; }
+      }
+    }
+    var wxKeys = Object.keys(wx);
+    var wxMax = Math.max.apply(null, Object.values(wx));
+    var wxHtml = '<div class="wuxing-bar">';
+    wxKeys.forEach(function(k) {
+      var val = wx[k];
+      var h = wxMax > 0 ? Math.round((val/wxMax)*40) + 10 : 10;
+      wxHtml += '<div class="wx-item"><span class="wx-val" style="color:' + wxColor(k) + '">' + val + '</span><div class="wx-fill" style="height:' + h + 'px;background:' + wxColor(k) + '"></div><span class="wx-label">' + k + '</span></div>';
+    });
+    wxHtml += '</div>';
+    if (hourUnknown) wxHtml += '<div style="font-size:11px;color:#999;margin-top:4px;">（时辰未知，仅统计六字）</div>';
+    document.getElementById('wuxing-display').innerHTML = wxHtml;
+
+    var dyTable = document.getElementById('dayun-table');
+    while (dyTable.rows.length > 1) dyTable.deleteRow(1);
+    var currentYear = new Date().getFullYear();
+    d.da_yun.forEach(function(dy, i) {
+      if (!dy.gz) return;
+      var row = dyTable.insertRow();
+      var isNow = dy.start_year <= currentYear && (dy.start_year + 10) > currentYear;
+      if (isNow) row.className = 'now-row';
+      row.innerHTML = '<td>' + (i+1) + (isNow ? ' ★' : '') + '</td><td>' + dy.start_age + '-' + dy.end_age + '岁</td><td style="font-weight:bold">' + dy.gz + '</td><td>' + dy.start_year + '年</td>';
+    });
+
+    window._lastResult = d;
+    window._lastCity = city;
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('result').scrollIntoView({behavior: 'smooth'});
+
+  } catch(e) {
+    alert('服务器启动中（Render免费版需要30-60秒唤醒），请稍等后再按排盘按钮。');
+  }
+}
+
+async function copyText() {
+  var d = window._lastResult;
+  if (!d) { alert('请先排盘！'); return; }
+  var city = window._lastCity || '';
+
+  var GAN_ATTR = {"甲":"阳木","乙":"阴木","丙":"阳火","丁":"阴火","戊":"阳土","己":"阴土","庚":"阳金","辛":"阴金","壬":"阳水","癸":"阴水"};
+  var ZHI_ATTR = {"子":"阳水","丑":"阴土(湿土)","寅":"阳木","卯":"阴木","辰":"阳土(湿土)","巳":"阴火","午":"阳火","未":"阴土(燥土)","申":"阳金","酉":"阴金","戌":"阳土(燥土)","亥":"阴水"};
+
+  function colDesc(gan, zhi) {
+    return (GAN_ATTR[gan] || '') + '/' + (ZHI_ATTR[zhi] || '');
+  }
+
+  var wxStr = Object.entries(d.wuxing).map(function(e) { return e[0] + ':' + e[1]; }).join('、');
+
+  var dyLines = d.da_yun.filter(function(dy) { return dy.gz; }).map(function(dy) {
+    return '  ' + dy.gz + '（' + dy.start_age + '-' + dy.end_age + '岁，' + dy.start_year + '年起）';
+  }).join('\n');
+
+  var hourUnknownFlag = (document.getElementById('hour').value === '');
+
+  var text = [
+    '【八字排盘信息】',
+    '姓名：' + d.name,
+    '性别：' + d.gender,
+    '阳历生日：' + d.solar,
+    '农历生日：' + d.lunar_date,
+    '出生地：' + city,
+    hourUnknownFlag ? '时辰：未知（请仅做六字分析，不推算时柱相关内容）' : '真太阳时：' + d.real_time + ' ' + d.shichen + '（校正' + d.offset + '）',
+    '',
+    '【四柱八字】',
+    '年柱：' + d.year_gan + d.year_zhi + '（' + colDesc(d.year_gan, d.year_zhi) + '，天干十神：' + d.year_gan_ss + '，地支十神：' + toArr(d.year_zhi_ss) + '，藏干：' + d.year_hide.join('、') + '）',
+    '月柱：' + d.month_gan + d.month_zhi + '（' + colDesc(d.month_gan, d.month_zhi) + '，天干十神：' + d.month_gan_ss + '，地支十神：' + toArr(d.month_zhi_ss) + '，藏干：' + d.month_hide.join('、') + '）',
+    '日柱：' + d.day_gan + d.day_zhi + '（' + colDesc(d.day_gan, d.day_zhi) + '，日主，地支十神：' + toArr(d.day_zhi_ss) + '，藏干：' + d.day_hide.join('、') + '）',
+    hourUnknownFlag ? '时柱：未知' : '时柱：' + d.hour_gan + d.hour_zhi + '（' + colDesc(d.hour_gan, d.hour_zhi) + '，天干十神：' + d.hour_gan_ss + '，地支十神：' + toArr(d.hour_zhi_ss) + '，藏干：' + d.hour_hide.join('、') + '）',
+    '',
+    '【五行统计】' + wxStr + (hourUnknownFlag ? '（不含时柱）' : ''),
+    '',
+    '【大运】起运年份：' + d.yun_start_year + '年',
+    dyLines
+  ].join('\n');
+
+  await navigator.clipboard.writeText(text);
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✓ 已复制！切换到AI窗口粘贴即可';
+  setTimeout(function() { btn.textContent = '复制八字信息给AI分析'; }, 3000);
+}
+
+updateCity(document.getElementById('city-select').value);
+</script>
+</body>
+</html>
