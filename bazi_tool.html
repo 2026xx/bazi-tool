@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -20,6 +21,8 @@ input:focus, select:focus { outline: none; border-color: #8b6914; background: wh
 .hint { font-size: 11px; color: #999; margin-top: 3px; }
 .btn { width: 100%; padding: 12px; background: #8b6914; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 8px; }
 .btn:hover { background: #6d5210; }
+.btn:disabled { background: #c5b698; cursor: not-allowed; }
+.btn:disabled:hover { background: #c5b698; }
 .result-card { background: #fffdf7; border: 1px solid #e8dcc8; border-radius: 12px; padding: 20px; margin-bottom: 20px; display: none; }
 .result-card h2 { font-size: 16px; color: #3d2b1f; margin-bottom: 12px; }
 .section-title { font-size: 13px; font-weight: 500; color: #8b6914; margin: 14px 0 8px; }
@@ -43,6 +46,14 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
 .copy-btn:hover { background: #1b4332; }
 .tip { font-size: 12px; color: #999; text-align: center; margin-top: 8px; }
 .notice { background: #fff5f5; border: 1px solid #ffcfcf; color: #c53030; padding: 8px; border-radius: 6px; font-size: 12px; margin-bottom: 10px; display: none; }
+.wakeup { padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; transition: opacity 0.5s; }
+.wakeup.loading { background: #fff8e6; border: 1px solid #f0d878; color: #8b6914; }
+.wakeup.ready { background: #e8f5e9; border: 1px solid #a5d6a7; color: #2d6a4f; }
+.wakeup.error { background: #fff5f5; border: 1px solid #ffcfcf; color: #c53030; }
+.wakeup .spin { display: inline-block; width: 14px; height: 14px; border: 2px solid #d4a020; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.wakeup .retry-link { text-decoration: underline; cursor: pointer; margin-left: 6px; }
+.wakeup.fade-out { opacity: 0; }
 </style>
 </head>
 <body>
@@ -51,6 +62,11 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
   <div class="subtitle">自動真太陽時校正 · 子時自動換日 · 十神藏干五行大運</div>
   
   <div id="zishi-notice" class="notice">檢測到出生時間為子時（23:00-01:00），系統已自動按隔天計算日柱。</div>
+
+  <div id="wakeup-bar" class="wakeup loading">
+    <span class="spin"></span>
+    <span id="wakeup-text">服務啟動中,請稍候約 30-60 秒...</span>
+  </div>
 
   <div class="card">
     <h2>輸入出生信息</h2>
@@ -144,7 +160,7 @@ td { text-align: center; padding: 7px 8px; border: 1px solid #e0d0b8; }
         <input type="number" id="minute" placeholder="不知道可留空" min="0" max="59">
       </div>
     </div>
-    <button class="btn" onclick="calculate()">排盤</button>
+    <button class="btn" id="calc-btn" onclick="calculate()" disabled>排盤</button>
   </div>
 
   <div class="result-card" id="result">
@@ -214,6 +230,53 @@ const CITIES = {"安康":109.0,"安慶":117.1,"安順":105.9,"安陽":114.4,"鞍
 const GAN_INFO = {"甲":{"desc":"陽木","color":"#3B6D11"},"乙":{"desc":"陰木","color":"#3B6D11"},"丙":{"desc":"陽火","color":"#A32D2D"},"丁":{"desc":"陰火","color":"#A32D2D"},"戊":{"desc":"陽土","color":"#854F0B"},"己":{"desc":"陰土","color":"#854F0B"},"庚":{"desc":"陽金","color":"#5F5E5A"},"辛":{"desc":"陰金","color":"#5F5E5A"},"壬":{"desc":"陽水","color":"#185FA5"},"癸":{"desc":"陰水","color":"#185FA5"}};
 const ZHI_INFO = {"子":{"desc":"陽水","color":"#185FA5"},"丑":{"desc":"陰土(濕土)","color":"#854F0B"},"寅":{"desc":"陽木","color":"#3B6D11"},"卯":{"desc":"陰木","color":"#3B6D11"},"辰":{"desc":"陽土(濕土)","color":"#854F0B"},"巳":{"desc":"陰火","color":"#A32D2D"},"午":{"desc":"陽火","color":"#A32D2D"},"未":{"desc":"陰土(燥土)","color":"#854F0B"},"申":{"desc":"陽金","color":"#5F5E5A"},"酉":{"desc":"陰金","color":"#5F5E5A"},"戌":{"desc":"陽土(燥土)","color":"#854F0B"},"亥":{"desc":"陰水","color":"#185FA5"}};
 
+let serverReady = false;
+
+function setWakeupReady() {
+  serverReady = true;
+  var bar = document.getElementById('wakeup-bar');
+  bar.className = 'wakeup ready';
+  bar.innerHTML = '<span>✓</span><span>服務已就緒,可以排盤</span>';
+  document.getElementById('calc-btn').disabled = false;
+  setTimeout(function() {
+    bar.classList.add('fade-out');
+    setTimeout(function() { bar.style.display = 'none'; }, 600);
+  }, 3000);
+}
+
+function setWakeupError() {
+  var bar = document.getElementById('wakeup-bar');
+  bar.className = 'wakeup error';
+  bar.innerHTML = '<span>!</span><span>服務啟動較慢或失敗,</span><span class="retry-link" onclick="wakeupServer()">點此重試</span>';
+  document.getElementById('calc-btn').disabled = true;
+}
+
+async function wakeupServer() {
+  serverReady = false;
+  var bar = document.getElementById('wakeup-bar');
+  bar.className = 'wakeup loading';
+  bar.style.display = 'flex';
+  bar.classList.remove('fade-out');
+  bar.innerHTML = '<span class="spin"></span><span>服務啟動中,請稍候約 30-60 秒...</span>';
+  document.getElementById('calc-btn').disabled = true;
+
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 90000);
+
+  try {
+    var res = await fetch(window.location.origin + '/cities', { signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (res.ok) {
+      setWakeupReady();
+    } else {
+      setWakeupError();
+    }
+  } catch(e) {
+    clearTimeout(timeoutId);
+    setWakeupError();
+  }
+}
+
 function updateCity(city) {
   var lng = CITIES[city] || 120.0;
   var offset = (lng - 120) * 4;
@@ -231,6 +294,11 @@ function toArr(v) {
 }
 
 async function calculate() {
+  if (!serverReady) {
+    alert('服務尚未就緒,請等待頂部提示變綠後再排盤');
+    return;
+  }
+
   var name = document.getElementById('name').value || '用戶';
   var gender = document.getElementById('gender').value;
   var year = parseInt(document.getElementById('year').value);
@@ -424,6 +492,7 @@ async function copyText() {
 }
 
 updateCity(document.getElementById('city-select').value);
+wakeupServer();
 </script>
 </body>
 </html>
